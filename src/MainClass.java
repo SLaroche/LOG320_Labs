@@ -7,6 +7,8 @@ import algo.AnagramAlgo;
 import algo.MarcAlgo;
 import algo.PdfAlgo;
 import algo.SamCAlgo;
+import algo.SamCAlgo2;
+import algo.SamCAlgo3;
 
 public class MainClass {
 
@@ -21,16 +23,21 @@ public class MainClass {
 		String WordsPath = "src/input/words_allEnglish.txt";
 		
 		AnagramAlgo algoPDF = new PdfAlgo(false);
-		AnagramAlgo algoSamC = new SamCAlgo(false);
 		AnagramAlgo algoMarc = new MarcAlgo(false);
+		AnagramAlgo algoSamC = new SamCAlgo(false);
+		AnagramAlgo algoSamC2 = new SamCAlgo2(false);
+		AnagramAlgo algoSamC3 = new SamCAlgo3(false);
 		
-		
-		algoPDF.start(dictPath,WordsPath);
-		System.out.println("^^ = PDF Algo");
-		algoSamC.start(dictPath,WordsPath);
-		System.out.println("^^ = SamC Algo");
-		algoMarc.start(dictPath,WordsPath);
-		System.out.println("^^ = Marc Algo");
+		//algoMarc.start(dictPath,WordsPath);
+		//System.out.println("^^ = Marc Algo");
+		//algoPDF.start(dictPath,WordsPath);
+		//System.out.println("^^ = PDF Algo");
+		//algoSamC.start(dictPath,WordsPath);
+		//System.out.println("^^ = SamC Algo");
+		//algoSamC2.start(dictPath,WordsPath);
+		//System.out.println("^^ = SamC Algo 2");
+		algoSamC3.start(dictPath,WordsPath);
+		System.out.println("^^ = SamC Algo 3");
 	}
 	
 	/**
