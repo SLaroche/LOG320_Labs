@@ -8,6 +8,9 @@ public abstract class AnagramAlgo {
 	
 	protected abstract void run();
 	
+	/**
+	 * Execute le timer et les algos
+	 */
 	public void start() {
 		//reference http://stackoverflow.com/questions/180158/how-do-i-time-a-methods-execution-in-java
 		System.out.println("start");

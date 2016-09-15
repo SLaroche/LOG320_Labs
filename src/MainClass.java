@@ -4,21 +4,30 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import algo.AnagramAlgo;
+import algo.PdfAlgo;
 import algo.SamCAlgo;
 
 public class MainClass {
 
+	/**
+	 * Main.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		
-		//ArrayList<String> wordsList = getListFile('');
-		//ArrayList<String> dictList = getListFile("src/input/dict.txt");	
-		//System.out.println("ff"+dictList.get(0));
+		//ArrayList<String> wordsList = getListFile(args[0]);
+		//ArrayList<String> dictList = getListFile(args[1]);
 		
-		AnagramAlgo samCAlgo = new SamCAlgo();
+		AnagramAlgo algo = new PdfAlgo();
 		
-		samCAlgo.start();
+		algo.start();
 	}
 	
+	/**
+	 * Recuperer le ficher par son nom et le lire.
+	 * @param filePath : le nom du ficher a lire
+	 * @return la liste des mots du fichier
+	 */
 	@SuppressWarnings("resource")
 	private static ArrayList<String> getListFile(String filePath)
 	{
