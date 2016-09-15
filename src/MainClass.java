@@ -20,27 +20,26 @@ public class MainClass {
 	public static void main(String[] args) {
 		//ArrayList<String> wordsList = getListFile(args[0]);
 		//ArrayList<String> dictList = getListFile(args[1]);
-		String dictPath = "src/input/dict.txt";
-		String WordsPath = "src/input/words.txt";
+		String dictPath = "src/input/words_allEnglish.txt";
+		String WordsPath = "src/input/words_allEnglish.txt";
 		
+		AnagramAlgo algoMax = new MaxAlgo(false);
 		AnagramAlgo algoPDF = new PdfAlgo(false);
 		AnagramAlgo algoMarc = new MarcAlgo(false);
 		AnagramAlgo algoSamC = new SamCAlgo(false);
-		AnagramAlgo algoMax = new MaxAlgo(false);
 		AnagramAlgo algoSamC2 = new SamCAlgo2(false);
 		AnagramAlgo algoSamC3 = new SamCAlgo3(false);
+		
 		
 		//algoMarc.start(dictPath,WordsPath);
 		//System.out.println("^^ = Marc Algo");
 		//algoPDF.start(dictPath,WordsPath);
 		//System.out.println("^^ = PDF Algo");
-		//algoSamC.start(dictPath,WordsPath);
-		//System.out.println("^^ = SamC Algo");
-		//algoSamC2.start(dictPath,WordsPath);
-		//System.out.println("^^ = SamC Algo 2");
+		
+		//algoMax.start(dictPath,WordsPath);
+		//System.out.println("^^ = Max Algo");
+		
 		algoSamC3.start(dictPath,WordsPath);
-		algoMax.start(dictPath,WordsPath);
-		System.out.println("^^ = Max Algo");
 		System.out.println("^^ = SamC Algo 3");
 	}
 	
