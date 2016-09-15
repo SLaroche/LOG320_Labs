@@ -4,14 +4,18 @@ import java.text.DecimalFormat;
 import java.util.Date;
 
 public abstract class AnagramAlgo {
-
+	String dictPath;
+	String wordsPath;
 	
 	protected abstract void run();
 	
 	/**
 	 * Execute le timer et les algos
 	 */
-	public void start() {
+	public void start(String dictPath,String wordsPath) {
+		this.dictPath = dictPath;
+		this.wordsPath = wordsPath;
+		
 		//reference http://stackoverflow.com/questions/180158/how-do-i-time-a-methods-execution-in-java
 		System.out.println("start");
 		long startTime = System.nanoTime();

@@ -29,16 +29,20 @@ import java.util.Scanner;
  */
 
 public class MarcAlgo extends AnagramAlgo {
-
+	boolean showPrint;
+	
+	public MarcAlgo(boolean showPrint) {
+		this.showPrint = showPrint;
+	}
 	@Override
 	protected void run() {
 		// TODO Auto-generated method stub
 		// Recupere et lire les fichier
 		//ArrayList<String> wordsList = getListFile("src/input/words.txt");
-		ArrayList<String> dictList = getListFile("src/input/dict.txt");
+		ArrayList<String> dictList = getListFile(this.dictPath);
 
 		// Applique les algos
-		algo(dictList, "src/input/words.txt");
+		algo(dictList, this.wordsPath);
 	}
 
 	/**
@@ -74,7 +78,7 @@ public class MarcAlgo extends AnagramAlgo {
 				}
 				totalCp += cp;
 				// Affiche le message pour tout les mots de la liste words
-				System.out.println("Il y a " + cp + " anagrammes pour le mot " + theWord);
+				if(showPrint) System.out.println("Il y a " + cp + " anagrammes pour le mot " + theWord);
 			}
 			System.out.println("Il y a un total de " + totalCp + " anagrammes");
 		} catch (FileNotFoundException e) {

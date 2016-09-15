@@ -6,12 +6,17 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PdfAlgo extends AnagramAlgo{
+	boolean showPrint;
+	
+	public PdfAlgo(boolean showPrint) {
+		this.showPrint = showPrint;
+	}
 
 	@Override
 	public void run() {
 		//Recupere et lire les fichier
-		ArrayList<String> wordsList = getListFile("src/input/words.txt");
-		ArrayList<String> dictList = getListFile("src/input/dict.txt");	
+		ArrayList<String> wordsList = getListFile(this.wordsPath);
+		ArrayList<String> dictList = getListFile(this.dictPath);	
 		
 		//Applique les algos
 		parcourtList(wordsList, dictList);
@@ -63,7 +68,7 @@ public class PdfAlgo extends AnagramAlgo{
 			}
 			totalCp += cp;
 			//Affiche le message pour tout les mots de la liste words
-			System.out.println("Il y a "+cp+" anagrammes pour le mot "+theWord);
+			if(showPrint) System.out.println("Il y a "+cp+" anagrammes pour le mot "+theWord);
 		}
 		//Affiche le message, a la fin, qui affiche le nombre total d anagramme trouve
 		System.out.println("Il y a un total de "+totalCp+" anagrammes");

@@ -19,14 +19,18 @@ import java.util.Scanner;
  */
 
 public class SamCAlgo extends AnagramAlgo{
+	boolean showPrint;
 	
+	public SamCAlgo(boolean showPrint) {
+		this.showPrint = showPrint;
+	}
 	//HashMap<Integer, HashMap<String, int[]>> hmapBySize = new HashMap<>();
 	HashMap<String, Integer> hmap = new HashMap<>();
 	
 	@Override
 	protected void run() {
-		preprocessDict("src/input/dict.txt");
-		int totalAnagram = loopWordFile("src/input/words.txt");
+		preprocessDict(this.dictPath);
+		int totalAnagram = loopWordFile(this.wordsPath);
 		
 		System.out.println("Il y a un total de " + totalAnagram + " annagrammes");
 	}
@@ -45,7 +49,6 @@ public class SamCAlgo extends AnagramAlgo{
 				String a = textInFile.nextLine();
 				//creation du key
 				String key = stringToKey(a);
-				
 				//remplissage du hashmap
 				if(hmap.get(key) == null){
 					hmap.put(key, 1);
@@ -105,7 +108,7 @@ public class SamCAlgo extends AnagramAlgo{
 					value = 0;
 				}
 				counter+=value;
-				System.out.println("Il y a " + value +" anagrammes du mot " + str);
+				if(showPrint) System.out.println("Il y a " + value +" anagrammes du mot " + str);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

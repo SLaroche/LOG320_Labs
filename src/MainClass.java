@@ -15,21 +15,21 @@ public class MainClass {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
 		//ArrayList<String> wordsList = getListFile(args[0]);
 		//ArrayList<String> dictList = getListFile(args[1]);
+		String dictPath = "src/input/words_allEnglish.txt";
+		String WordsPath = "src/input/words_allEnglish.txt";
+		
+		AnagramAlgo algoPDF = new PdfAlgo(false);
+		AnagramAlgo algoSamC = new SamCAlgo(false);
+		AnagramAlgo algoMarc = new MarcAlgo(false);
 		
 		
-		AnagramAlgo algoPDF = new PdfAlgo();
-		AnagramAlgo algoSamC = new SamCAlgo();
-		AnagramAlgo algoMarc = new MarcAlgo();
-		
-		
-		algoPDF.start();
+		algoPDF.start(dictPath,WordsPath);
 		System.out.println("^^ = PDF Algo");
-		algoSamC.start();
+		algoSamC.start(dictPath,WordsPath);
 		System.out.println("^^ = SamC Algo");
-		algoMarc.start();
+		algoMarc.start(dictPath,WordsPath);
 		System.out.println("^^ = Marc Algo");
 	}
 	
