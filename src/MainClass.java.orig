@@ -25,8 +25,8 @@ public class MainClass {
 		
 		AnagramAlgo algoPDF = new PdfAlgo(false);
 		AnagramAlgo algoMarc = new MarcAlgo(false);
+<<<<<<< HEAD
 		AnagramAlgo algoSamC = new SamCAlgo(false);
-		AnagramAlgo algoMax = new MaxAlgo(false);
 		AnagramAlgo algoSamC2 = new SamCAlgo2(false);
 		AnagramAlgo algoSamC3 = new SamCAlgo3(false);
 		
@@ -39,9 +39,20 @@ public class MainClass {
 		//algoSamC2.start(dictPath,WordsPath);
 		//System.out.println("^^ = SamC Algo 2");
 		algoSamC3.start(dictPath,WordsPath);
+		System.out.println("^^ = SamC Algo 3");
+=======
+		AnagramAlgo algoMax = new MaxAlgo(false);
+		
+		
+		algoPDF.start(dictPath,WordsPath);
+		System.out.println("^^ = PDF Algo");
+		algoSamC.start(dictPath,WordsPath);
+		System.out.println("^^ = SamC Algo");
+		algoMarc.start(dictPath,WordsPath);
+		System.out.println("^^ = Marc Algo");
 		algoMax.start(dictPath,WordsPath);
 		System.out.println("^^ = Max Algo");
-		System.out.println("^^ = SamC Algo 3");
+>>>>>>> origin/master
 	}
 	
 	/**
