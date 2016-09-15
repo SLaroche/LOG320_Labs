@@ -3,13 +3,20 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import algo.AnagramAlgo;
+import algo.SamCAlgo;
+
 public class MainClass {
 
 	public static void main(String[] args) {
 		
-		ArrayList<String> wordsList = getListFile(args[0]);
-		ArrayList<String> dictList = getListFile(args[1]);	
-		System.out.println("ff"+dictList.get(0));
+		//ArrayList<String> wordsList = getListFile('');
+		//ArrayList<String> dictList = getListFile("src/input/dict.txt");	
+		//System.out.println("ff"+dictList.get(0));
+		
+		AnagramAlgo samCAlgo = new SamCAlgo();
+		
+		samCAlgo.start();
 	}
 	
 	@SuppressWarnings("resource")
@@ -27,7 +34,6 @@ public class MainClass {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(list);
 		return list;
 	}
 

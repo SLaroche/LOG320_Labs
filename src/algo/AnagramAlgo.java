@@ -1,6 +1,7 @@
 package algo;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 
 public abstract class AnagramAlgo {
 
@@ -13,9 +14,10 @@ public abstract class AnagramAlgo {
 		long startTime = System.nanoTime();
 		this.run();
 		long endTime = System.nanoTime();
-
-		DecimalFormat formatter = new DecimalFormat("#.000000000");
-		String duration = formatter.format((endTime - startTime));
+		//long duration = endTime - startTime;
+		
+		DecimalFormat formatter = new DecimalFormat("0.000000000");
+		String duration = formatter.format((endTime - startTime)/1000000000d);
 		System.out.println("Temps d'exécution : " + duration + " secondes");
 	}
 	
