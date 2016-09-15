@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import algo.AnagramAlgo;
+import algo.MarcAlgo;
 import algo.PdfAlgo;
 import algo.SamCAlgo;
 
@@ -21,12 +22,15 @@ public class MainClass {
 		
 		AnagramAlgo algoPDF = new PdfAlgo();
 		AnagramAlgo algoSamC = new SamCAlgo();
+		AnagramAlgo algoMarc = new MarcAlgo();
 		
 		
 		algoPDF.start();
 		System.out.println("^^ = PDF Algo");
 		algoSamC.start();
 		System.out.println("^^ = SamC Algo");
+		algoMarc.start();
+		System.out.println("^^ = Marc Algo");
 	}
 	
 	/**
