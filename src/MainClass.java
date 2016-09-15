@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import algo.AnagramAlgo;
 import algo.MarcAlgo;
+import algo.MaxAlgo;
 import algo.PdfAlgo;
 import algo.SamCAlgo;
 
@@ -17,12 +18,13 @@ public class MainClass {
 	public static void main(String[] args) {
 		//ArrayList<String> wordsList = getListFile(args[0]);
 		//ArrayList<String> dictList = getListFile(args[1]);
-		String dictPath = "src/input/words_allEnglish.txt";
-		String WordsPath = "src/input/words_allEnglish.txt";
+		String dictPath = "src/input/dict.txt";
+		String WordsPath = "src/input/words.txt";
 		
 		AnagramAlgo algoPDF = new PdfAlgo(false);
 		AnagramAlgo algoSamC = new SamCAlgo(false);
 		AnagramAlgo algoMarc = new MarcAlgo(false);
+		AnagramAlgo algoMax = new MaxAlgo(false);
 		
 		
 		algoPDF.start(dictPath,WordsPath);
@@ -31,6 +33,8 @@ public class MainClass {
 		System.out.println("^^ = SamC Algo");
 		algoMarc.start(dictPath,WordsPath);
 		System.out.println("^^ = Marc Algo");
+		algoMax.start(dictPath,WordsPath);
+		System.out.println("^^ = Max Algo");
 	}
 	
 	/**
