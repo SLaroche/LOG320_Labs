@@ -18,9 +18,15 @@ public class MainClass {
 		//ArrayList<String> wordsList = getListFile(args[0]);
 		//ArrayList<String> dictList = getListFile(args[1]);
 		
-		AnagramAlgo algo = new PdfAlgo();
 		
-		algo.start();
+		AnagramAlgo algoPDF = new PdfAlgo();
+		AnagramAlgo algoSamC = new SamCAlgo();
+		
+		
+		algoPDF.start();
+		System.out.println("^^ = PDF Algo");
+		algoSamC.start();
+		System.out.println("^^ = SamC Algo");
 	}
 	
 	/**
