@@ -5,6 +5,19 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/*
+ * Optimisation Possible
+ * 
+ * -Utiliser plusieur CPU coeur
+ * -Linux
+ * -ouvrir seulement cette application
+ * -prehasher des mots (dictionaire ou bruteforce)
+ * -trouver meilleur moyen pour generer des key
+ * 
+ * Probleme
+ * -Algorithm seulement bon si words.txt file est tres grand car cela prend du temps a mapper le dict
+ */
+
 public class SamCAlgo extends AnagramAlgo{
 	
 	//HashMap<Integer, HashMap<String, int[]>> hmapBySize = new HashMap<>();
@@ -85,7 +98,12 @@ public class SamCAlgo extends AnagramAlgo{
 				//creation du key
 				String key = stringToKey(str);
 				//show result
-				int value = hmap.get(key);
+				int value;
+				try{
+					value = hmap.get(key);
+				}catch(Exception e){
+					value = 0;
+				}
 				counter+=value;
 				System.out.println("Il y a " + value +" anagrammes du mot " + str);
 			}
