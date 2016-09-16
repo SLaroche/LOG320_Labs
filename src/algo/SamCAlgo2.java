@@ -63,8 +63,6 @@ public class SamCAlgo2 extends AnagramAlgo{
 	}
 	
 	private String stringToKey(String str){
-		int[] arr = new int[26];
-		
 		//traitement de la string
 		str = str.replace(" ", "");
 		str = str.toLowerCase();

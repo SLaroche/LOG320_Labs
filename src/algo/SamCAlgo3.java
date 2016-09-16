@@ -1,8 +1,9 @@
+
+
 package algo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -21,31 +22,34 @@ import java.util.Scanner;
 
 public class SamCAlgo3 extends AnagramAlgo{
 	private boolean showPrint;
-	int[] nbPremier = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31,
+	private int nbCore;
+	private int[] nbPremier = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31,
 	        37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103,
 	        107, 109, 113 };
+	private HashMap<Long, Integer> hmap = new HashMap<>();
 	
-	public SamCAlgo3(boolean showPrint) {
+	
+	public SamCAlgo3(boolean showPrint, int nbCore) {
 		this.showPrint = showPrint;
+		this.nbCore = nbCore;
 	}
-	//HashMap<Integer, HashMap<String, int[]>> hmapBySize = new HashMap<>();
-	HashMap<Long, Integer> hmap = new HashMap<>();
 	
 	@Override
 	protected void run() {
+		hmap.clear();
+		
 		preprocessDict(this.dictPath);
 		int totalAnagram = loopWordFile(this.wordsPath);
 		
 		System.out.println("Il y a un total de " + totalAnagram + " annagrammes");
 	}
 	
-	@SuppressWarnings("resource")
 	private void preprocessDict(String filePath){
 		Scanner textInFile;
 		
 		try {
 			//create scanner
-			textInFile = new Scanner(new File(filePath)).useDelimiter(",\\s*");
+			textInFile = new Scanner(new File(filePath));
 			
 			//loop file
 			while (textInFile.hasNextLine()) {
@@ -63,19 +67,21 @@ public class SamCAlgo3 extends AnagramAlgo{
 			
 			textInFile.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		}
 	}
 	
 	private long stringToKey(String str){
 		long key = 1;
 		
-		//traitement de la string
-		str = str.replace(" ", "");
-		str = str.toLowerCase();
 		//creation de la key
 		for (char c: str.toCharArray()) {
-			key *= nbPremier[c - 97];
+			if(c>64){
+				if(c<97){
+					key *= nbPremier[c - 65];
+				}else{
+					key *= nbPremier[c - 97];
+				}
+			}
 		}
 		
 		return key;

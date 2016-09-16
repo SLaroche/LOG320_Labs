@@ -1,15 +1,11 @@
+
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import algo.AnagramAlgo;
-import algo.MarcAlgo;
-import algo.MaxAlgo;
-import algo.PdfAlgo;
-import algo.SamCAlgo;
-import algo.SamCAlgo2;
-import algo.SamCAlgo3;
+import algo.*;
 
 public class MainClass {
 
@@ -23,24 +19,24 @@ public class MainClass {
 		String dictPath = "src/input/words_allEnglish.txt";
 		String WordsPath = "src/input/words_allEnglish.txt";
 		
-		AnagramAlgo algoMax = new MaxAlgo(false);
-		AnagramAlgo algoPDF = new PdfAlgo(false);
-		AnagramAlgo algoMarc = new MarcAlgo(false);
-		AnagramAlgo algoSamC = new SamCAlgo(false);
+		//look for how many core available
+		int nbCore = Runtime.getRuntime().availableProcessors();
+		System.out.println(nbCore + " cores available");
+		
+		//Competition Algo
+		AnagramAlgo algoSamC1 = new SamCAlgo(false);
 		AnagramAlgo algoSamC2 = new SamCAlgo2(false);
-		AnagramAlgo algoSamC3 = new SamCAlgo3(false);
+		AnagramAlgo algoSamC3 = new SamCAlgo3(false,nbCore);
+		AnagramAlgo algoSamC4 = new SamCAlgo4(false,nbCore);
 		
-		
-		//algoMarc.start(dictPath,WordsPath);
-		//System.out.println("^^ = Marc Algo");
-		//algoPDF.start(dictPath,WordsPath);
-		//System.out.println("^^ = PDF Algo");
-		
-		//algoMax.start(dictPath,WordsPath);
-		//System.out.println("^^ = Max Algo");
-		
+		algoSamC1.start(dictPath,WordsPath);
+		System.out.println("^^ = SamC Algo 1");
+		algoSamC2.start(dictPath,WordsPath);
+		System.out.println("^^ = SamC Algo 2");
 		algoSamC3.start(dictPath,WordsPath);
 		System.out.println("^^ = SamC Algo 3");
+		algoSamC4.start(dictPath,WordsPath);
+		System.out.println("^^ = SamC Algo 4");
 	}
 	
 	/**
