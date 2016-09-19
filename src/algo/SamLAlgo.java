@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Hashtable;
 
 public class SamLAlgo extends AnagramAlgo{
-	
+	private boolean showPrint;
 	final int[] nombrePremier = {
 			2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 
 			31, 37, 41, 43, 47, 53, 59, 61, 67,
@@ -13,6 +13,10 @@ public class SamLAlgo extends AnagramAlgo{
 			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
 			'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+	public SamLAlgo(boolean showPrint) {
+		this.showPrint = showPrint;
+	}
 
 	@Override
 	protected void run() {

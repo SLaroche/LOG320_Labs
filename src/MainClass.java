@@ -24,6 +24,7 @@ public class MainClass {
 		System.out.println(nbCore + " cores available");
 		
 		//Competition Algo
+		AnagramAlgo algoSamL = new SamLAlgo(false);
 		AnagramAlgo algoSamC1 = new SamCAlgo(false);
 		AnagramAlgo algoSamC2 = new SamCAlgo2(false);
 		AnagramAlgo algoSamC3 = new SamCAlgo3(false,nbCore);
