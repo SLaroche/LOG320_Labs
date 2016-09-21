@@ -32,9 +32,9 @@ public abstract class AnagramAlgo {
 		dictArray = dictArrayL.toArray(new String[0]);
 		wordsArray = wordsArrayL.toArray(new String[0]);
 		
-		startTimer();
 		System.out.println("start");
-		this.run(dictArray,wordsArray);
+		startTimer();
+		this.run();
 		endTimer();
 	}
 	public void startTimer(){
@@ -46,10 +46,8 @@ public abstract class AnagramAlgo {
 		
 		//reference http://stackoverflow.com/questions/180158/how-do-i-time-a-methods-execution-in-java
 		long duration;
-		long startTime = System.nanoTime();
-		//
 		long endTime = System.nanoTime();
-		duration = (endTime - startTime);
+		duration = (endTime - this.startTime);
 		durationStr = formatter.format((duration)/1000000000d);
 		System.out.println("Temps d'exécution : " + durationStr + " secondes");
 	}

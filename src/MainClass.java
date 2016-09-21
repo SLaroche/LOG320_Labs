@@ -24,26 +24,10 @@ public class MainClass {
 		System.out.println(nbCore + " cores available");
 		
 		//Competition Algo
-		AnagramAlgo algoSamL = new SamLAlgo(false);
-		AnagramAlgo algoSamC1 = new SamCAlgo(false);
-		AnagramAlgo algoSamC2 = new SamCAlgo2(false);
-		AnagramAlgo algoSamC3 = new SamCAlgo3(false,nbCore);
-		AnagramAlgo algoSamC4 = new SamCAlgo4(false,nbCore);
-		AnagramAlgo algoMax = new MaxAlgo(false);
-		AnagramAlgo algoMax2 = new MaxAlgo2(false);
+		AnagramAlgo algoCore1 = new AlgoCore1(false, nbCore);
 		
-		algoSamC1.start(dictPath,WordsPath);
-		System.out.println("^^ = SamC Algo 1");
-		algoSamC2.start(dictPath,WordsPath);
-		System.out.println("^^ = SamC Algo 2");
-		algoSamC3.start(dictPath,WordsPath);
-		System.out.println("^^ = SamC Algo 3");
-		algoSamC4.start(dictPath,WordsPath);
-		System.out.println("^^ = SamC Algo 4");
-		algoMax.start(dictPath,WordsPath);
-		System.out.println("^^ = Max Algo 4");
-		algoMax2.start(dictPath,WordsPath);
-		System.out.println("^^ = Max Algo 2");
+		algoCore1.start(dictPath,WordsPath);
+		System.out.println("^^ = SamC Core 1");
 	}
 	
 	/**
