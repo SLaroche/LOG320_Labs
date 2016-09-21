@@ -28,6 +28,7 @@ public class AlgoCore1 extends AnagramAlgo{
 			31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101,
 			103, 107, 109, 113, 127, 131, 137, 139, 149, 151};
 	private HashMap<Long, Integer> hmap = new HashMap<>();
+	private ArrayList<String> stringBuffer = new ArrayList<String>();
 
 	
 	public AlgoCore1(boolean showPrint, int nbCore) {
@@ -36,9 +37,11 @@ public class AlgoCore1 extends AnagramAlgo{
 	}
 	
 	@Override
-	protected void run() {
+	protected ArrayList<String> run() {
 		preprocessDict();
-		System.out.println("Il y a un total de " + loopWordFile() + " annagrammes");
+		int total = loopWordFile();
+		stringBuffer.add("Il y a un total de " + total + " annagrammes");
+		return stringBuffer;
 	}
 	
 	private void preprocessDict(){
@@ -59,11 +62,15 @@ public class AlgoCore1 extends AnagramAlgo{
 		
 		//creation de la key
 		for (char c: str.toCharArray()) {
-				if(c<97){
+			if(c>47){
+				if(c<58){
+					key *= nbPremier[c - 48];
+				}else if(c<97){
 					key *= nbPremier[c - 65];
 				}else{
 					key *= nbPremier[c - 97];
 				}
+			}
 		}
 		
 		return key;
@@ -82,7 +89,8 @@ public class AlgoCore1 extends AnagramAlgo{
 				value = 0;
 			}
 			counter+=value;
-			if(showPrint) System.out.println("Il y a " + value +" anagrammes du mot " + str);
+
+			stringBuffer.add("Il y a " + value +" anagrammes du mot " + str);
 		}
 		return counter;
 	}

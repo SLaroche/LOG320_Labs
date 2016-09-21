@@ -16,7 +16,7 @@ public abstract class AnagramAlgo {
 	protected String[] dictArray;
 	protected String[] wordsArray;
 	
-	protected abstract void run();
+	protected abstract ArrayList<String> run();
 	
 	/**
 	 * Execute le timer et les algos
@@ -36,13 +36,17 @@ public abstract class AnagramAlgo {
 		DecimalFormat formatter = new DecimalFormat("0.000000000");;
 		String durationStr;
 		
+		ArrayList<String> Buffer;
+		
 		long startTime = System.nanoTime();
-		this.run();
+		Buffer = this.run();
 		long endTime = System.nanoTime();
 		
-		long duration;
+		for (int i = 0;i<Buffer.size();i++) {
+			System.out.println(Buffer.get(i));
+		}
 		
-		duration = (endTime - startTime);
+		long duration = (endTime - startTime);
 		durationStr = formatter.format((duration)/1000000000d);
 		System.out.println("Temps d'execution : " + durationStr + " secondes");
 	}
