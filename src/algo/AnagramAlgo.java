@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public abstract class AnagramAlgo {
 	private String dictPath;
 	private String wordsPath;
-	protected long startTime = 0;
 	protected String[] dictArray;
 	protected String[] wordsArray;
 	
@@ -33,23 +32,19 @@ public abstract class AnagramAlgo {
 		wordsArray = wordsArrayL.toArray(new String[0]);
 		
 		System.out.println("start");
-		startTimer();
-		this.run();
-		endTimer();
-	}
-	public void startTimer(){
-		startTime = System.nanoTime();
-	}
-	public void endTimer(){
+		
 		DecimalFormat formatter = new DecimalFormat("0.000000000");;
 		String durationStr;
 		
-		//reference http://stackoverflow.com/questions/180158/how-do-i-time-a-methods-execution-in-java
-		long duration;
+		long startTime = System.nanoTime();
+		this.run();
 		long endTime = System.nanoTime();
-		duration = (endTime - this.startTime);
+		
+		long duration;
+		
+		duration = (endTime - startTime);
 		durationStr = formatter.format((duration)/1000000000d);
-		System.out.println("Temps d'exécution : " + durationStr + " secondes");
+		System.out.println("Temps d'execution : " + durationStr + " secondes");
 	}
 	
 	private static ArrayList<String> getListFile(String filePath) {
@@ -63,7 +58,6 @@ public abstract class AnagramAlgo {
 				list.add(a.replaceAll(" ", ""));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return list;
 	}

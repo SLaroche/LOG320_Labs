@@ -37,11 +37,8 @@ public class AlgoCore1 extends AnagramAlgo{
 	
 	@Override
 	protected void run() {
-		hmap.clear();
-		
 		preprocessDict();
-		int totalAnagram = loopWordFile();
-		System.out.println("Il y a un total de " + totalAnagram + " annagrammes");
+		System.out.println("Il y a un total de " + loopWordFile() + " annagrammes");
 	}
 	
 	private void preprocessDict(){
