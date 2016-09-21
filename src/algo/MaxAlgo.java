@@ -4,8 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.CharBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -40,7 +45,7 @@ public class MaxAlgo extends AnagramAlgo{
 		// TODO Auto-generated method stub
 		String word = wordsList.get(index1);
 		String dictWord = dictList.get(index2);
-		int comparaison = wordsList.get(index1).compareTo(dictWord);
+		int comparaison = word.compareTo(dictWord);
 		//If the word is smaller than the dict word up the word 
 		if(comparaison<0)
 			index1++;
@@ -59,23 +64,6 @@ public class MaxAlgo extends AnagramAlgo{
 	}
 
 	/**
-	 * Reference :
-	 * http://stackoverflow.com/questions/15045640/how-to-check-if-two-words-are
-	 * -anagrams Compare les deux mots
-	 * 
-	 * @param firstWord
-	 * @param secondWord
-	 * @return
-	 */
-	public boolean isAnagram(String firstWord, String secondWord) {
-		char[] word1 = firstWord.replaceAll("[\\s]", "").toLowerCase().toCharArray();
-		char[] word2 = secondWord.replaceAll("[\\s]", "").toLowerCase().toCharArray();
-		Arrays.sort(word1);
-		Arrays.sort(word2);
-		return Arrays.equals(word1, word2);
-	}
-
-	/**
 	 * Recuperer le ficher par son nom et le lire.
 	 * 
 	 * @param filePath
@@ -86,16 +74,21 @@ public class MaxAlgo extends AnagramAlgo{
 	
 	@SuppressWarnings("resource")
 	private static ArrayList<String>  getListFile(String filePath) throws IOException {
-		BufferedReader textInFile;
 		ArrayList<String>  list = new ArrayList<String>();
 		String a;
-		textInFile = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filePath))));
+		BufferedReader textInFile = new BufferedReader(new FileReader(new File(filePath)));
 		while ((a=textInFile.readLine()) != null) {
 			char[] chars = a.toCharArray();
 			Arrays.sort(chars);
-			list.add(new String(chars).replaceAll(" ", ""));
+			lookWhereTo(list,list.size(),new String(chars).replaceAll(" ", ""));
 		}
-		list.sort(null);
 		return list;
+	}
+	
+	private static void lookWhereTo(ArrayList<String> sortedList,int index, String addedElement){
+		if(index > 0 && addedElement.compareTo(sortedList.get(index-1))<0)
+			lookWhereTo(sortedList, index-1, addedElement);
+		else
+			sortedList.add(index,addedElement);			
 	}
 }
