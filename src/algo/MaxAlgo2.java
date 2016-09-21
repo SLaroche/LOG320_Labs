@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class MaxAlgo extends AnagramAlgo{
+public class MaxAlgo2 extends AnagramAlgo{
 	boolean showPrint;
 	private static int[] TabNbrPremier = new int[] {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101};
 	private int totalAnagrame = 0;
 	
-	public MaxAlgo(boolean showPrint) {
+	public MaxAlgo2(boolean showPrint) {
 		this.showPrint = showPrint;
 	}
 	
@@ -31,6 +31,7 @@ public class MaxAlgo extends AnagramAlgo{
 		try {
 			ArrayList<String> wordsList = getListFile(this.wordsPath);
 			ArrayList<String> dictList = getListFile(this.dictPath);
+			startTimer();
 			algo(dictList, wordsList, 0, 0);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -76,30 +77,13 @@ public class MaxAlgo extends AnagramAlgo{
 	 */
 	
 	@SuppressWarnings("resource")
-	private static ArrayList<String>  getListFile(String filePath) throws IOException {
-		ArrayList<String>  list = new ArrayList<String>();
+	private static ArrayList<String> getListFile(String filePath) throws IOException {
+		ArrayList<String> list = new ArrayList<String>();
 		String a;
 		BufferedReader textInFile = new BufferedReader(new FileReader(new File(filePath)));
 		while ((a=textInFile.readLine()) != null) {
-			char[] chars = a.toCharArray();
-			Arrays.sort(chars);
-			list.add(new String(chars).replaceAll(" ", ""));
-			//lookWhereTo(list,list.size(),new String(chars).replaceAll(" ", ""));
+			list.add(a.replaceAll(" ", ""));
 		}
-		list.sort(null);
 		return list;
-	}
-	
-	private static void lookWhereTo(ArrayList<String> sortedList,int index, String addedElement){
-		/*if(index > 0 && addedElement.compareTo(sortedList.get(index-1))<0)
-			lookWhereTo(sortedList, index-1, addedElement);
-		else
-			*/
-	
-		while(index > 0 && addedElement.compareTo(sortedList.get(index-1))<0){
-			index--;
-			System.out.println(index);
-		}
-		sortedList.add(index,addedElement);	
 	}
 }
