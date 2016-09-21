@@ -76,7 +76,7 @@ public class MaxAlgo extends AnagramAlgo{
 	 */
 	
 	@SuppressWarnings("resource")
-	private static ArrayList<String>  getListFile(String filePath) throws IOException {
+	protected static ArrayList<String>  getListFile(String filePath) throws IOException {
 		ArrayList<String>  list = new ArrayList<String>();
 		String a;
 		BufferedReader textInFile = new BufferedReader(new FileReader(new File(filePath)));

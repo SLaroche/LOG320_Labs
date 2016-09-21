@@ -111,7 +111,7 @@ public class MarcAlgo extends AnagramAlgo {
 	 *            : le nom du ficher a lire
 	 * @return la liste des mots du fichier
 	 */
-	private static ArrayList<String> getListFile(String filePath) {
+	protected static ArrayList<String> getListFile(String filePath) {
 		Scanner textInFile;
 		ArrayList<String> list = new ArrayList<String>();
 

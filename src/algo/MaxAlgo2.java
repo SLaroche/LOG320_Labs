@@ -66,24 +66,4 @@ public class MaxAlgo2 extends AnagramAlgo{
 		else*/
 			System.out.println("Il y a "+ totalAnagrame+ " annagrammes");
 	}
-
-	/**
-	 * Recuperer le ficher par son nom et le lire.
-	 * 
-	 * @param filePath
-	 *            : le nom du ficher a lire
-	 * @return la liste des mots du fichier
-	 * @throws IOException 
-	 */
-	
-	@SuppressWarnings("resource")
-	private static ArrayList<String> getListFile(String filePath) throws IOException {
-		ArrayList<String> list = new ArrayList<String>();
-		String a;
-		BufferedReader textInFile = new BufferedReader(new FileReader(new File(filePath)));
-		while ((a=textInFile.readLine()) != null) {
-			list.add(a.replaceAll(" ", ""));
-		}
-		return list;
-	}
 }

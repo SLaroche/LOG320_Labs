@@ -2,6 +2,7 @@ package algo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,34 +15,16 @@ public class PdfAlgo extends AnagramAlgo{
 
 	@Override
 	public void run() {
-		//Recupere et lire les fichier
-		ArrayList<String> wordsList = getListFile(this.wordsPath);
-		ArrayList<String> dictList = getListFile(this.dictPath);	
-		
-		//Applique les algos
-		parcourtList(wordsList, dictList);
-	}
-	
-	/**
-	 * Recuperer le ficher par son nom et le lire.
-	 * @param filePath : le nom du ficher a lire
-	 * @return la liste des mots du fichier
-	 */
-	private static ArrayList<String> getListFile(String filePath)
-	{
-		Scanner textInFile;
-		ArrayList<String> list= new ArrayList<String>();
-		
+		//Recupere et lire les fichier	
 		try {
-			textInFile = new Scanner(new File(filePath)).useDelimiter(",\\s*");
-			while (textInFile.hasNextLine()) {
-				list.add(textInFile.nextLine());
-			    }
-		} catch (FileNotFoundException e) {
+			ArrayList<String> wordsList = getListFile(this.wordsPath);
+			ArrayList<String> dictList = getListFile(this.dictPath);
+			//Applique les algos
+			parcourtList(wordsList, dictList);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return list;
 	}
 	
 	/**
