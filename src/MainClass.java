@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import algo.*;
 
@@ -16,18 +17,29 @@ public class MainClass {
 	public static void main(String[] args) {
 		//ArrayList<String> wordsList = getListFile(args[0]);
 		//ArrayList<String> dictList = getListFile(args[1]);
-		String dictPath = "src/input/words_allEnglish.txt";
-		String WordsPath = "src/input/words_allEnglish.txt";
+		String dictPath = "src/input/dict.txt";
+		String WordsPath = "src/input/words.txt";
 		
 		//look for how many core available
 		int nbCore = Runtime.getRuntime().availableProcessors();
 		System.out.println(nbCore + " cores available");
 		
-		//Competition Algo
-		AnagramAlgo algoCore1 = new AlgoCore1(false, nbCore);
 		
-		algoCore1.start(dictPath,WordsPath);
+		warmUpTime(1);
+		
+		//Competition Algo
+		AnagramAlgo algoCore1 = new AlgoCore1();
+		AnagramAlgo algoCore2 = new AlgoCore2(2);
+		AnagramAlgo algoCore3 = new AlgoCore3(nbCore);
+		
+		//algoCore1.start(dictPath,WordsPath);
 		System.out.println("^^ = SamC Core 1");
+		
+		//algoCore2.start(dictPath,WordsPath);
+		System.out.println("^^ = SamC Core 2");
+		
+		algoCore3.start(dictPath,WordsPath);
+		System.out.println("^^ = SamC Core 3");
 	}
 	
 	/**
@@ -53,4 +65,21 @@ public class MainClass {
 		return list;
 	}
 
+	private static void warmUpTime(int sec){
+		int warmUpTimeSec = sec;
+		long startTime = System.currentTimeMillis();
+		long endTime= 0;
+		long duration = 0;
+		long lastSec=0;
+		while(duration<(warmUpTimeSec*1000)){
+			endTime = System.currentTimeMillis();
+			duration = (endTime - startTime);
+			if((duration % 1000) == 0){
+				if(lastSec != duration/1000){
+					lastSec = duration/1000;
+					System.out.println("Warm Up Sec " + duration/1000 + "/" + warmUpTimeSec);
+				}
+			}
+		}
+	}
 }

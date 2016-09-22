@@ -4,9 +4,7 @@ package algo;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -31,20 +29,21 @@ public abstract class AnagramAlgo {
 		dictArray = dictArrayL.toArray(new String[0]);
 		wordsArray = wordsArrayL.toArray(new String[0]);
 		
-		System.out.println("start");
-		
 		DecimalFormat formatter = new DecimalFormat("0.000000000");;
 		String durationStr;
 		
 		ArrayList<String> Buffer;
 		
+		System.out.println("start");
 		long startTime = System.nanoTime();
 		Buffer = this.run();
 		long endTime = System.nanoTime();
+		System.out.println("End");
 		
 		for (int i = 0;i<Buffer.size();i++) {
 			System.out.println(Buffer.get(i));
 		}
+		
 		
 		long duration = (endTime - startTime);
 		durationStr = formatter.format((duration)/1000000000d);
