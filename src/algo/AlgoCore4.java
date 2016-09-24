@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
  * -case(si dict > hash) et deux petit
  */
 
-public class AlgoCore3 extends AnagramAlgo{
+public class AlgoCore4 extends AnagramAlgo{
 	private int nbCore;
 	private int[] nbPremier = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
 			31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101,
@@ -39,17 +39,21 @@ public class AlgoCore3 extends AnagramAlgo{
 	final private int ESTUNCARACTEREVALABLE = 47;
 	private ConcurrentHashMap<Long, Integer> hmap;//permet d'utiliser le hashmap via plusieurs threads 
 	private ArrayList<String> stringBuffer = new ArrayList<String>();
+	private ArrayList<Integer> totals = new ArrayList<Integer>();
 	//thread
 	CountDownLatch cdLatch;
+	CountDownLatch loopCdLatch;
 	ExecutorService exec;
 	PreprocessDictRunnable[] dictRunnables;
-
+	WordsLoopRunnable[] loopRunnable;
 	
-	public AlgoCore3(int nbCore){
+	public AlgoCore4(int nbCore){
 		this.nbCore = nbCore;
 		cdLatch = new CountDownLatch(nbCore);
+		loopCdLatch = new CountDownLatch(nbCore);
 		exec = Executors.newFixedThreadPool(nbCore);
 		dictRunnables = new PreprocessDictRunnable[nbCore];
+		loopRunnable = new WordsLoopRunnable[nbCore];
 		
 		hmap = new ConcurrentHashMap<Long, Integer>(nbCore, 0.9f, 1);
 	}
@@ -57,6 +61,7 @@ public class AlgoCore3 extends AnagramAlgo{
 	@Override
 	protected ArrayList<String> run() {
 		int dictArraySampleSize = dictArray.length/nbCore;
+		int wordsArraySampleSize = wordsArray.length/nbCore;
 		
 		for(int i=0;i<nbCore;i++){
 			if(i==nbCore-1){
@@ -71,14 +76,36 @@ public class AlgoCore3 extends AnagramAlgo{
 		    exec.execute(r);
 		}
 		
+		for(int i=0;i<nbCore;i++){
+			if(i==nbCore-1){
+				loopRunnable[i] = new WordsLoopRunnable(i*wordsArraySampleSize,wordsArray.length);
+			}else{
+				loopRunnable[i] = new WordsLoopRunnable(i*wordsArraySampleSize, ((i+1)*wordsArraySampleSize));
+			}
+		}
 		try {
 			cdLatch.await();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		for(WordsLoopRunnable r : loopRunnable) {
+		    r.setLatch(loopCdLatch);
+		    exec.execute(r);
+		}
+		
+		try {
+			loopCdLatch.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		exec.shutdown();
 		
-		int total = loopWordFile();
+		//int total = loopWordFile();
+		int total = 0;
+		for (int i = 0; i < totals.size(); i++) {
+			total += totals.get(i);
+		}
 		stringBuffer.add("Il y a un total de " + total + " annagrammes");
 		return stringBuffer;
 	}
@@ -117,11 +144,12 @@ public class AlgoCore3 extends AnagramAlgo{
 		return key;
 	}
 	
-	private int loopWordFile(){
+	private int loopWordFile(int start, int end){
 		int counter = 0;
 		
-		for (String str: wordsArray) {
-			Long key = stringToKey(str);
+		//for (String str: wordsArray) {
+		for (int i = start; i < end; i++) {
+			Long key = stringToKey(wordsArray[i]);
 			//show result
 			int value;
 			try{
@@ -131,7 +159,7 @@ public class AlgoCore3 extends AnagramAlgo{
 			}
 			counter+=value;
 
-			//stringBuffer.add("Il y a " + value +" anagrammes du mot " + str);
+			//stringBuffer.add("Il y a " + value +" anagrammes du mot " + wordsArray[i]);
 		}
 		return counter;
 	}
@@ -156,4 +184,28 @@ public class AlgoCore3 extends AnagramAlgo{
 			    this.latch = latch;
 		  }
 	}
+	
+	class WordsLoopRunnable implements Runnable {
+		   int start;
+		   int end;
+		   private CountDownLatch latch;
+
+		   WordsLoopRunnable(int start, int end) {
+		      this.start = start;
+		      this.end = end;
+		   }
+
+		   public void run() {
+			   synchronized(totals) {
+				   totals.add(loopWordFile(start, end));
+			   }
+			   //System.out.println("w done "+ start);
+			   latch.countDown();
+		   }
+		   
+		   public void setLatch(CountDownLatch latch) {
+			    this.latch = latch;
+		  }
+	}
 }
+

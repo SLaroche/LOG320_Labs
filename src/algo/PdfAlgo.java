@@ -8,23 +8,18 @@ import java.util.Scanner;
 
 public class PdfAlgo extends AnagramAlgo{
 	boolean showPrint;
+	private ArrayList<String> stringBuffer = new ArrayList<String>();
 	
 	public PdfAlgo(boolean showPrint) {
 		this.showPrint = showPrint;
 	}
 
 	@Override
-	public void run() {
-		//Recupere et lire les fichier	
-		try {
-			ArrayList<String> wordsList = getListFile(this.wordsPath);
-			ArrayList<String> dictList = getListFile(this.dictPath);
-			//Applique les algos
-			parcourtList(wordsList, dictList);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public ArrayList<String> run() {
+		//Applique les algos
+		parcourtList(wordsArray, dictArray);
+		
+		return stringBuffer;
 	}
 	
 	/**
@@ -32,17 +27,17 @@ public class PdfAlgo extends AnagramAlgo{
 	 * @param wordsList : liste de mot (words.txt)
 	 * @param dictList : liste du dicitionnaire (dict.txt)
 	 */
-	public void parcourtList(ArrayList<String> wordsList, ArrayList<String> dictList){
+	public void parcourtList(String[] wordsList, String[] dictList){
 		//Variable pour le nombre total d'anagrammes
 		int totalCp = 0;
 		//Parcourt tout les mots
-		for(int i = 0; i < wordsList.size(); i++){
+		for(int i = 0; i < wordsList.length; i++){
 			int cp = 0;
-			String theWord = wordsList.get(i);
+			String theWord = wordsList[i];
 			
 			//Parcout tout les mots du dictionnaire
-			for(int j = 0; j< dictList.size(); j++){
-				String theWordDict = dictList.get(j);
+			for(int j = 0; j< dictList.length; j++){
+				String theWordDict = dictList[j];
 				//Appelle la methode qui compare les deux mots
 				boolean estAnagramme = algo(theWord, theWordDict);
 				//Si les deux mots sont des anagrammes ont ajoute 1 au compteur
@@ -51,10 +46,12 @@ public class PdfAlgo extends AnagramAlgo{
 			}
 			totalCp += cp;
 			//Affiche le message pour tout les mots de la liste words
-			if(showPrint) System.out.println("Il y a "+cp+" anagrammes pour le mot "+theWord);
+			if(showPrint) { 
+				stringBuffer.add("Il y a "+cp+" anagrammes pour le mot "+theWord);
+			}
 		}
 		//Affiche le message, a la fin, qui affiche le nombre total d anagramme trouve
-		System.out.println("Il y a un total de "+totalCp+" anagrammes");
+		stringBuffer.add("Il y a un total de "+totalCp+" anagrammes");
 	}
 	
 	/**

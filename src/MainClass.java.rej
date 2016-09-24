@@ -1,9 +1,0 @@
-diff a/src/MainClass.java b/src/MainClass.java	(rejected hunks)
-@@ -5,6 +5,7 @@
- 
- import algo.AnagramAlgo;
- import algo.MarcAlgo;
-+import algo.MaxAlgo;
- import algo.PdfAlgo;
- import algo.SamCAlgo;
- 

@@ -17,8 +17,8 @@ public class MainClass {
 	public static void main(String[] args) {
 		//ArrayList<String> wordsList = getListFile(args[0]);
 		//ArrayList<String> dictList = getListFile(args[1]);
-		String dictPath = "src/input/dict.txt";
-		String WordsPath = "src/input/words.txt";
+		//String dictPath = "src/input/"+args[1]+".txt";
+		//String WordsPath =  "src/input/"+args[0]+".txt";
 		
 		//look for how many core available
 		int nbCore = Runtime.getRuntime().availableProcessors();
@@ -31,15 +31,23 @@ public class MainClass {
 		AnagramAlgo algoCore1 = new AlgoCore1();
 		AnagramAlgo algoCore2 = new AlgoCore2(2);
 		AnagramAlgo algoCore3 = new AlgoCore3(nbCore);
+		AnagramAlgo algoCore4 = new AlgoCore4(nbCore);
+		AnagramAlgo pdfalgo = new PdfAlgo(true);
 		
 		//algoCore1.start(dictPath,WordsPath);
-		System.out.println("^^ = SamC Core 1");
+		//System.out.println("^^ = SamC Core 1");
 		
 		//algoCore2.start(dictPath,WordsPath);
-		System.out.println("^^ = SamC Core 2");
+		//System.out.println("^^ = SamC Core 2");
 		
 		algoCore3.start(dictPath,WordsPath);
 		System.out.println("^^ = SamC Core 3");
+		
+		algoCore4.start(dictPath,WordsPath);
+		System.out.println("^^ = SamC Core 4");
+		
+		//pdfalgo.start(dictPath,WordsPath);
+		//System.out.println("^^ = pdfalgo");
 	}
 	
 	/**
