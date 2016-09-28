@@ -31,12 +31,6 @@ public class AlgoCore4 extends AnagramAlgo{
 	private int[] nbPremier = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
 			31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101,
 			103, 107, 109, 113, 127, 131, 137, 139, 149, 151};
-	final private int MAJLETTREASCII        = 65;
-	final private int ESTMAJLETTREASCII     = 97;
-	final private int NOMBREASCII           = 48 + 26;
-	final private int ESTNOMBREASCII        = 58;
-	final private int MINLETTREASCII        = 97;
-	final private int ESTUNCARACTEREVALABLE = 47;
 	private ConcurrentHashMap<Long, Integer> hmap;//permet d'utiliser le hashmap via plusieurs threads 
 	private ArrayList<String> stringBuffer = new ArrayList<String>();
 	private ArrayList<Integer> totals = new ArrayList<Integer>();
@@ -130,13 +124,13 @@ public class AlgoCore4 extends AnagramAlgo{
 		
 		//creation de la key
 		for (char c: str.toCharArray()) {
-			if (c > ESTUNCARACTEREVALABLE){
-				if (c < ESTNOMBREASCII){
-					key *= nbPremier[c - NOMBREASCII];
+			if (c > 47){
+				if (c < 58){
+					key *= nbPremier[c - 48 + 26];
 				} else if (c < 97){
-					key *= nbPremier[c - MAJLETTREASCII];
+					key *= nbPremier[c - 65];
 				} else {
-					key *= nbPremier[c - MINLETTREASCII];
+					key *= nbPremier[c - 97];
 				}
 			}
 		}

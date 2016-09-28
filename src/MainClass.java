@@ -17,8 +17,10 @@ public class MainClass {
 	public static void main(String[] args) {
 		//ArrayList<String> wordsList = getListFile(args[0]);
 		//ArrayList<String> dictList = getListFile(args[1]);
-		//String dictPath = "src/input/"+args[1]+".txt";
-		//String WordsPath =  "src/input/"+args[0]+".txt";
+		//String dictPath = args[1];
+		//String WordsPath =  args[0];
+		String dictPath = "src/input/dict.txt";
+		String WordsPath = "src/input/words.txt";
 		
 		//look for how many core available
 		int nbCore = Runtime.getRuntime().availableProcessors();
