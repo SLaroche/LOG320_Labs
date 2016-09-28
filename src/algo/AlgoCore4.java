@@ -153,7 +153,7 @@ public class AlgoCore4 extends AnagramAlgo{
 			}
 			counter+=value;
 
-			//stringBuffer.add("Il y a " + value +" anagrammes du mot " + wordsArray[i]);
+			stringBuffer.add("Il y a " + value +" anagrammes du mot " + wordsArray[i]);
 		}
 		return counter;
 	}
