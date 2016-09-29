@@ -1,19 +1,24 @@
 package algo;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class PdfAlgo extends AnagramAlgo{
+	
+	/* VARAIBLE */
 	boolean showPrint;
 	private ArrayList<String> stringBuffer = new ArrayList<String>();
 	
+	/**
+	 * Constructeur
+	 * @param showPrint
+	 */
 	public PdfAlgo(boolean showPrint) {
 		this.showPrint = showPrint;
 	}
 
+	/**
+	 * Roule l algo
+	 */
 	@Override
 	public ArrayList<String> run() {
 		//Applique les algos

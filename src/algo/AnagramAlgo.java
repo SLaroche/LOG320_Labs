@@ -9,8 +9,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public abstract class AnagramAlgo {
-	private String dictPath;
-	private String wordsPath;
+	
+	/* VARIABLE */
 	protected String[] dictArray;
 	protected String[] wordsArray;
 	
@@ -19,10 +19,7 @@ public abstract class AnagramAlgo {
 	/**
 	 * Execute le timer et les algos
 	 */
-	public void start(String dictPath,String wordsPath) {
-		this.dictPath = dictPath;
-		this.wordsPath = wordsPath;
-		
+	public void start(String dictPath,String wordsPath) {		
 		ArrayList<String> dictArrayL = getListFile(dictPath);
 		ArrayList<String> wordsArrayL = getListFile(wordsPath);
 		
@@ -34,22 +31,33 @@ public abstract class AnagramAlgo {
 		
 		ArrayList<String> Buffer;
 		
+		//Start le Timer
 		System.out.println("start");
 		long startTime = System.nanoTime();
+		
+		//Run l'algo
 		Buffer = this.run();
+		
+		//End le Timer
 		long endTime = System.nanoTime();
 		System.out.println("End");
 		
+		//Afficher les resultats
 		for (int i = 0;i<Buffer.size();i++) {
 			System.out.println(Buffer.get(i));
 		}
 		
-		
+		//Afficher le resultat du timer
 		long duration = (endTime - startTime);
 		durationStr = formatter.format((duration)/1000000000d);
 		System.out.println("Temps d'execution : " + durationStr + " secondes");
 	}
 	
+	/**
+	 * Lire le fichier et inserer les donnees dans la liste
+	 * @param filePath : le chemin du fichier a lire
+	 * @return la liste de mots
+	 */
 	private static ArrayList<String> getListFile(String filePath) {
 		ArrayList<String> list = new ArrayList<String>();
 		String a;
