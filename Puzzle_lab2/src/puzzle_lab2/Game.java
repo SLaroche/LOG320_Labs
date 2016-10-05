@@ -10,7 +10,7 @@ public class Game {
 	Point[][] tabGame; 
 	public Game(){
 		String filePath = "test.puzzle";
-		tabGame = getListFile(filePath);
+		//tabGame = getListFile(filePath);
 		System.out.println(tabGame[2][2]);
 	}
 	
