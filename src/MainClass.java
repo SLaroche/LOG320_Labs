@@ -3,6 +3,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -20,8 +21,8 @@ public class MainClass {
 		//String dictPath = args[1];
 		//String dictPath = "src/input/dict.txt";
 		//String wordsPath = "src/input/words.txt";
-		String dictPath = "src/input/dict.txt";
-		String wordsPath =  "src/input/words.txt";
+		String dictPath = "src/input/words_allEnglish.txt";
+		String wordsPath =  "src/input/words_allEnglish.txt";
 		
 		
 		//look for how many core available
@@ -38,20 +39,36 @@ public class MainClass {
 		AnagramAlgo algoCore4 = new AlgoCore4(nbCore);
 		AnagramAlgo pdfalgo = new PdfAlgo(true);
 		
-		//algoCore1.start(dictPath,WordsPath);
-		//System.out.println("^^ = SamC Core 1");
+		int nbMots = 1000;
+		int nbCaracter = 100;
 		
-		//algoCore2.start(dictPath,WordsPath);
-		//System.out.println("^^ = SamC Core 2");
+		//String[] dictArray = generateRandomWords(nbMots, nbCaracter);
+		//String[] wordsArray = generateRandomWords(nbMots, nbCaracter);;
 		
-		algoCore3.start(dictPath,wordsPath);
-		System.out.println("^^ = SamC Core 3");
+		//pdfalgo.start(wordsArray,wordsArray);
+		//System.out.println("^^ = pdfalgo");
 		
+		//algoCore4.start(wordsArray,wordsArray);
 		algoCore4.start(dictPath,wordsPath);
 		System.out.println("^^ = SamC Core 4");
 		
-		//pdfalgo.start(dictPath,WordsPath);
-		//System.out.println("^^ = pdfalgo");
+		
+	}
+	
+	public static String[] generateRandomWords(int numberOfWords,int nbCaracter) //http://stackoverflow.com/questions/4951997/generating-random-words-in-java
+	{
+	    String[] randomStrings = new String[numberOfWords];
+	    Random random = new Random();
+	    for(int i = 0; i < numberOfWords; i++)
+	    {
+	        char[] word = new char[nbCaracter]; // words of length 3 through 10. (1 and 2 letter words are boring.)
+	        for(int j = 0; j < word.length; j++)
+	        {
+	            word[j] = (char)('a' + random.nextInt(26));
+	        }
+	        randomStrings[i] = new String(word);
+	    }
+	    return randomStrings;
 	}
 	
 	/**

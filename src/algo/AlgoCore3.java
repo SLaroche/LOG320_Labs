@@ -33,7 +33,7 @@ public class AlgoCore3 extends AnagramAlgo{
 			103, 107, 109, 113, 127, 131, 137, 139, 149, 151};
 	final private int MAJLETTREASCII        = 65;
 	final private int ESTMAJLETTREASCII     = 97;
-	final private int NOMBREASCII           = 48 + 26;
+	final private int NOMBREASCII           = 48 - 26;
 	final private int ESTNOMBREASCII        = 58;
 	final private int MINLETTREASCII        = 97;
 	final private int ESTUNCARACTEREVALABLE = 47;
@@ -105,6 +105,7 @@ public class AlgoCore3 extends AnagramAlgo{
 		for (char c: str.toCharArray()) {
 			if (c > ESTUNCARACTEREVALABLE){
 				if (c < ESTNOMBREASCII){
+					System.out.println(c);
 					key *= nbPremier[c - NOMBREASCII];
 				} else if (c < 97){
 					key *= nbPremier[c - MAJLETTREASCII];

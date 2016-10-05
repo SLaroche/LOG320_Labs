@@ -19,15 +19,18 @@ public abstract class AnagramAlgo {
 	/**
 	 * Execute le timer et les algos
 	 */
-	public void start(String dictPath,String wordsPath) {
-		this.dictPath = dictPath;
-		this.wordsPath = wordsPath;
+	public void start(String[] dictArray, String[] wordsArray) {
+		//this.dictPath = dictPath;
+		//this.wordsPath = wordsPath;
 		
-		ArrayList<String> dictArrayL = getListFile(dictPath);
-		ArrayList<String> wordsArrayL = getListFile(wordsPath);
+		//ArrayList<String> dictArrayL = getListFile(dictPath);
+		//ArrayList<String> wordsArrayL = getListFile(wordsPath);
 		
-		dictArray = dictArrayL.toArray(new String[0]);
-		wordsArray = wordsArrayL.toArray(new String[0]);
+		//dictArray = dictArrayL.toArray(new String[0]);
+		//wordsArray = wordsArrayL.toArray(new String[0]);
+		
+		this.dictArray = dictArray;
+		this.wordsArray = wordsArray;
 		
 		DecimalFormat formatter = new DecimalFormat("0.000000000");;
 		String durationStr;
@@ -40,15 +43,54 @@ public abstract class AnagramAlgo {
 		long endTime = System.nanoTime();
 		System.out.println("End");
 		
+		/*
 		for (int i = 0;i<Buffer.size();i++) {
 			System.out.println(Buffer.get(i));
 		}
+		*/
 		
 		
 		long duration = (endTime - startTime);
 		durationStr = formatter.format((duration)/1000000000d);
 		System.out.println("Temps d'execution : " + durationStr + " secondes");
 	}
+	
+	public void start(String dictPath, String wordsPath) {
+		//this.dictPath = dictPath;
+		//this.wordsPath = wordsPath;
+		
+		ArrayList<String> dictArrayL = getListFile(dictPath);
+		ArrayList<String> wordsArrayL = getListFile(wordsPath);
+		
+		dictArray = dictArrayL.toArray(new String[0]);
+		wordsArray = wordsArrayL.toArray(new String[0]);
+		
+		this.dictArray = dictArray;
+		this.wordsArray = wordsArray;
+		
+		DecimalFormat formatter = new DecimalFormat("0.000000000");;
+		String durationStr;
+		
+		ArrayList<String> Buffer;
+		
+		System.out.println("start");
+		long startTime = System.nanoTime();
+		Buffer = this.run();
+		long endTime = System.nanoTime();
+		System.out.println("End");
+		
+		
+		for (int i = 0;i<Buffer.size();i++) {
+			System.out.println(Buffer.get(i));
+		}
+		
+		
+		
+		long duration = (endTime - startTime);
+		durationStr = formatter.format((duration)/1000000000d);
+		System.out.println("Temps d'execution : " + durationStr + " secondes");
+	}
+	
 	
 	private static ArrayList<String> getListFile(String filePath) {
 		ArrayList<String> list = new ArrayList<String>();

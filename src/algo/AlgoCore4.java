@@ -40,6 +40,7 @@ public class AlgoCore4 extends AnagramAlgo{
 	ExecutorService exec;
 	PreprocessDictRunnable[] dictRunnables;
 	WordsLoopRunnable[] loopRunnable;
+	int counter = 0;
 	
 	public AlgoCore4(int nbCore){
 		this.nbCore = nbCore;
@@ -49,7 +50,7 @@ public class AlgoCore4 extends AnagramAlgo{
 		dictRunnables = new PreprocessDictRunnable[nbCore];
 		loopRunnable = new WordsLoopRunnable[nbCore];
 		
-		hmap = new ConcurrentHashMap<Long, Integer>(nbCore, 0.9f, 1);
+		hmap = new ConcurrentHashMap<Long, Integer>(1549430, 0.75f, nbCore);
 	}
 
 	@Override
@@ -153,7 +154,7 @@ public class AlgoCore4 extends AnagramAlgo{
 			}
 			counter+=value;
 
-			stringBuffer.add("Il y a " + value +" anagrammes du mot " + wordsArray[i]);
+			//stringBuffer.add("Il y a " + value +" anagrammes du mot " + wordsArray[i]);
 		}
 		return counter;
 	}
