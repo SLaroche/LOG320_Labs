@@ -11,11 +11,16 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import puzzle_lab2.model.Case;
+import puzzle_lab2.model.GameBord;
+
 public class PegSolitaire extends JPanel {
 	//constantes
 	private final int LINESIZE = 4;//pas toute les valeur marche
 	//attributs
-	private int[][] pegSolitaireBoard = new int[9][9];
+	private GameBord gameBoard = new GameBord(7,7);
+	
+	private Case[][] bord = gameBoard.getBord();
 	
 	public PegSolitaire(){
 		this.setMaximumSize(new Dimension(500, 500));
@@ -55,11 +60,23 @@ public class PegSolitaire extends JPanel {
 		}
 		
 		//Draw Circle
-		for(int i=0; i<7;i++){//number of block
-			for(int j=0; j<7;j++){
+		for(int i=0; i<bord.length;i++){//number of block
+			for(int j=0; j<bord[i].length;j++){
 				int positionDiv = panHeight/7;
 				int diametre = panHeight/7-5;
+				//If the case is not playable do nothing
+				if(gameBoard.getValueAt(i, j).getValue() == 0)
+					continue;
+				
+				g2d.setColor(Color.black);
 				g2d.drawOval(positionDiv*i, positionDiv*j, diametre, diametre);
+				//If the case is empty but playable
+				if(gameBoard.getValueAt(i, j).getValue() == 1)
+					g2d.setColor(Color.white);
+				//else the case is full and the color is black because of the border
+				g2d.fillOval(positionDiv*i, positionDiv*j, diametre, diametre);
+					
+				
 			}
 		}
 		
