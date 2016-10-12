@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,12 +13,13 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import puzzle_lab2.algo.PlayShotAlgo;
 import puzzle_lab2.model.Case;
 import puzzle_lab2.model.GameBord;
 import puzzle_lab2.model.Ply;
 import puzzle_lab2.tree.Node;
 
-public class PegSolitaire extends JPanel {
+public class PegSolitaire extends JPanel implements MouseListener{
 	//constantes
 	private final int LINESIZE = 4;//pas toute les valeur marche
 	//attributs
@@ -24,11 +27,18 @@ public class PegSolitaire extends JPanel {
 	
 	private Case[][] bord = gameBoard.getBord();
 	private Node currentNode;
+	private PlayShotAlgo algo = new PlayShotAlgo();
 	
 	public PegSolitaire(){
 		this.setMaximumSize(new Dimension(500, 500));
 		this.setMinimumSize(new Dimension(500, 500));
-		gameBoard.makeMove(new Ply(bord[3][2], bord[3][3]));
+		addMouseListener(this);
+		
+	}
+	public void mouseClicked(MouseEvent e) {
+		gameBoard.makeMove(algo.findShot(bord).get(0));
+		System.out.println("Nombre de coup possible :"+algo.findShot(bord).size());
+		repaint();
 	}
 
 	public void paint(Graphics g) {
@@ -69,9 +79,9 @@ public class PegSolitaire extends JPanel {
 				int positionDiv = panHeight/7;
 				int diametre = panHeight/7-5;
 				//If the case is not playable do nothing
+				System.out.print(gameBoard.getValueAt(i, j).getValue());
 				if(gameBoard.getValueAt(i, j).getValue() == 0)
 					continue;
-				
 				g2d.setColor(Color.black);
 				g2d.drawOval(positionDiv*i, positionDiv*j, diametre, diametre);
 				//If the case is empty but playable
@@ -80,9 +90,10 @@ public class PegSolitaire extends JPanel {
 				//else the case is full and the color is black because of the border
 				g2d.fillOval(positionDiv*i, positionDiv*j, diametre, diametre);
 					
-				
 			}
+			System.out.println("");
 		}
+		System.out.println("");
 	}
 	public void jump(int index){
 		Node nodeParent = currentNode;
@@ -93,5 +104,25 @@ public class PegSolitaire extends JPanel {
 	
 	public void unjump(){
 		currentNode = currentNode.getParent();
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
