@@ -7,13 +7,13 @@ import puzzle_lab2.model.Ply;
 public class Node {
 	
 	private Node parent;
-	private List<Node> childrens;
+	private List<Node> children;
 	private String value;
 	private boolean visited;
 	private boolean isLeaf;
 	
 	public Node (String ply, Node parent) {
-		childrens = new ArrayList<Node>();
+		children = new ArrayList<Node>();
 		this.parent = parent;
 		value = ply;
 		visited = false;
@@ -21,14 +21,14 @@ public class Node {
 	}
 	
 	public void addChildren(Node child) {
-		childrens.add(child);
+		children.add(child);
 		if (isLeaf) {
 			isLeaf = false;
 		}
 	}
 	
 	public Node getchild(String value) {
-		for (Node node : childrens) {
+		for (Node node : children) {
 			if (node.toString().equals(value)) {
 				return node;
 			}
@@ -40,16 +40,24 @@ public class Node {
 		return visited;
 	}
 	
-	public void backtrack () {
+	public void setVisited () {
 		visited = true;
 	}
 	
-	public void goForward (String value){
-		for (Node node : childrens) {
-			if (this.value.equals(value)) {
-				break;
+	public Node nextChildToVisit () {
+		for (Node node : children) {
+			if (!node.isVisited()) {
+				return node;
 			}
 		}
+		return null;
+	}
+	
+	public boolean isAllChildrenBeenVisited () {
+		if (nextChildToVisit() == null) {
+			return true;
+		}
+		return false;
 	}
 	
 	public String toString (){
