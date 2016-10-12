@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 
 import puzzle_lab2.model.Case;
 import puzzle_lab2.model.GameBord;
+import puzzle_lab2.model.Ply;
+import puzzle_lab2.tree.Node;
 
 public class PegSolitaire extends JPanel {
 	//constantes
@@ -21,10 +23,12 @@ public class PegSolitaire extends JPanel {
 	private GameBord gameBoard = new GameBord(7,7);
 	
 	private Case[][] bord = gameBoard.getBord();
+	private Node currentNode;
 	
 	public PegSolitaire(){
 		this.setMaximumSize(new Dimension(500, 500));
 		this.setMinimumSize(new Dimension(500, 500));
+		gameBoard.makeMove(new Ply(bord[3][2], bord[3][3]));
 	}
 
 	public void paint(Graphics g) {
@@ -79,6 +83,16 @@ public class PegSolitaire extends JPanel {
 				
 			}
 		}
-		
+	}
+	public void jump(int index){
+		Node nodeParent = currentNode;
+		currentNode = nodeParent.getchild();
+		if(currentNode == null)
+			unjump();
+	}
+	
+	public void unjump(){
+		currentNode.backtrack();
+		currentNode = currentNode.getParent();
 	}
 }

@@ -79,6 +79,20 @@ public class GameBord {
 		return this.bord;
 	}
 	
+	public void makeMove(Ply ply){
+		Case start = ply.getCaseStart();
+		Case end = ply.getCaseEnd();
+		bord[start.getX()][start.getY()].setValue(2);
+		bord[start.getX()+(end.getX()-start.getX())][start.getY()+(end.getY()-start.getY())].setValue(2);
+		bord[start.getX()][start.getY()].setValue(1);
+	}
+	public void unMove(Ply ply){
+		Case start = ply.getCaseStart();
+		Case end = ply.getCaseEnd();
+		bord[start.getX()][start.getY()].setValue(1);
+		bord[start.getX()+(end.getX()-start.getX())][start.getY()+(end.getY()-start.getY())].setValue(1);
+		bord[start.getX()][start.getY()].setValue(2);
+	}
 	public static void getListFile(String filePath)
 	{
 		Scanner textInFile;

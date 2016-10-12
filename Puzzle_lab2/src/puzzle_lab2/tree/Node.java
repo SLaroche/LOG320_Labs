@@ -8,6 +8,7 @@ public class Node {
 	
 	private Node parent;
 	private List<Node> childrens;
+	private int currentIndexChildren = 0;
 	private String value;
 	private boolean visited;
 	private boolean isLeaf;
@@ -27,6 +28,17 @@ public class Node {
 		}
 	}
 	
+	public Node getchild() {
+		if(currentIndexChildren>=childrens.size())
+			return null;
+		//incremente index after get the child
+		else if(!childrens.get(currentIndexChildren).isVisited()){
+			return childrens.get(currentIndexChildren++);
+		}
+		else
+			return getchild();
+			
+	}
 	public Node getchild(String value) {
 		for (Node node : childrens) {
 			if (node.toString().equals(value)) {
@@ -34,6 +46,9 @@ public class Node {
 			}
 		}
 		return null;
+	}
+	public Node getParent(){
+		return parent;
 	}
 	
 	public boolean isVisited () {
