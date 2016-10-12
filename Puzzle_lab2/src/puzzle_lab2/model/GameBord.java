@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import puzzle_lab2.algo.PlayShotAlgo;
+
 /**
  * Model qui represente le plateau de jeu
  * @author Marc-Antoine
@@ -15,6 +17,7 @@ public class GameBord {
 	/*VARIABLE*/
 	//Tableau de case
 	private static Case[][] bord;
+	private PlayShotAlgo shotAlgo;
 	
 	/**
 	 * Constructeur
@@ -25,6 +28,8 @@ public class GameBord {
 		this.bord = new Case[rowCount][colCount];
 		getListFile("test.puzzle");
 		System.out.print(getValueAt(4,4).getValue());
+		shotAlgo = new PlayShotAlgo();
+		System.out.println("Nombre de coup possible :"+shotAlgo.findShot(bord).size());
 	}
 	
 	/**

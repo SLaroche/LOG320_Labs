@@ -92,7 +92,6 @@ public class PegSolitaire extends JPanel {
 	}
 	
 	public void unjump(){
-		currentNode.backtrack();
 		currentNode = currentNode.getParent();
 	}
 }
