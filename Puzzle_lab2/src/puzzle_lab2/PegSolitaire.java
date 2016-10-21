@@ -28,17 +28,24 @@ public class PegSolitaire extends JPanel implements MouseListener{
 	private Case[][] bord = gameBoard.getBord();
 	private Node currentNode;
 	private PlayShotAlgo algo = new PlayShotAlgo();
+	private int nbShot;
 	
 	public PegSolitaire(){
 		this.setMaximumSize(new Dimension(500, 500));
 		this.setMinimumSize(new Dimension(500, 500));
+		nbShot = 0;
 		addMouseListener(this);
 		
 	}
 	public void mouseClicked(MouseEvent e) {
-		gameBoard.makeMove(algo.findShot(bord).get(0));
-		System.out.println("Nombre de coup possible :"+algo.findShot(bord).size());
-		repaint();
+		if(algo.findShot(bord).size() != 0){
+			nbShot++;
+			gameBoard.makeMove(algo.findShot(bord).get(0));
+			System.out.println("Nombre de coup possible :"+algo.findShot(bord).size());
+			repaint();
+		}else{
+			System.out.println("FIN DE PARTIE!!! en "+nbShot+" coups");
+		}
 	}
 
 	public void paint(Graphics g) {
