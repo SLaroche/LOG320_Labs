@@ -119,7 +119,26 @@ public class GameBord {
 		Case start = ply.getCaseStart();
 		Case end = ply.getCaseEnd();
 		this.getValueAt(start.getX(),start.getY()).setValue(1);
-		this.getValueAt(Math.abs(start.getX()-end.getX()),Math.abs(start.getY()-end.getY())).setValue(1);
+		
+		int x = 0;
+		if(start.getX() == end.getX()){
+			x = start.getX();
+		}else if(start.getX() < end.getX()){
+			x = end.getX() - 1;
+		}else{
+			x = start.getX() - 1;
+		}
+		
+		int y = 0;
+		if(start.getY() == end.getY()){
+			y = start.getY();
+		}else if(start.getY() < end.getY()){
+			y = end.getY() - 1;
+		}else{
+			y = start.getY() - 1;
+		}
+		System.out.println("Center : "+x+" : "+y);
+		this.getValueAt(x,y).setValue(1);
 		this.getValueAt(end.getX(),end.getY()).setValue(2);
 	}
 	public static void getListFile(String filePath)

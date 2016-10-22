@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.JPanel;
@@ -26,7 +27,7 @@ public class PegSolitaire extends JPanel implements MouseListener{
 	private GameBord gameBoard = new GameBord(7,7);
 	
 	private Case[][] bord = gameBoard.getBord();
-	private Node currentNode;
+	private Node currentNode = new Node(null, null);
 	private PlayShotAlgo algo = new PlayShotAlgo();
 	private int nbShot;
 	
@@ -37,17 +38,47 @@ public class PegSolitaire extends JPanel implements MouseListener{
 		addMouseListener(this);
 		
 	}
+	private void buildTree(List<Ply> listPly){
+		for(int i=0;i<listPly.size();i++)
+		{
+			currentNode.addChildren(new Node(listPly.get(i),currentNode));
+		}
+		
+	}
 	public void mouseClicked(MouseEvent e) {
-		if(algo.findShot(bord).size() != 0){
+		while(algo.findShot(bord).size() != 0){
+			if(currentNode.getChildList().size() == 0)
+				buildTree(algo.findShot(bord));
+
+			goToParentNode();
+		
 			nbShot++;
-			gameBoard.makeMove(algo.findShot(bord).get(0));
+			currentNode = currentNode.getchild();
 			System.out.println("Nombre de coup possible :"+algo.findShot(bord).size());
+			gameBoard.makeMove(currentNode.getPly());
+			System.out.println("NbrShot :"+nbShot);
 			repaint();
-		}else{
-			System.out.println("FIN DE PARTIE!!! en "+nbShot+" coups");
+		}
+		System.out.println("Fin :"+nbShot);
+		goToParentNode();
+	}
+	private void goToParentNode(){ 
+		System.out.println("Parent1 "+ currentNode.getchild());
+		if(currentNode.getchild() == null)
+		{
+			nbShot--;
+			System.out.println("Parent2");
+			currentNode.setVisited();
+			System.out.println("Parent3 "+ currentNode.getChildList() + " " + currentNode.currentIndexChildren);
+			currentNode = currentNode.getParent();
+			
+			gameBoard.unMove(currentNode.getPly());
+			repaint();
+			if(currentNode.getchild() != null)
+				System.out.println("Parent4 "+ currentNode.getchild().isVisited());
+			goToParentNode();
 		}
 	}
-
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 
