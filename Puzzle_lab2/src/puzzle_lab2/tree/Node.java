@@ -7,7 +7,6 @@ import puzzle_lab2.model.Ply;
 public class Node {
 	
 	private Node parent;
-	public int currentIndexChildren = 0;
 	private List<Node> children;
 	private Ply value;
 	private boolean visited;
@@ -30,18 +29,14 @@ public class Node {
 	public List<Node> getChildList(){
 		return children;
 	}
-	public Node getchild() {
-		if(currentIndexChildren>=children.size())
-			return null;
+	public Node getchild() {	
 		//incremente index after get the child
-		else if(children.get(currentIndexChildren).isVisited() == false){
-			return children.get(currentIndexChildren);
-		}
-		else{
-			currentIndexChildren++;
-			return getchild();
-		}
-			
+		for(int i=0;i<children.size();i++){
+			Node currentChildren = children.get(i);
+			if(!currentChildren.isVisited())
+				return currentChildren;
+		}	
+		return null;
 	}
 
 	public Node getParent(){

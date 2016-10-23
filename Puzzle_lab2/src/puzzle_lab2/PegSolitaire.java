@@ -32,6 +32,7 @@ public class PegSolitaire extends JPanel implements MouseListener{
 	private PlayShotAlgo algo = new PlayShotAlgo();
 	private int nbShot;
 	private int topNode = 1000;
+	private int nbrNodeVisited = 0;
 	public PegSolitaire(){
 		this.setMaximumSize(new Dimension(500, 500));
 		this.setMinimumSize(new Dimension(500, 500));
@@ -42,8 +43,7 @@ public class PegSolitaire extends JPanel implements MouseListener{
 	private void buildTree(List<Ply> listPly){
 		for(int i=0;i<listPly.size();i++)
 		{
-			listNode.add(new Node(listPly.get(i),currentNode));
-			
+			listNode.add(new Node(listPly.get(i),currentNode));	
 			currentNode.addChildren(listNode.get(listNode.size()-1));
 		}
 	}
@@ -52,7 +52,8 @@ public class PegSolitaire extends JPanel implements MouseListener{
 		long time = System.currentTimeMillis();
 		while(!isGameOver())
 			resolveAlgo();
-		System.out.println("Completed in " + (System.currentTimeMillis() - time) + " ms.");
+		repaint();
+		System.out.println("Completed in " + (System.currentTimeMillis() - time) + " ms and "+ nbrNodeVisited +" nodes visited");
 	}
 	
 	private void resolveAlgo(){
@@ -69,24 +70,32 @@ public class PegSolitaire extends JPanel implements MouseListener{
 			nbShot++;
 			currentNode = currentNode.getchild();
 			gameBoard.makeMove(currentNode.getPly());
-			repaint();
+			nbrNodeVisited++;
 		}
-		System.out.println("Fin :"+nbShot);
-		repaint();	
+		System.out.println("Fin :"+nbShot);	
 	}
 	private void goToParentNode(){ 
 		if(currentNode.getchild() == null || isTabExist())
 		{
 			nbShot--;
 			currentNode.setVisited();
-			listGameboard.add(getStringBoardValue());
+			if(!isTabExist())
+				listGameboard.add(getStringBoardValue());
 			gameBoard.unMove(currentNode.getPly());
 			currentNode = currentNode.getParent();
+			
+			currentNode.setVisited();
+			if(!isTabExist())
+				listGameboard.add(getStringBoardValue());
+			gameBoard.unMove(currentNode.getPly());
+			currentNode = currentNode.getParent();
+			
 			goToParentNode();
 		}
 	}
 	private boolean isTabExist(){
 		String board = getStringBoardValue();
+		System.out.println("Total board: " + listGameboard.size());
 		for(int i=0;i<listGameboard.size();i++){
 			if(listGameboard.get(i).equals(board)){
 				System.out.println("He esxistsghdksnklasjlkas");
