@@ -87,8 +87,6 @@ public class GameBord {
 	public void makeMove(Ply ply){
 		Case start = ply.getCaseStart();
 		Case end = ply.getCaseEnd();
-		System.out.println("Start : "+start.getX()+" : "+start.getY());
-		System.out.println("End : "+end.getX()+" : "+end.getY());
 		this.getValueAt(start.getX(),start.getY()).setValue(2);
 		
 		//J ai mis -1, car end - start, si start = 0, sa va toujours donner end...
@@ -110,7 +108,6 @@ public class GameBord {
 		}else{
 			y = start.getY() - 1;
 		}
-		System.out.println("Center : "+x+" : "+y);
 		this.getValueAt(x,y).setValue(2);
 		this.getValueAt(end.getX(),end.getY()).setValue(1);
 		
@@ -137,7 +134,6 @@ public class GameBord {
 		}else{
 			y = start.getY() - 1;
 		}
-		System.out.println("Center : "+x+" : "+y);
 		this.getValueAt(x,y).setValue(1);
 		this.getValueAt(end.getX(),end.getY()).setValue(2);
 	}

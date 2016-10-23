@@ -54,6 +54,7 @@ public class Node {
 	
 	public void setVisited () {
 		visited = true;
+		children = null;
 	}
 	
 	public Node nextChildToVisit () {
