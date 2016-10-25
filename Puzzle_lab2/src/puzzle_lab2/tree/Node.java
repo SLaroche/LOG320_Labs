@@ -38,7 +38,6 @@ public class Node {
 		}	
 		return null;
 	}
-
 	public Node getParent(){
 		return parent;
 	}

@@ -149,7 +149,7 @@ public class GameBord {
 				String line = textInFile.nextLine();
 				for(int j=0;j<line.length();j++)
 				{
-					insertCase(i,j,Character.getNumericValue(line.charAt(j)));
+					insertCase(j,i,Character.getNumericValue(line.charAt(j)));
 					System.out.print(line.charAt(j));
 				}
 				i++;

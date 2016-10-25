@@ -14,6 +14,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import puzzle_lab2.algo.BackTrackingAlgo;
 import puzzle_lab2.algo.PlayShotAlgo;
 import puzzle_lab2.model.Case;
 import puzzle_lab2.model.GameBord;
@@ -25,120 +26,25 @@ public class PegSolitaire extends JPanel implements MouseListener{
 	private final int LINESIZE = 4;//pas toute les valeur marche
 	//attributs
 	private GameBord gameBoard = new GameBord(7,7);
-	private List<String> listGameboard = new ArrayList<String>();
 	private Case[][] bord = gameBoard.getBord();
-	private Node currentNode = new Node(null, null);
-	private List<Node> listNode = new ArrayList<Node>();
-	private PlayShotAlgo algo = new PlayShotAlgo();
-	private int nbShot;
-	private int topNode = 1000;
-	private int nbrNodeVisited = 0;
+	private BackTrackingAlgo backAlgo = new BackTrackingAlgo();
+	
 	public PegSolitaire(){
 		this.setMaximumSize(new Dimension(500, 500));
 		this.setMinimumSize(new Dimension(500, 500));
-		nbShot = 0;
 		addMouseListener(this);
 		
 	}
-	private void buildTree(List<Ply> listPly){
-		for(int i=0;i<listPly.size();i++)
-		{
-			listNode.add(new Node(listPly.get(i),currentNode));	
-			currentNode.addChildren(listNode.get(listNode.size()-1));
-		}
-	}
-	
 	public void mouseClicked(MouseEvent e) {
 		long time = System.currentTimeMillis();
-		while(!isGameOver())
-			resolveAlgo();
+		int nbrNodeVisited = 0;
+		while(!backAlgo.isGameOver()){
+			nbrNodeVisited = backAlgo.resolveAlgo();
+		}
 		repaint();
 		System.out.println("Completed in " + (System.currentTimeMillis() - time) + " ms and "+ nbrNodeVisited +" nodes visited");
 	}
 	
-	private void resolveAlgo(){
-		if(algo.findShot(bord).size() == 0 && !isGameOver())
-			goToParentNode();
-		
-		while(algo.findShot(bord).size() != 0){
-			System.out.println(currentNode.getChildList().size());
-			if(currentNode.getChildList().size() == 0 && algo.findShot(bord).size() != 0)
-				buildTree(algo.findShot(bord));
-		
-			goToParentNode();
-			checkVisitedNode();
-			nbShot++;
-			currentNode = currentNode.getchild();
-			gameBoard.makeMove(currentNode.getPly());
-			nbrNodeVisited++;
-		}
-		System.out.println("Fin :"+nbShot);	
-	}
-	private void goToParentNode(){ 
-		if(currentNode.getchild() == null || isTabExist())
-		{
-			nbShot--;
-			currentNode.setVisited();
-			if(!isTabExist())
-				listGameboard.add(getStringBoardValue());
-			gameBoard.unMove(currentNode.getPly());
-			currentNode = currentNode.getParent();
-			
-			currentNode.setVisited();
-			if(!isTabExist())
-				listGameboard.add(getStringBoardValue());
-			gameBoard.unMove(currentNode.getPly());
-			currentNode = currentNode.getParent();
-			
-			goToParentNode();
-		}
-	}
-	private boolean isTabExist(){
-		String board = getStringBoardValue();
-		System.out.println("Total board: " + listGameboard.size());
-		for(int i=0;i<listGameboard.size();i++){
-			if(listGameboard.get(i).equals(board)){
-				System.out.println("He esxistsghdksnklasjlkas");
-				return true;
-			}
-		}
-		return false;
-	}
-	private void checkVisitedNode(){
-		System.out.println("Total node: "+currentNode.getChildList().size());
-		for(int i=0;i<currentNode.getChildList().size();i++)
-		{
-			if(currentNode.getChildList().get(i).isVisited()){
-				System.out.println(currentNode.getChildList().get(i).isVisited());
-				System.out.println("How deep"+ nbShot);
-				if(topNode>nbShot)
-					topNode=nbShot;
-			}
-		}
-		System.out.println("Total modif: "+topNode);
-	}
-	private String getStringBoardValue(){
-		String str = "";
-		for(int i=0;i<bord.length;i++){
-			for(int j=0;j<bord[i].length;j++){
-				str+=""+bord[j][i].getValue();
-			}
-		}
-		return str;
-	}
-	private boolean isGameOver(){
-		int nbrPion = 0;
-		for(int i=0;i<bord.length;i++){
-			for(int j=0;j<bord[i].length;j++){
-				if(bord[j][i].getValue() == 1)
-					nbrPion++;
-			}
-		}
-		if(nbrPion > 1)
-			return false;
-		else 
-			return true;
-	}
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 
@@ -192,16 +98,6 @@ public class PegSolitaire extends JPanel implements MouseListener{
 			System.out.println("");
 		}
 		System.out.println("");
-	}
-	public void jump(int index){
-		Node nodeParent = currentNode;
-		currentNode = nodeParent.getchild();
-		if(currentNode == null)
-			unjump();
-	}
-	
-	public void unjump(){
-		currentNode = currentNode.getParent();
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
