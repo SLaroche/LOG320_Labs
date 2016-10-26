@@ -1,6 +1,7 @@
 package puzzle_lab2.algo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import puzzle_lab2.model.Case;
@@ -17,7 +18,7 @@ public class BackTrackingAlgo {
 	
 	private GameBord gameBoard = new GameBord(7,7);
 	private Case[][] bord = gameBoard.getBord();
-	private List<String> listGameboard = new ArrayList<String>();
+	HashMap<String,Integer> listGameboard = new HashMap<String,Integer>();
 	
 	private Node currentNode = new Node(null, null);
 	private List<Node> listNode = new ArrayList<Node>();
@@ -83,7 +84,7 @@ public class BackTrackingAlgo {
 			}
 			else{
 				if(!isCurrentBoardExist)
-					listGameboard.add(getStringBoardValue());
+					listGameboard.put(getStringBoardValue(), 1);
 				
 				nbShot--;
 				currentNode.setVisited();
@@ -102,12 +103,8 @@ public class BackTrackingAlgo {
 	private boolean isTabExist(){
 		String[] boardTab = getStringBoardTabValue();
 		//System.out.println("Total board: " + listGameboard.size());
-		for(int i=0;i<listGameboard.size();i++){
-			String currentGameBoardTab = listGameboard.get(i);
-			if(currentGameBoardTab.equals(boardTab[0]) || currentGameBoardTab.equals(boardTab[1]) || currentGameBoardTab.equals(boardTab[2]) || currentGameBoardTab.equals(boardTab[3])){
-				return true;
-			}
-		}
+		if (listGameboard.get(boardTab[0])!=null || listGameboard.get(boardTab[1])!=null || listGameboard.get(boardTab[2])!=null || listGameboard.get(boardTab[3])!=null)
+			return true;
 		return false;
 	}
 	/**
