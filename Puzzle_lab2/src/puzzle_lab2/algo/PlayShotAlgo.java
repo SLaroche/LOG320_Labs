@@ -57,18 +57,19 @@ public class PlayShotAlgo {
 		Ply pDown = findShotDown(c);
 		Ply pUp = findShotUp(c);
 		
-		if(pRight != null){
-			listDeplacement.add(pRight);
-		}
-		else if(pLeft != null){
+		if(pLeft != null){
 			listDeplacement.add(pLeft);
+		}
+		else if(pUp != null){
+			listDeplacement.add(pUp);
+		}
+		else if(pRight != null){
+			listDeplacement.add(pRight);
 		}
 		else if(pDown != null){
 			listDeplacement.add(pDown);
 		}
-		else if(pUp != null){
-			listDeplacement.add(pUp);
-		}	
+			
 	}
 	
 	/**

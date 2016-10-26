@@ -40,8 +40,8 @@ public class PegSolitaire extends JPanel{
 			    JFileChooser.APPROVE_OPTION) {
 			    fichier = dialogue.getSelectedFile();
 			}
-		
-		gameBoard.getListFile(fichier.getPath());
+		if(fichier != null)
+			gameBoard.getListFile(fichier.getPath());
 		repaint();
 	}
 	
