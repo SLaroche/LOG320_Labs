@@ -46,6 +46,7 @@ public class PegSolitaire extends JPanel{
 	}
 	
 	public void solveAlgo() {
+		backAlgo.setStopGame(false);
 		long time = System.currentTimeMillis();
 		int nbrNodeVisited = 0;
 		while(!backAlgo.isGameOver() && !backAlgo.getStopGame()){
@@ -53,6 +54,7 @@ public class PegSolitaire extends JPanel{
 		}
 		repaint();
 		System.out.println("Completed in " + (System.currentTimeMillis() - time) + " ms and "+ nbrNodeVisited +" nodes visited");
+		if(!backAlgo.getStopGame()) backAlgo.showVictory();
 	}
 	
 	public void paint(Graphics g) {

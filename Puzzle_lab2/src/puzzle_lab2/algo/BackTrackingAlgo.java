@@ -23,8 +23,6 @@ public class BackTrackingAlgo {
 	private List<Node> listNode = new ArrayList<Node>();
 	private PlayShotAlgo algo = new PlayShotAlgo();
 	
-	private int nbShot;
-	private int topNode = 1000;
 	private int nbrNodeVisited = 0;
 	
 	private boolean stopGame = false;
@@ -59,12 +57,10 @@ public class BackTrackingAlgo {
 		
 			goToParentNode();
 			if(stopGame) break;
-			nbShot++;
 			currentNode = currentNode.getchild();
 			gameBoard.makeMove(currentNode.getPly());
 			nbrNodeVisited++;
 		}
-		System.out.println("Fin :"+nbShot);	
 		
 		return nbrNodeVisited;
 	}
@@ -85,7 +81,6 @@ public class BackTrackingAlgo {
 				if(!isCurrentBoardExist)
 					listGameboard.add(getStringBoardValue());
 				
-				nbShot--;
 				currentNode.setVisited();
 				
 				gameBoard.unMove(currentNode.getPly());
@@ -159,5 +154,20 @@ public class BackTrackingAlgo {
 	
 	public boolean getStopGame(){
 		return stopGame;
+	}
+	
+	public void setStopGame(boolean set){
+		stopGame = set;
+	}
+	
+	public void showVictory(){
+		String pathVictory = "";
+		while(currentNode.getParent()!=null){
+			Case CaseStart = currentNode.getPly().getCaseStart();
+			Case CaseEnd = currentNode.getPly().getCaseEnd();
+			pathVictory = "("+(CaseStart.getX()+1)+","+(CaseStart.getY()+1) +") se rend à ("+(CaseEnd.getX()+1)+","+(CaseEnd.getY()+1) +") \n"+pathVictory;
+			currentNode = currentNode.getParent();
+		}
+		System.out.println("L'un des chemins possible vers la victoire est : \n"+ pathVictory);
 	}
 }
