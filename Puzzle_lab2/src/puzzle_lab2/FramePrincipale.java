@@ -17,6 +17,7 @@ public class FramePrincipale extends JFrame implements Runnable{
 	//Attribut
 	private JPanel panneauPrincipal;  //pointera sur getContentPane()
 	private JButton bSolve;
+	private JButton bLoad;
 	private PegSolitaire gamePannel;
 	
 	public void run() {
@@ -27,15 +28,20 @@ public class FramePrincipale extends JFrame implements Runnable{
 		panneauPrincipal.setLayout(new BoxLayout(panneauPrincipal, BoxLayout.Y_AXIS));
 		
 		gamePannel = new PegSolitaire();
-		bSolve = new JButton("Solve");
+		bSolve = new JButton("Résoudre le puzzle");
+		bLoad = new JButton("Charger un puzzle");
 		
 		gamePannel.setAlignmentX(CENTER_ALIGNMENT);
 		bSolve.setAlignmentX(CENTER_ALIGNMENT);
+		bLoad.setAlignmentX(CENTER_ALIGNMENT);
 		
 		panneauPrincipal.add(Box.createRigidArea(new Dimension(0,20)));
 		panneauPrincipal.add(gamePannel);
+		panneauPrincipal.add(bSolve);
+		panneauPrincipal.add(bLoad);
 		
 		bSolve.addActionListener(new EcouteurBoutton());
+		bLoad.addActionListener(new EcouteurBoutton());
 		
         this.setSize(DIMENSION);
         setResizable(false);
@@ -50,7 +56,11 @@ public class FramePrincipale extends JFrame implements Runnable{
 		public void actionPerformed(ActionEvent e) {
 			
 			if (e.getSource() == bSolve){
-				//gamePannel.generateSudoku();
+				gamePannel.solveAlgo();
+			}
+
+			if (e.getSource() == bLoad){
+				gamePannel.loadPuzzle();
 			}
 		}
 		

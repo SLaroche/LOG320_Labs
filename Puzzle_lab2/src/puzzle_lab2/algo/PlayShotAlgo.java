@@ -51,27 +51,24 @@ public class PlayShotAlgo {
 	 * Verifie si la piece peut aller a gauche, droite, haut et bas
 	 * @param c : la case de depart
 	 */
-	private void findAllShot(Case c){
-		Ply pLeft = findShotLeft(c);
-		if(pLeft != null){
-			listDeplacement.add(pLeft);
-		}
-		
+	private void findAllShot(Case c){		
 		Ply pRight = findShotRight(c);
+		Ply pLeft = findShotLeft(c);
+		Ply pDown = findShotDown(c);
+		Ply pUp = findShotUp(c);
+		
 		if(pRight != null){
 			listDeplacement.add(pRight);
 		}
-		
-		Ply pUp = findShotUp(c);
-		if(pUp != null){
-			listDeplacement.add(pUp);
+		else if(pLeft != null){
+			listDeplacement.add(pLeft);
 		}
-		
-		Ply pDown = findShotDown(c);
-		if(pDown != null){
+		else if(pDown != null){
 			listDeplacement.add(pDown);
 		}
-		
+		else if(pUp != null){
+			listDeplacement.add(pUp);
+		}	
 	}
 	
 	/**

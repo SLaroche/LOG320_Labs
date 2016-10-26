@@ -27,10 +27,10 @@ public class BackTrackingAlgo {
 	private int topNode = 1000;
 	private int nbrNodeVisited = 0;
 	
-	private boolean stopGame = true;
+	private boolean stopGame = false;
 	
 	public BackTrackingAlgo(){
-		
+		stopGame = false;
 	}
 	
 	/**
@@ -54,11 +54,11 @@ public class BackTrackingAlgo {
 			goToParentNode();
 		
 		while(algo.findShot(bord).size() != 0){
-			System.out.println(currentNode.getChildList().size());
 			if(currentNode.getChildList().size() == 0 && algo.findShot(bord).size() != 0)
 				buildTree(algo.findShot(bord));
 		
 			goToParentNode();
+			if(stopGame) break;
 			nbShot++;
 			currentNode = currentNode.getchild();
 			gameBoard.makeMove(currentNode.getPly());
@@ -72,27 +72,27 @@ public class BackTrackingAlgo {
 	 * Retourne au noeud parent si tout les enfants ont été vus ou si le tableau a déjà été vu
 	 */
 	private void goToParentNode(){ 
-		if(currentNode.getParent() == null)
-		{
-			System.out.println("Aucune solution trouvé");
-			stopGame = true;
-		}
-		
 		boolean isCurrentBoardExist = isTabExist();
 		
 		if(currentNode.getchild() == null || isCurrentBoardExist)
 		{
-			if(!isCurrentBoardExist)
-				listGameboard.add(getStringBoardValue());
-			
-			nbShot--;
-			currentNode.setVisited();
-			
-			gameBoard.unMove(currentNode.getPly());
-			currentNode = currentNode.getParent();
-			
-			
-			goToParentNode();
+			if(currentNode.getParent() == null)
+			{
+				System.out.println("Aucune solution trouvé");
+				stopGame = true;
+			}
+			else{
+				if(!isCurrentBoardExist)
+					listGameboard.add(getStringBoardValue());
+				
+				nbShot--;
+				currentNode.setVisited();
+				
+				gameBoard.unMove(currentNode.getPly());
+				currentNode = currentNode.getParent();
+				
+				goToParentNode();
+			}
 		}
 	}
 	/**
@@ -100,11 +100,11 @@ public class BackTrackingAlgo {
 	 * @return  si le tableau courant a déjà été vu
 	 */
 	private boolean isTabExist(){
-		String board = getStringBoardValue();
-		System.out.println("Total board: " + listGameboard.size());
+		String[] boardTab = getStringBoardTabValue();
+		//System.out.println("Total board: " + listGameboard.size());
 		for(int i=0;i<listGameboard.size();i++){
-			if(listGameboard.get(i).equals(board)){
-				System.out.println("He esxistsghdksnklasjlkas");
+			String currentGameBoardTab = listGameboard.get(i);
+			if(currentGameBoardTab.equals(boardTab[0]) || currentGameBoardTab.equals(boardTab[1]) || currentGameBoardTab.equals(boardTab[2]) || currentGameBoardTab.equals(boardTab[3])){
 				return true;
 			}
 		}
@@ -119,6 +119,22 @@ public class BackTrackingAlgo {
 		for(int i=0;i<bord.length;i++){
 			for(int j=0;j<bord[i].length;j++){
 				str+=""+bord[j][i].getValue();
+			}
+		}
+		return str;
+	}
+	/**
+	 * transforme le tableau courant en tableau de string avec les rotations pour le comparer avec les autres
+	 * @return  str[], Un tableau du board en string avec chaque rotation
+	 */
+	private String[] getStringBoardTabValue(){
+		String[] str = {"","","",""};
+		for(int i=0;i<bord.length;i++){
+			for(int j=0;j<bord[i].length;j++){
+				str[0]+=""+bord[j][i].getValue();
+				str[1]+=""+bord[6-j][i].getValue();
+				str[2]+=""+bord[j][6-i].getValue();
+				str[3]+=""+bord[6-j][6-i].getValue();
 			}
 		}
 		return str;

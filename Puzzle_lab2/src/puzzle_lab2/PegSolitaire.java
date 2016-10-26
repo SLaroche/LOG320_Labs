@@ -4,14 +4,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 import puzzle_lab2.algo.BackTrackingAlgo;
@@ -21,7 +21,7 @@ import puzzle_lab2.model.GameBord;
 import puzzle_lab2.model.Ply;
 import puzzle_lab2.tree.Node;
 
-public class PegSolitaire extends JPanel implements MouseListener{
+public class PegSolitaire extends JPanel{
 	//constantes
 	private final int LINESIZE = 4;//pas toute les valeur marche
 	//attributs
@@ -32,13 +32,23 @@ public class PegSolitaire extends JPanel implements MouseListener{
 	public PegSolitaire(){
 		this.setMaximumSize(new Dimension(500, 500));
 		this.setMinimumSize(new Dimension(500, 500));
-		addMouseListener(this);
-		
 	}
-	public void mouseClicked(MouseEvent e) {
+	public void loadPuzzle(){
+		JFileChooser dialogue = new JFileChooser(new File("."));
+		File fichier = null;
+		if (dialogue.showOpenDialog(null)== 
+			    JFileChooser.APPROVE_OPTION) {
+			    fichier = dialogue.getSelectedFile();
+			}
+		
+		gameBoard.getListFile(fichier.getPath());
+		repaint();
+	}
+	
+	public void solveAlgo() {
 		long time = System.currentTimeMillis();
 		int nbrNodeVisited = 0;
-		while(!backAlgo.isGameOver()){
+		while(!backAlgo.isGameOver() && !backAlgo.getStopGame()){
 			nbrNodeVisited = backAlgo.resolveAlgo();
 		}
 		repaint();
@@ -98,25 +108,5 @@ public class PegSolitaire extends JPanel implements MouseListener{
 			System.out.println("");
 		}
 		System.out.println("");
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 }
