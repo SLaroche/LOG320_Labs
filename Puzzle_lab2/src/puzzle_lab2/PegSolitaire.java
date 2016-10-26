@@ -27,7 +27,7 @@ public class PegSolitaire extends JPanel{
 	//attributs
 	private GameBord gameBoard = new GameBord(7,7);
 	private Case[][] bord = gameBoard.getBord();
-	private BackTrackingAlgo backAlgo = new BackTrackingAlgo();
+	private BackTrackingAlgo backAlgo;
 	
 	public PegSolitaire(){
 		this.setMaximumSize(new Dimension(500, 500));
@@ -46,15 +46,19 @@ public class PegSolitaire extends JPanel{
 	}
 	
 	public void solveAlgo() {
+		backAlgo = new BackTrackingAlgo(gameBoard);
 		backAlgo.setStopGame(false);
 		long time = System.currentTimeMillis();
 		int nbrNodeVisited = 0;
+		
 		while(!backAlgo.isGameOver() && !backAlgo.getStopGame()){
 			nbrNodeVisited = backAlgo.resolveAlgo();
 		}
+		
 		repaint();
 		System.out.println("Completed in " + (System.currentTimeMillis() - time) + " ms and "+ nbrNodeVisited +" nodes visited");
-		if(!backAlgo.getStopGame()) backAlgo.showVictory();
+		if(!backAlgo.getStopGame()) 
+			backAlgo.showVictory();
 	}
 	
 	public void paint(Graphics g) {

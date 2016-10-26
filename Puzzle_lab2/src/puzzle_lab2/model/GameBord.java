@@ -140,7 +140,7 @@ public class GameBord {
 	public static void getListFile(String filePath)
 	{
 		Scanner textInFile;
-		
+
 		try {
 			textInFile = new Scanner(new File(filePath)).useDelimiter(",\\s*");
 			int i = 0;

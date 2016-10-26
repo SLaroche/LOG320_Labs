@@ -16,19 +16,26 @@ import puzzle_lab2.tree.Node;
  */
 public class BackTrackingAlgo {
 	
-	private GameBord gameBoard = new GameBord(7,7);
-	private Case[][] bord = gameBoard.getBord();
-	HashMap<String,Integer> listGameboard = new HashMap<String,Integer>();
+	private GameBord gameBoard;
+	private Case[][] bord;
+	HashMap<String,Integer> listGameboard;
 	
-	private Node currentNode = new Node(null, null);
-	private List<Node> listNode = new ArrayList<Node>();
-	private PlayShotAlgo algo = new PlayShotAlgo();
+	private Node currentNode;
+	private List<Node> listNode;
+	private PlayShotAlgo algo;
 	
 	private int nbrNodeVisited = 0;
 	
-	private boolean stopGame = false;
+	private boolean stopGame;
 	
-	public BackTrackingAlgo(){
+	public BackTrackingAlgo(GameBord gameBoard){
+		this.gameBoard = gameBoard;
+		bord = gameBoard.getBord();
+		listGameboard = new HashMap<String,Integer>();
+		
+		currentNode = new Node(null, null);
+		listNode = new ArrayList<Node>();
+		algo = new PlayShotAlgo();
 		stopGame = false;
 	}
 	
@@ -97,7 +104,6 @@ public class BackTrackingAlgo {
 	 */
 	private boolean isTabExist(){
 		String[] boardTab = getStringBoardTabValue();
-		//System.out.println("Total board: " + listGameboard.size());
 		if (listGameboard.get(boardTab[0])!=null || listGameboard.get(boardTab[1])!=null || listGameboard.get(boardTab[2])!=null || listGameboard.get(boardTab[3])!=null)
 			return true;
 		return false;
