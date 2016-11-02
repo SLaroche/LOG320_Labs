@@ -1,4 +1,7 @@
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import javax.swing.text.Position;
 
 public class GameState {
 	private int currentPlayer;
@@ -58,7 +61,7 @@ public class GameState {
 		currentPlayer = (currentPlayer == 1) ? 2 : 1;
 	}
 	
-	//
+	//retourne les positions finaux que le pawn peut se deplacer
 	private ArrayList<String> findPosibleMove(String pawnPosition){
 		ArrayList<String> result = new ArrayList<String>();
 		int pawnPlayer;
@@ -72,7 +75,20 @@ public class GameState {
 			return null;
 		}
 		
+		//Nord
+		Point2D position2D = pawnPositionToPositionUtility(pawnPosition);
 		
+		
+		return result;
+	}
+	
+	private Point2D pawnPositionToPositionUtility(String letter){
+		Point2D result = new Point2D.Double();
+		
+		int x = letter.charAt(0) - 65;
+		int y = 8 - letter.charAt(0);
+		
+		result.setLocation(x, y);
 		
 		return result;
 	}
