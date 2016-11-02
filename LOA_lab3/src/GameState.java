@@ -1,15 +1,14 @@
 import java.util.ArrayList;
 
 public class GameState {
-	private byte[][] board = new byte[8][8];
 	private int currentPlayer;
 	private ArrayList<GameState> childs = new ArrayList<GameState>();
-	private ArrayList<String> player1PawnsPosition = new ArrayList<String>();
-	private ArrayList<String> player2PawnsPosition = new ArrayList<String>();
+	public ArrayList<String> player1PawnsPosition = new ArrayList<String>();
+	public ArrayList<String> player2PawnsPosition = new ArrayList<String>();
 	private double BoardScore;
 	private String stringMoveFromParent;
 	
-	private static final String[][] positionName = new String[][]{
+	public static final String[][] positionName = new String[][]{
 		{"A8","B8","C8","D8","E8","F8","G8","H8"},
 		{"A7","B7","C7","D7","E7","F7","G7","H7"},
 		{"A6","B6","C6","D6","E6","F6","G6","H6"},
@@ -38,29 +37,43 @@ public class GameState {
 		player1PawnsPosition.add("H2");
 		
 		//Player2
-		player2PawnsPosition.add("A7");
-		player2PawnsPosition.add("A6");
-		player2PawnsPosition.add("A5");
-		player2PawnsPosition.add("A4");
-		player2PawnsPosition.add("A3");
-		player2PawnsPosition.add("A2");
+		player2PawnsPosition.add("B1");
+		player2PawnsPosition.add("C1");
+		player2PawnsPosition.add("D1");
+		player2PawnsPosition.add("E1");
+		player2PawnsPosition.add("F1");
+		player2PawnsPosition.add("G1");
+		
+		player2PawnsPosition.add("B8");
+		player2PawnsPosition.add("C8");
+		player2PawnsPosition.add("D8");
+		player2PawnsPosition.add("E8");
+		player2PawnsPosition.add("F8");
+		player2PawnsPosition.add("G8");
 		
 		this.currentPlayer = 1;
-	}
-	//board setter
-	public void setBoard(byte[][] newBoard){
-		this.board = newBoard;
-	}
-	//board getter
-	public byte[][] getBoard(){
-		return this.board;
 	}
 	//change player
 	private void changePlayer(){
 		currentPlayer = (currentPlayer == 1) ? 2 : 1;
 	}
+	
 	//
-	private void findPosibleMove(int x, int y){
+	private ArrayList<String> findPosibleMove(String pawnPosition){
+		ArrayList<String> result = new ArrayList<String>();
+		int pawnPlayer;
 		
+		if(player1PawnsPosition.contains(pawnPosition)){
+			pawnPlayer = 1;
+		}else if(player2PawnsPosition.contains(pawnPosition)){
+			pawnPlayer = 2;
+		}else{
+			System.out.println("pawnPositionVide");
+			return null;
+		}
+		
+		
+		
+		return result;
 	}
 }
