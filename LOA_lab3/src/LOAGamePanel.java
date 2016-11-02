@@ -52,8 +52,7 @@ public class LOAGamePanel extends JPanel{
 		}
 		
 		//Draw Pawn
-		ArrayList<String> player1PawnsPosition = LOAgame.currentGameState.player1PawnsPosition;
-		ArrayList<String> player2PawnsPosition = LOAgame.currentGameState.player2PawnsPosition;
+		int[][] board = LOAgame.currentGameState.board;
 				
 		for(int i=0; i<8; i++){//number of block
 			for(int j=0; j<8; j++){
@@ -62,16 +61,13 @@ public class LOAGamePanel extends JPanel{
 				int offsetX = 6;
 				int offsetY = 6;
 				
-				String currentPositionName = GameState.positionName[i][j];
-				
-				
-				if(player1PawnsPosition.contains(currentPositionName)){
+				if(board[j][i] == 1){
 					g2d.setColor(Color.white);
 					g2d.fillOval(positionDiv*j+offsetX, positionDiv*i+offsetY, diametre+offsetX, diametre+offsetY);
 					g2d.setColor(Color.black);
 					g2d.drawOval(positionDiv*j+offsetX, positionDiv*i+offsetY, diametre+offsetX, diametre+offsetY);
-				}else if(player2PawnsPosition.contains(currentPositionName)){
-					g2d.setColor(Color.BLUE);
+				}else if(board[j][i] == 2){
+					g2d.setColor(Color.blue);
 					g2d.fillOval(positionDiv*j+offsetX, positionDiv*i+offsetY, diametre+offsetX, diametre+offsetY);
 					g2d.setColor(Color.black);
 					g2d.drawOval(positionDiv*j+offsetX, positionDiv*i+offsetY, diametre+offsetX, diametre+offsetY);
