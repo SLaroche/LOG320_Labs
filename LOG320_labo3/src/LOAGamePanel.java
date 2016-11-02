@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -51,7 +52,8 @@ public class LOAGamePanel extends JPanel{
 		}
 		
 		//Draw Pawn
-		byte[][] board = LOAgame.currentGameState.getBoard();
+		ArrayList<String> player1PawnsPosition = LOAgame.currentGameState.player1PawnsPosition;
+		ArrayList<String> player2PawnsPosition = LOAgame.currentGameState.player2PawnsPosition;
 				
 		for(int i=0; i<8; i++){//number of block
 			for(int j=0; j<8; j++){
@@ -59,12 +61,16 @@ public class LOAGamePanel extends JPanel{
 				int diametre = panHeight/8-13;
 				int offsetX = 6;
 				int offsetY = 6;
-				if(board[i][j] == 1){
+				
+				String currentPositionName = GameState.positionName[i][j];
+				
+				
+				if(player1PawnsPosition.contains(currentPositionName)){
 					g2d.setColor(Color.white);
 					g2d.fillOval(positionDiv*j+offsetX, positionDiv*i+offsetY, diametre+offsetX, diametre+offsetY);
 					g2d.setColor(Color.black);
 					g2d.drawOval(positionDiv*j+offsetX, positionDiv*i+offsetY, diametre+offsetX, diametre+offsetY);
-				}else if(board[i][j] == 2){
+				}else if(player2PawnsPosition.contains(currentPositionName)){
 					g2d.setColor(Color.BLUE);
 					g2d.fillOval(positionDiv*j+offsetX, positionDiv*i+offsetY, diametre+offsetX, diametre+offsetY);
 					g2d.setColor(Color.black);

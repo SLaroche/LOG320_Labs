@@ -16,7 +16,7 @@ public class FramePrincipale extends JFrame implements Runnable{
 	
 	//Attribut
 	private JPanel panneauPrincipal;  //pointera sur getContentPane()
-	private JButton bSolve;
+	private JButton bStartAlgo;
 	private LOAGamePanel gamePannel;
 	
 	public void run() {
@@ -27,22 +27,22 @@ public class FramePrincipale extends JFrame implements Runnable{
 		panneauPrincipal.setLayout(new BoxLayout(panneauPrincipal, BoxLayout.Y_AXIS));
 		
 		gamePannel = new LOAGamePanel();
-		bSolve = new JButton("Résoudre le puzzle");
+		bStartAlgo = new JButton("Start Algo");
 		
 		gamePannel.setAlignmentX(CENTER_ALIGNMENT);
-		bSolve.setAlignmentX(CENTER_ALIGNMENT);
+		bStartAlgo.setAlignmentX(CENTER_ALIGNMENT);
 		
 		panneauPrincipal.add(Box.createRigidArea(new Dimension(0,40)));
 		panneauPrincipal.add(gamePannel);
 		panneauPrincipal.add(Box.createRigidArea(new Dimension(0,10)));
-		panneauPrincipal.add(bSolve);
+		panneauPrincipal.add(bStartAlgo);
 		
-		bSolve.addActionListener(new EcouteurBoutton());
+		bStartAlgo.addActionListener(new EcouteurBoutton());
 		
         this.setSize(DIMENSION);
         setResizable(false);
         this.setLocation(screenDimension.width/2-this.getSize().width/2, screenDimension.height/2-this.getSize().height/2);
-        setTitle("Peg Solitaire");
+        setTitle("Line Of Actions");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 	}
@@ -51,7 +51,7 @@ public class FramePrincipale extends JFrame implements Runnable{
 
 		public void actionPerformed(ActionEvent e) {
 			
-			if (e.getSource() == bSolve){
+			if (e.getSource() == bStartAlgo){
 				//gamePannel.solveAlgo();
 			}
 		}
