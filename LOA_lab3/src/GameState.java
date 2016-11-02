@@ -1,14 +1,16 @@
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import javax.swing.text.Position;
+
 public class GameState {
+	public ArrayList<GameState> children = new ArrayList<GameState>();
+	public int[][] board = new int[8][8];
+	private double gameStateScore;
 	private int currentPlayer;
-	private ArrayList<GameState> childs = new ArrayList<GameState>();
-	public ArrayList<String> player1PawnsPosition = new ArrayList<String>();
-	public ArrayList<String> player2PawnsPosition = new ArrayList<String>();
-	private double BoardScore;
 	private String stringMoveFromParent;
 	
-	public static final String[][] positionName = new String[][]{
+	public static final String[][] positionNameYX = new String[][]{
 		{"A8","B8","C8","D8","E8","F8","G8","H8"},
 		{"A7","B7","C7","D7","E7","F7","G7","H7"},
 		{"A6","B6","C6","D6","E6","F6","G6","H6"},
@@ -21,58 +23,119 @@ public class GameState {
 	
 	//default constructor, setup the initial state
 	public GameState(){
-		//Player1
-		player1PawnsPosition.add("A7");
-		player1PawnsPosition.add("A6");
-		player1PawnsPosition.add("A5");
-		player1PawnsPosition.add("A4");
-		player1PawnsPosition.add("A3");
-		player1PawnsPosition.add("A2");
+		board[1][0] = 2;
+		board[2][0] = 2;
+		board[3][0] = 2;
+		board[4][0] = 2;
+		board[5][0] = 2;
+		board[6][0] = 2;
 		
-		player1PawnsPosition.add("H7");
-		player1PawnsPosition.add("H6");
-		player1PawnsPosition.add("H5");
-		player1PawnsPosition.add("H4");
-		player1PawnsPosition.add("H3");
-		player1PawnsPosition.add("H2");
+		board[1][7] = 2;
+		board[2][7] = 2;
+		board[3][7] = 2;
+		board[4][7] = 2;
+		board[5][7] = 2;
+		board[6][7] = 2;
 		
-		//Player2
-		player2PawnsPosition.add("B1");
-		player2PawnsPosition.add("C1");
-		player2PawnsPosition.add("D1");
-		player2PawnsPosition.add("E1");
-		player2PawnsPosition.add("F1");
-		player2PawnsPosition.add("G1");
+		board[0][1] = 1;
+		board[0][2] = 1;
+		board[0][3] = 1;
+		board[0][4] = 1;
+		board[0][5] = 1;
+		board[0][6] = 1;
 		
-		player2PawnsPosition.add("B8");
-		player2PawnsPosition.add("C8");
-		player2PawnsPosition.add("D8");
-		player2PawnsPosition.add("E8");
-		player2PawnsPosition.add("F8");
-		player2PawnsPosition.add("G8");
+		board[7][1] = 1;
+		board[7][2] = 1;
+		board[7][3] = 1;
+		board[7][4] = 1;
+		board[7][5] = 1;
+		board[7][6] = 1;
 		
 		this.currentPlayer = 1;
 	}
 	//change player
-	private void changePlayer(){
+	public void changePlayer(){
 		currentPlayer = (currentPlayer == 1) ? 2 : 1;
 	}
 	
-	//
-	private ArrayList<String> findPosibleMove(String pawnPosition){
-		ArrayList<String> result = new ArrayList<String>();
+	//retourne les GameStates qui sont généré par le pawn qui se deplacer
+	private ArrayList<GameState> findPawnMove(int x, int y){
+		ArrayList<GameState> result = new ArrayList<GameState>();
 		int pawnPlayer;
 		
-		if(player1PawnsPosition.contains(pawnPosition)){
+		if(board[x][y] == 1){
 			pawnPlayer = 1;
-		}else if(player2PawnsPosition.contains(pawnPosition)){
+		}else if(board[x][y] == 2){
 			pawnPlayer = 2;
 		}else{
 			System.out.println("pawnPositionVide");
 			return null;
 		}
 		
+		String pawnPosition = positionNameYX[x][y];
+		int verticalPawn = 0;
+		int horizontalPawn= 0;
+		int topRightDiagonalPawn = 0;
+		int topLeftDiagonalPawn = 0;
 		
+		//vertical
+		for(int i=0;i<8;i++){
+			if(board[x][i] != 0){
+				verticalPawn++;
+			}
+		}
+		//horizontal
+		for(int i=0;i<8;i++){
+			if(board[i][y] != 0){
+				horizontalPawn++;
+			}
+		}
+		//topRightDiagonal
+		topRightDiagonalPawn++;
+		//vers top
+		for(int i=0;(x+i)<8;i++){
+			if(board[x+i][y-i] != 0){
+				topRightDiagonalPawn++;
+			}
+		}
+		//vers bot
+		for(int i=0;(x-i)>=0;i++){
+			if(board[x-i][y+i] != 0){
+				topRightDiagonalPawn++;
+			}
+		}
+		//topRightDiagonal
+		topLeftDiagonalPawn++;
+		//vers top
+		for(int i=0;(x-i)>=0;i++){
+			if(board[x-i][y-i] != 0){
+				topLeftDiagonalPawn++;
+			}
+		}
+		//vers bot
+		for(int i=0;(x+i)<8;i++){
+			if(board[x+i][y+i] != 0){
+				topLeftDiagonalPawn++;
+			}
+		}
+		
+		//8 move
+		
+		//Move Nord
+		if(y-verticalPawn >= 0){
+			
+		}
+		
+		return result;
+	}
+	
+	public static Point2D pawnPositionToPositionUtility(String letters){
+		Point2D result = new Point2D.Double();
+		
+		int x = letters.charAt(0) - 65;
+		int y = 8 - letters.charAt(1);
+		
+		result.setLocation(x, y);
 		
 		return result;
 	}
