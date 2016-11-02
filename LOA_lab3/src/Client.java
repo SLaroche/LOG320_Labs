@@ -8,6 +8,7 @@ class Client {
 		Socket MyClient;
 		BufferedInputStream input;
 		BufferedOutputStream output;
+		LOAGameLogic gl;
 		int[][] board = new int[8][8];
 		try {
 			MyClient = new Socket("localhost", 8888);
@@ -39,10 +40,12 @@ class Client {
 							y++;
 						}
 					}
+					gl = new LOAGameLogic('1');
 
 					System.out.println("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
 					String move = null;
 					move = console.readLine();
+					//move = gl.move(null);
 					output.write(move.getBytes(),0,move.length());
 					output.flush();
 				}
@@ -67,6 +70,7 @@ class Client {
 							y++;
 						}
 					}
+					gl = new LOAGameLogic('2');
 				}
 
 
@@ -84,7 +88,7 @@ class Client {
 					System.out.println("Entrez votre coup : ");
 					String move = null;
 					move = console.readLine();
-					//move = loaGameLogic.move(s);
+					//move = gl.move(s);
 					output.write(move.getBytes(),0,move.length());
 					output.flush();
 
