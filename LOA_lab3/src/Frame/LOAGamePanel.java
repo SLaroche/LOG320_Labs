@@ -1,3 +1,5 @@
+package Frame;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,7 +13,7 @@ public class LOAGamePanel extends JPanel{
 	//constantes
 	private final int LINESIZE = 4;
 	//attributs
-	private LOAGameLogic LOAgame = new LOAGameLogic();
+	//private LOAGameLogic LOAgame = new LOAGameLogic();
 	
 	public LOAGamePanel(){
 		this.setMaximumSize(new Dimension(501, 501));
@@ -52,9 +54,9 @@ public class LOAGamePanel extends JPanel{
 		}
 		
 		//Draw Pawn
-		int[][] board = LOAgame.currentGameState.board;
+		//int[][] board = LOAgame.currentGameState.board;
 				
-		for(int i=0; i<8; i++){//number of block
+/*		for(int i=0; i<8; i++){//number of block
 			for(int j=0; j<8; j++){
 				int positionDiv = panHeight/8;
 				int diametre = panHeight/8-13;
@@ -73,6 +75,6 @@ public class LOAGamePanel extends JPanel{
 					g2d.drawOval(positionDiv*j+offsetX, positionDiv*i+offsetY, diametre+offsetX, diametre+offsetY);
 				}
 			}
-		}
+		}*/
 	}
 }

@@ -1,5 +1,8 @@
+package util;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.text.Position;
 
@@ -22,7 +25,7 @@ public class GameState {
 	};
 	
 	//default constructor, setup the initial state
-	public GameState(){
+	public GameState(int player){
 		board[1][0] = 2;
 		board[2][0] = 2;
 		board[3][0] = 2;
@@ -51,14 +54,14 @@ public class GameState {
 		board[7][5] = 1;
 		board[7][6] = 1;
 		
-		this.currentPlayer = 1;
+		this.currentPlayer = player;
 	}
 	//change player
 	public void changePlayer(){
 		currentPlayer = (currentPlayer == 1) ? 2 : 1;
 	}
 	
-	//retourne les GameStates qui sont g�n�r� par le pawn qui se deplacer
+	//retourne les GameStates qui sont g�n�r� par le pawn qui se deplacer
 	private ArrayList<GameState> findPawnMove(int x, int y){
 		ArrayList<GameState> result = new ArrayList<GameState>();
 		int pawnPlayer;
@@ -129,6 +132,29 @@ public class GameState {
 		return result;
 	}
 	
+	/**
+	 * retourn l'état du plateau après que le coup à été joué (lastMove)
+	 * @param lastMove
+	 * @return nextGameState
+	 */
+	public GameState getGameStateByMove(String lastMove){
+		return null;
+	}
+	
+	/**
+	 * Trouve tous les coups de ce game state, la classe  il connait le joueur qui doit jouer ces coups
+	 * Il utilise la methode findPawnMove(int, int) pour trouver tous les coups d'un pion
+	 * @return result
+	 */
+	public List<GameState> getAllMove(){
+		return new ArrayList<GameState>();
+	}
+	
+	/**
+	 * Transforme les données rapport par le serveur en donnée utilisable
+	 * @param letters
+	 * @return la position en point2D
+	 */
 	public static Point2D pawnPositionToPositionUtility(String letters){
 		Point2D result = new Point2D.Double();
 		
@@ -138,5 +164,15 @@ public class GameState {
 		result.setLocation(x, y);
 		
 		return result;
+	}
+	
+	/**
+	 * Transforme les données rapport par l'algo en donnée utilisable par le serveur
+	 * @param x
+	 * @param y
+	 * @return position du pion en String
+	 */
+	public static String pawnPositionToStringUtility(int x, int y){
+		return "";
 	}
 }
