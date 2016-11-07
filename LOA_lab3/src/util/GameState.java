@@ -8,10 +8,11 @@ import javax.swing.text.Position;
 
 public class GameState {
 	public ArrayList<GameState> children = new ArrayList<GameState>();
+	public GameState parent;
 	public int[][] board = new int[8][8];
-	private double gameStateScore;
-	private int currentPlayer;
-	private String stringMoveFromParent;
+	public double gameStateScore;
+	public int currentPlayer;
+	public String stringMoveFromParent;
 	
 	public static final String[][] positionNameYX = new String[][]{
 		{"A8","B8","C8","D8","E8","F8","G8","H8"},
@@ -58,11 +59,12 @@ public class GameState {
 	}
 	//constructeur bas� sur un deplacement 
 	public GameState(GameState parentGameState,pos2D posPawnBegin,pos2D posPawnEnd){
-		
-	}
-	//change player
-	public void changePlayer(){
-		currentPlayer = (currentPlayer == 1) ? 2 : 1;
+		this.parent = parentGameState;
+		this.currentPlayer = (parentGameState.currentPlayer == 1) ? 2 : 1;
+		stringMoveFromParent = positionNameYX[posPawnBegin.y][posPawnBegin.x]+positionNameYX[posPawnEnd.y][posPawnEnd.x];
+		this.board = parentGameState.board;
+		this.board[posPawnEnd.x][posPawnEnd.y] = this.board[posPawnBegin.x][posPawnBegin.y];
+		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
 	}
 	
 	//retourne les GameStates qui sont g�n�r� par le pawn qui se deplacer
@@ -77,7 +79,6 @@ public class GameState {
 			return null;
 		}
 		
-		String pawnPositionStr = positionNameYX[x][y];
 		int verticalPawn = 0;
 		int horizontalPawn= 0;
 		int topRightDiagonalPawn = 0;
@@ -128,9 +129,8 @@ public class GameState {
 		
 		// }}
 		
-		// {{ find move for all direction
-		
-		//Move Nord
+		// {{ find move for all 8 directions
+		//1-Move Nord
 		if(y-verticalPawn >= 0){
 			boolean moveOk = true;
 			for(int i=0;i<=verticalPawn-1;i++){
@@ -146,36 +146,122 @@ public class GameState {
 			}
 		}
 		
-		//Move Est
-		if(x+horizontalPawn <8){
+		//2-Move Sud
+		if(y+verticalPawn < 8){
 			boolean moveOk = true;
 			for(int i=0;i<=verticalPawn-1;i++){
-				if(board[x][y-i] == enemyPlayer){
+				if(board[x][y+i] == enemyPlayer){
 					moveOk = false;
 				}
 			}
 			if(moveOk){
-				if(board[x][y-verticalPawn] != currentPlayer){
-					pos2D posPawnEnd = new pos2D(x,y-verticalPawn);
+				if(board[x][y+verticalPawn] != currentPlayer){
+					pos2D posPawnEnd = new pos2D(x,y+verticalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
 				}
 			}
 		}
 		
+		//3-Move Est
+		if(x+horizontalPawn < 8){
+			boolean moveOk = true;
+			for(int i=0;i<=horizontalPawn-1;i++){
+				if(board[x+i][y] == enemyPlayer){
+					moveOk = false;
+				}
+			}
+			if(moveOk){
+				if(board[x+horizontalPawn][y] != currentPlayer){
+					pos2D posPawnEnd = new pos2D(x+horizontalPawn,y);
+					result.add(new GameState(this,pawnPosition,posPawnEnd));
+				}
+			}
+		}
+		
+		//4-Move Ouest
+		if(x-horizontalPawn >=0){
+			boolean moveOk = true;
+			for(int i=0;i<=horizontalPawn-1;i++){
+				if(board[x-i][y] == enemyPlayer){
+					moveOk = false;
+				}
+			}
+			if(moveOk){
+				if(board[x-horizontalPawn][y] != currentPlayer){
+					pos2D posPawnEnd = new pos2D(x-horizontalPawn,y);
+					result.add(new GameState(this,pawnPosition,posPawnEnd));
+				}
+			}
+		}
+		
+		//5-Move Nord-Est
+		if(x+topRightDiagonalPawn <8){
+			boolean moveOk = true;
+			for(int i=0;i<=topRightDiagonalPawn-1;i++){
+				if(board[x+i][y-i] == enemyPlayer){
+					moveOk = false;
+				}
+			}
+			if(moveOk){
+				if(board[x+topRightDiagonalPawn][y-topRightDiagonalPawn] != currentPlayer){
+					pos2D posPawnEnd = new pos2D(x+topRightDiagonalPawn,y-topRightDiagonalPawn);
+					result.add(new GameState(this,pawnPosition,posPawnEnd));
+				}
+			}
+		}
+		
+		//6-Move Sud-Ouest
+		if(x-topRightDiagonalPawn >= 0){
+			boolean moveOk = true;
+			for(int i=0;i<=topRightDiagonalPawn-1;i++){
+				if(board[x-i][y+i] == enemyPlayer){
+					moveOk = false;
+				}
+			}
+			if(moveOk){
+				if(board[x-topRightDiagonalPawn][y+topRightDiagonalPawn] != currentPlayer){
+					pos2D posPawnEnd = new pos2D(x-topRightDiagonalPawn,y+topRightDiagonalPawn);
+					result.add(new GameState(this,pawnPosition,posPawnEnd));
+				}
+			}
+		}
+		
+		//7-Nord-Ouest
+		if(x-topLeftDiagonalPawn >=0){
+			boolean moveOk = true;
+			for(int i=0;i<=topLeftDiagonalPawn-1;i++){
+				if(board[x-i][y-i] == enemyPlayer){
+					moveOk = false;
+				}
+			}
+			if(moveOk){
+				if(board[x-topLeftDiagonalPawn][y-topLeftDiagonalPawn] != currentPlayer){
+					pos2D posPawnEnd = new pos2D(x-topLeftDiagonalPawn,y-topLeftDiagonalPawn);
+					result.add(new GameState(this,pawnPosition,posPawnEnd));
+				}
+			}
+		}
+		
+		//8-Sud-Est
+		if(x+topLeftDiagonalPawn <8){
+			boolean moveOk = true;
+			for(int i=0;i<=topLeftDiagonalPawn-1;i++){
+				if(board[x+i][y+i] == enemyPlayer){
+					moveOk = false;
+				}
+			}
+			if(moveOk){
+				if(board[x+topLeftDiagonalPawn][y+topLeftDiagonalPawn] != currentPlayer){
+					pos2D posPawnEnd = new pos2D(x+topLeftDiagonalPawn,y+topLeftDiagonalPawn);
+					result.add(new GameState(this,pawnPosition,posPawnEnd));
+				}
+			}
+		}
 		// }}
 		
 		return result;
 	}
-	
-	/**
-	 * retourn l'état du plateau après que le coup à été joué (lastMove)
-	 * @param lastMove
-	 * @return nextGameState
-	 */
-	public GameState getGameStateByMove(String lastMove){
-		return null;
-	}
-	
+
 	/**
 	 * Trouve tous les coups de ce game state, la classe  il connait le joueur qui doit jouer ces coups
 	 * Il utilise la methode findPawnMove(int, int) pour trouver tous les coups d'un pion
