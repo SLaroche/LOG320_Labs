@@ -1,8 +1,10 @@
 package Modele;
 import java.util.List;
+
 import Algo.AlgoTest;
 import Algo.LOAAlgo;
 import util.GameState;
+import util.Pos2D;
 
 public class LOAGameLogic {
 	public GameState currentGameState;
@@ -14,7 +16,9 @@ public class LOAGameLogic {
 	}
 	
 	public String move(String lastMove) {
-		currentGameState = currentGameState.getGameStateByMove(lastMove);
+		Pos2D lastMovePosPawnBegin = GameState.pawnPositionToPositionUtility(lastMove.substring(0, 2));
+		Pos2D lastMovePosPawnEnd = GameState.pawnPositionToPositionUtility(lastMove.substring(lastMove.length()-2, lastMove.length()));
+		currentGameState = new GameState(currentGameState, lastMovePosPawnBegin, lastMovePosPawnEnd);
 		generateTree(currentGameState);
 		return algo.getBestMove(currentGameState);
 	}
