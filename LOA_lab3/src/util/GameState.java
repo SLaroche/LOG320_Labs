@@ -268,6 +268,14 @@ public class GameState {
 	 * @return result
 	 */
 	public List<GameState> getAllMove(){
+		ArrayList<GameState> result = new ArrayList<GameState>();
+		
+		for(int i=0;i<8;i++){
+			for(int j=0;j<8;j++){
+				pos2D position = new pos2D(i,j);
+				result.addAll(findPawnMove(position));
+			}
+		}
 		return new ArrayList<GameState>();
 	}
 	
