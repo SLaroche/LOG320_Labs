@@ -1,7 +1,7 @@
 package util;
 
-public class pos2D {
-	public pos2D(int x, int y) {
+public class Pos2D {
+	public Pos2D(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}

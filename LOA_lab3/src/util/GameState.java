@@ -58,7 +58,7 @@ public class GameState {
 		this.currentPlayer = player;
 	}
 	//constructeur basé sur un deplacement 
-	public GameState(GameState parentGameState,pos2D posPawnBegin,pos2D posPawnEnd){
+	public GameState(GameState parentGameState,Pos2D posPawnBegin,Pos2D posPawnEnd){
 		this.parent = parentGameState;
 		this.currentPlayer = (parentGameState.currentPlayer == 1) ? 2 : 1;
 		stringMoveFromParent = positionNameYX[posPawnBegin.y][posPawnBegin.x]+positionNameYX[posPawnEnd.y][posPawnEnd.x];
@@ -68,7 +68,7 @@ public class GameState {
 	}
 	
 	//retourne les GameStates qui sont gï¿½nï¿½rï¿½ par le pawn qui se deplacer
-	private ArrayList<GameState> findPawnMove(pos2D pawnPosition){
+	private ArrayList<GameState> findPawnMove(Pos2D pawnPosition){
 		ArrayList<GameState> result = new ArrayList<GameState>();
 		int enemyPlayer = (currentPlayer == 1) ? 2 : 1;
 		int x = pawnPosition.x;
@@ -140,7 +140,7 @@ public class GameState {
 			}
 			if(moveOk){
 				if(board[x][y-verticalPawn] != currentPlayer){
-					pos2D posPawnEnd = new pos2D(x,y-verticalPawn);
+					Pos2D posPawnEnd = new Pos2D(x,y-verticalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
 				}
 			}
@@ -156,7 +156,7 @@ public class GameState {
 			}
 			if(moveOk){
 				if(board[x][y+verticalPawn] != currentPlayer){
-					pos2D posPawnEnd = new pos2D(x,y+verticalPawn);
+					Pos2D posPawnEnd = new Pos2D(x,y+verticalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
 				}
 			}
@@ -172,7 +172,7 @@ public class GameState {
 			}
 			if(moveOk){
 				if(board[x+horizontalPawn][y] != currentPlayer){
-					pos2D posPawnEnd = new pos2D(x+horizontalPawn,y);
+					Pos2D posPawnEnd = new Pos2D(x+horizontalPawn,y);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
 				}
 			}
@@ -188,7 +188,7 @@ public class GameState {
 			}
 			if(moveOk){
 				if(board[x-horizontalPawn][y] != currentPlayer){
-					pos2D posPawnEnd = new pos2D(x-horizontalPawn,y);
+					Pos2D posPawnEnd = new Pos2D(x-horizontalPawn,y);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
 				}
 			}
@@ -204,7 +204,7 @@ public class GameState {
 			}
 			if(moveOk){
 				if(board[x+topRightDiagonalPawn][y-topRightDiagonalPawn] != currentPlayer){
-					pos2D posPawnEnd = new pos2D(x+topRightDiagonalPawn,y-topRightDiagonalPawn);
+					Pos2D posPawnEnd = new Pos2D(x+topRightDiagonalPawn,y-topRightDiagonalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
 				}
 			}
@@ -220,7 +220,7 @@ public class GameState {
 			}
 			if(moveOk){
 				if(board[x-topRightDiagonalPawn][y+topRightDiagonalPawn] != currentPlayer){
-					pos2D posPawnEnd = new pos2D(x-topRightDiagonalPawn,y+topRightDiagonalPawn);
+					Pos2D posPawnEnd = new Pos2D(x-topRightDiagonalPawn,y+topRightDiagonalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
 				}
 			}
@@ -236,7 +236,7 @@ public class GameState {
 			}
 			if(moveOk){
 				if(board[x-topLeftDiagonalPawn][y-topLeftDiagonalPawn] != currentPlayer){
-					pos2D posPawnEnd = new pos2D(x-topLeftDiagonalPawn,y-topLeftDiagonalPawn);
+					Pos2D posPawnEnd = new Pos2D(x-topLeftDiagonalPawn,y-topLeftDiagonalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
 				}
 			}
@@ -252,7 +252,7 @@ public class GameState {
 			}
 			if(moveOk){
 				if(board[x+topLeftDiagonalPawn][y+topLeftDiagonalPawn] != currentPlayer){
-					pos2D posPawnEnd = new pos2D(x+topLeftDiagonalPawn,y+topLeftDiagonalPawn);
+					Pos2D posPawnEnd = new Pos2D(x+topLeftDiagonalPawn,y+topLeftDiagonalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
 				}
 			}
@@ -272,7 +272,7 @@ public class GameState {
 		
 		for(int i=0;i<8;i++){
 			for(int j=0;j<8;j++){
-				pos2D position = new pos2D(i,j);
+				Pos2D position = new Pos2D(i,j);
 				result.addAll(findPawnMove(position));
 			}
 		}
@@ -284,15 +284,11 @@ public class GameState {
 	 * @param letters
 	 * @return la position en point2D
 	 */
-	public static Point2D pawnPositionToPositionUtility(String letters){
-		Point2D result = new Point2D.Double();
-		
+	public static Pos2D pawnPositionToPositionUtility(String letters){
 		int x = letters.charAt(0) - 65;
 		int y = 8 - letters.charAt(1);
 		
-		result.setLocation(x, y);
-		
-		return result;
+		return new Pos2D(x,y);
 	}
 	
 	/**
