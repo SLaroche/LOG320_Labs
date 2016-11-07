@@ -56,37 +56,41 @@ public class GameState {
 		
 		this.currentPlayer = player;
 	}
+	//constructeur basé sur un deplacement 
+	public GameState(GameState parentGameState,pos2D posPawnBegin,pos2D posPawnEnd){
+		
+	}
 	//change player
 	public void changePlayer(){
 		currentPlayer = (currentPlayer == 1) ? 2 : 1;
 	}
 	
 	//retourne les GameStates qui sont gï¿½nï¿½rï¿½ par le pawn qui se deplacer
-	private ArrayList<GameState> findPawnMove(int x, int y){
+	private ArrayList<GameState> findPawnMove(pos2D pawnPosition){
 		ArrayList<GameState> result = new ArrayList<GameState>();
-		int pawnPlayer;
+		int enemyPlayer = (currentPlayer == 1) ? 2 : 1;
+		int x = pawnPosition.x;
+		int y = pawnPosition.y;
 		
-		if(board[x][y] == 1){
-			pawnPlayer = 1;
-		}else if(board[x][y] == 2){
-			pawnPlayer = 2;
-		}else{
+		if(board[x][y] != currentPlayer){
 			System.out.println("pawnPositionVide");
 			return null;
 		}
 		
-		String pawnPosition = positionNameYX[x][y];
+		String pawnPositionStr = positionNameYX[x][y];
 		int verticalPawn = 0;
 		int horizontalPawn= 0;
 		int topRightDiagonalPawn = 0;
 		int topLeftDiagonalPawn = 0;
 		
+		// {{ SetupDirectionCounter
 		//vertical
 		for(int i=0;i<8;i++){
 			if(board[x][i] != 0){
 				verticalPawn++;
 			}
 		}
+		
 		//horizontal
 		for(int i=0;i<8;i++){
 			if(board[i][y] != 0){
@@ -122,12 +126,43 @@ public class GameState {
 			}
 		}
 		
-		//8 move
+		// }}
+		
+		// {{ find move for all direction
 		
 		//Move Nord
 		if(y-verticalPawn >= 0){
-			
+			boolean moveOk = true;
+			for(int i=0;i<=verticalPawn-1;i++){
+				if(board[x][y-i] == enemyPlayer){
+					moveOk = false;
+				}
+			}
+			if(moveOk){
+				if(board[x][y-verticalPawn] != currentPlayer){
+					pos2D posPawnEnd = new pos2D(x,y-verticalPawn);
+					result.add(new GameState(this,pawnPosition,posPawnEnd));
+				}
+			}
 		}
+		
+		//Move Est
+		if(x+horizontalPawn <8){
+			boolean moveOk = true;
+			for(int i=0;i<=verticalPawn-1;i++){
+				if(board[x][y-i] == enemyPlayer){
+					moveOk = false;
+				}
+			}
+			if(moveOk){
+				if(board[x][y-verticalPawn] != currentPlayer){
+					pos2D posPawnEnd = new pos2D(x,y-verticalPawn);
+					result.add(new GameState(this,pawnPosition,posPawnEnd));
+				}
+			}
+		}
+		
+		// }}
 		
 		return result;
 	}

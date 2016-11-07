@@ -1,3 +1,4 @@
+package Modele;
 import java.util.List;
 import Algo.AlgoTest;
 import Algo.LOAAlgo;
