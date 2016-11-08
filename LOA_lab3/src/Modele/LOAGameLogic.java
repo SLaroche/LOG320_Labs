@@ -15,23 +15,12 @@ public class LOAGameLogic {
 		algo = new AlgoTest();
 		System.out.println("__start__");
 		System.out.println("Player : " + currentGameState.currentPlayer);
-		for (int i = 0; i < currentGameState.board.length; i++) {
-			for (int j = 0; j < currentGameState.board[i].length; j++) {
-				if (i == 1 && j == 0) {
-					System.out.print("(" + currentGameState.board[j][i] + ") ");
-				} else {
-					System.out.print(currentGameState.board[j][i] + " ");
-				}
-				
-			}
-			System.out.println();
-		}
-		List<GameState> list = currentGameState.findPawnMove(new Pos2D(1, 0));
+		List<GameState> list = currentGameState.findPawnMove(new Pos2D(7, 4));
 		System.out.println("number of children : " + currentGameState.children.size());
 	}
 	
 	public String move(String lastMove) {
-		Pos2D lastMovePosPawnBegin = GameState.pawnPositionToPositionUtility(lastMove.substring(0, 2));
+		Pos2D lastMovePosPawnBegin = GameState.pawnPositionToPositionUtility(lastMove.substring(0, 6));
 		Pos2D lastMovePosPawnEnd = GameState.pawnPositionToPositionUtility(lastMove.substring(lastMove.length()-2, lastMove.length()));
 		currentGameState = new GameState(currentGameState, lastMovePosPawnBegin, lastMovePosPawnEnd);
 		generateTree(currentGameState);

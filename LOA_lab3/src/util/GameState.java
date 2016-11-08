@@ -71,11 +71,22 @@ public class GameState {
 	public ArrayList<GameState> findPawnMove(Pos2D pawnPosition){
 		ArrayList<GameState> result = new ArrayList<GameState>();
 		int enemyPlayer = (currentPlayer == 1) ? 2 : 1;
-		int x = pawnPosition.y;
-		int y = pawnPosition.x;
+		int x = pawnPosition.x;
+		int y = pawnPosition.y;
+		
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if (x==j&&y==i){
+					System.out.print("("+board[j][i]+")");
+				} else {
+					System.out.print(" "+board[j][i]+" ");
+				}
+			}
+			System.out.println();
+		}
 		
 		if(board[x][y] != currentPlayer){
-			System.out.println("Pas le bon joueur");
+			System.out.println("ne peut pas jouer");
 			return null;
 		}
 		
@@ -104,37 +115,35 @@ public class GameState {
 		//vers top
 		for(int i=1;(x+i)<8&&(y-i)>=0;i++){
 			if(board[x+i][y-i] != 0){
-				System.out.println("x "+(x+i)+" y "+ (y-i));
+				System.out.print("trouver ");
 				topRightDiagonalPawn++;
 			}
 		}
-		System.out.println("ok -> ^ " + topRightDiagonalPawn);
 		//vers bot
 		for(int i=1;(x-i)>=0&&(y+i)<8;i++){
 			if(board[x-i][y+i] != 0){
-				System.out.println("x "+(x-i)+" y "+ (y+i));
+				System.out.print("trouver ");
 				topRightDiagonalPawn++;
 			}
 		}
-		System.out.println("ok -> ¸ " + topRightDiagonalPawn);
+		System.out.println("ok dia droit " + topRightDiagonalPawn);
 		//topRightDiagonal
 		topLeftDiagonalPawn++;
 		//vers top
 		for(int i=1;(x-i)>=0&&(y-i)>=0;i++){
 			if(board[x-i][y-i] != 0){
-				System.out.println("x "+(x-i)+" y "+ (y-i));
+				System.out.print("trouver ");
 				topLeftDiagonalPawn++;
 			}
 		}
-		System.out.println("ok <- ^ " + topLeftDiagonalPawn);
 		//vers bot
 		for(int i=1;(x+i)<8&&(y+i)<8;i++){
 			if(board[x+i][y+i] != 0){
-				System.out.println("x "+(x+i)+" y "+ (y+i));
+				System.out.print("trouver ");
 				topLeftDiagonalPawn++;
 			}
 		}
-		System.out.println("ok <- ¸ " + topLeftDiagonalPawn);
+		System.out.println("ok dia gauche " + topLeftDiagonalPawn);
 		// }}
 		
 		// {{ find move for all 8 directions
@@ -150,6 +159,7 @@ public class GameState {
 				if(board[x][y-verticalPawn] != currentPlayer){
 					Pos2D posPawnEnd = new Pos2D(x,y-verticalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
+					System.out.println("pos end "+x+" "+(y-verticalPawn));
 				}
 			}
 		}
@@ -166,6 +176,7 @@ public class GameState {
 				if(board[x][y+verticalPawn] != currentPlayer){
 					Pos2D posPawnEnd = new Pos2D(x,y+verticalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
+					System.out.println("pos end "+x+" "+(y+verticalPawn));
 				}
 			}
 		}
@@ -182,6 +193,7 @@ public class GameState {
 				if(board[x+horizontalPawn][y] != currentPlayer){
 					Pos2D posPawnEnd = new Pos2D(x+horizontalPawn,y);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
+					System.out.println("pos end "+(x+horizontalPawn)+" "+(y));
 				}
 			}
 		}
@@ -198,6 +210,7 @@ public class GameState {
 				if(board[x-horizontalPawn][y] != currentPlayer){
 					Pos2D posPawnEnd = new Pos2D(x-horizontalPawn,y);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
+					System.out.println("pos end "+(x-horizontalPawn)+" "+(y));
 				}
 			}
 		}
@@ -211,10 +224,10 @@ public class GameState {
 				}
 			}
 			if(moveOk){
-				System.out.println((x+topRightDiagonalPawn) + " " + (y-topRightDiagonalPawn));
 				if(board[x+topRightDiagonalPawn][y-topRightDiagonalPawn] != currentPlayer){
 					Pos2D posPawnEnd = new Pos2D(x+topRightDiagonalPawn,y-topRightDiagonalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
+					System.out.println("pos end "+(x+topRightDiagonalPawn)+" "+(y-topRightDiagonalPawn));
 				}
 			}
 		}
@@ -231,6 +244,7 @@ public class GameState {
 				if(board[x-topRightDiagonalPawn][y+topRightDiagonalPawn] != currentPlayer){
 					Pos2D posPawnEnd = new Pos2D(x-topRightDiagonalPawn,y+topRightDiagonalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
+					System.out.println("pos end "+(x-topRightDiagonalPawn)+" "+(y+topRightDiagonalPawn));
 				}
 			}
 		}
@@ -247,6 +261,7 @@ public class GameState {
 				if(board[x-topLeftDiagonalPawn][y-topLeftDiagonalPawn] != currentPlayer){
 					Pos2D posPawnEnd = new Pos2D(x-topLeftDiagonalPawn,y-topLeftDiagonalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
+					System.out.println("pos end "+(x-topLeftDiagonalPawn)+" "+(y-topLeftDiagonalPawn));
 				}
 			}
 		}
@@ -263,6 +278,7 @@ public class GameState {
 				if(board[x+topLeftDiagonalPawn][y+topLeftDiagonalPawn] != currentPlayer){
 					Pos2D posPawnEnd = new Pos2D(x+topLeftDiagonalPawn,y+topLeftDiagonalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
+					System.out.println("pos end "+(x+topLeftDiagonalPawn)+" "+(y+topLeftDiagonalPawn));
 				}
 			}
 		}
