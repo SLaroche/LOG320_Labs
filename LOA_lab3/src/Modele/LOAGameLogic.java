@@ -18,9 +18,9 @@ public class LOAGameLogic {
 		for (int i = 0; i < currentGameState.board.length; i++) {
 			for (int j = 0; j < currentGameState.board[i].length; j++) {
 				if (i == 1 && j == 0) {
-					System.out.print("(" + currentGameState.board[i][j] + ") ");
+					System.out.print("(" + currentGameState.board[j][i] + ") ");
 				} else {
-					System.out.print(currentGameState.board[i][j] + " ");
+					System.out.print(currentGameState.board[j][i] + " ");
 				}
 				
 			}
@@ -28,14 +28,6 @@ public class LOAGameLogic {
 		}
 		List<GameState> list = currentGameState.findPawnMove(new Pos2D(1, 0));
 		System.out.println("number of children : " + currentGameState.children.size());
-		for (GameState gameState : list) {
-			for (int i = 0; i < gameState.board.length; i++) {
-				for (int j = 0; j < gameState.board[i].length; j++) {
-						System.out.print(gameState.board[i][j] + " ");
-				}
-				System.out.println();
-			}
-		}
 	}
 	
 	public String move(String lastMove) {
