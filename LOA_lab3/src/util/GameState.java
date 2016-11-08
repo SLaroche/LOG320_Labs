@@ -71,11 +71,11 @@ public class GameState {
 	public ArrayList<GameState> findPawnMove(Pos2D pawnPosition){
 		ArrayList<GameState> result = new ArrayList<GameState>();
 		int enemyPlayer = (currentPlayer == 1) ? 2 : 1;
-		int x = pawnPosition.y;
-		int y = pawnPosition.x;
+		int x = pawnPosition.x;
+		int y = pawnPosition.y;
 		
 		if(board[x][y] != currentPlayer){
-			System.out.println("Pas le bon joueur");
+			System.out.println("Pas le bon joueur at ("+x+","+y+") , board value = " + board[x][y] + ", currentPlayer = " + currentPlayer);
 			return null;
 		}
 		
@@ -91,50 +91,40 @@ public class GameState {
 				verticalPawn++;
 			}
 		}
-		System.out.println("ok ver " + verticalPawn);
 		//horizontal
 		for(int i=0;i<8;i++){
 			if(board[i][y] != 0){
 				horizontalPawn++;
 			}
 		}
-		System.out.println("ok hor " + horizontalPawn);
 		//topRightDiagonal
 		topRightDiagonalPawn++;
 		//vers top
 		for(int i=1;(x+i)<8&&(y-i)>=0;i++){
 			if(board[x+i][y-i] != 0){
-				System.out.println("x "+(x+i)+" y "+ (y-i));
 				topRightDiagonalPawn++;
 			}
 		}
-		System.out.println("ok -> ^ " + topRightDiagonalPawn);
 		//vers bot
 		for(int i=1;(x-i)>=0&&(y+i)<8;i++){
 			if(board[x-i][y+i] != 0){
-				System.out.println("x "+(x-i)+" y "+ (y+i));
 				topRightDiagonalPawn++;
 			}
 		}
-		System.out.println("ok -> ¸ " + topRightDiagonalPawn);
 		//topRightDiagonal
 		topLeftDiagonalPawn++;
 		//vers top
 		for(int i=1;(x-i)>=0&&(y-i)>=0;i++){
 			if(board[x-i][y-i] != 0){
-				System.out.println("x "+(x-i)+" y "+ (y-i));
 				topLeftDiagonalPawn++;
 			}
 		}
-		System.out.println("ok <- ^ " + topLeftDiagonalPawn);
 		//vers bot
 		for(int i=1;(x+i)<8&&(y+i)<8;i++){
 			if(board[x+i][y+i] != 0){
-				System.out.println("x "+(x+i)+" y "+ (y+i));
 				topLeftDiagonalPawn++;
 			}
 		}
-		System.out.println("ok <- ¸ " + topLeftDiagonalPawn);
 		// }}
 		
 		// {{ find move for all 8 directions
@@ -211,7 +201,6 @@ public class GameState {
 				}
 			}
 			if(moveOk){
-				System.out.println((x+topRightDiagonalPawn) + " " + (y-topRightDiagonalPawn));
 				if(board[x+topRightDiagonalPawn][y-topRightDiagonalPawn] != currentPlayer){
 					Pos2D posPawnEnd = new Pos2D(x+topRightDiagonalPawn,y-topRightDiagonalPawn);
 					result.add(new GameState(this,pawnPosition,posPawnEnd));
@@ -295,7 +284,7 @@ public class GameState {
 	 */
 	public static Pos2D pawnPositionToPositionUtility(String letters){
 		int x = letters.charAt(0) - 65;
-		int y = 8 - letters.charAt(1);
+		int y = 8 - Character.getNumericValue(letters.charAt(1));
 		
 		return new Pos2D(x,y);
 	}
