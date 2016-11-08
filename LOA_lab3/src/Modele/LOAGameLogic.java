@@ -13,6 +13,29 @@ public class LOAGameLogic {
 	public LOAGameLogic(int player){
 		this.currentGameState = new GameState(player);
 		algo = new AlgoTest();
+		System.out.println("__start__");
+		System.out.println("Player : " + currentGameState.currentPlayer);
+		for (int i = 0; i < currentGameState.board.length; i++) {
+			for (int j = 0; j < currentGameState.board[i].length; j++) {
+				if (i == 1 && j == 0) {
+					System.out.print("(" + currentGameState.board[i][j] + ") ");
+				} else {
+					System.out.print(currentGameState.board[i][j] + " ");
+				}
+				
+			}
+			System.out.println();
+		}
+		List<GameState> list = currentGameState.findPawnMove(new Pos2D(1, 0));
+		System.out.println("number of children : " + currentGameState.children.size());
+		for (GameState gameState : list) {
+			for (int i = 0; i < gameState.board.length; i++) {
+				for (int j = 0; j < gameState.board[i].length; j++) {
+						System.out.print(gameState.board[i][j] + " ");
+				}
+				System.out.println();
+			}
+		}
 	}
 	
 	public String move(String lastMove) {

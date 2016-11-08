@@ -41,7 +41,7 @@ class Client {
 							y++;
 						}
 					}
-					gl = new LOAGameLogic('1');
+					gl = new LOAGameLogic(1);
 
 					System.out.println("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
 					String move = null;
@@ -71,7 +71,7 @@ class Client {
 							y++;
 						}
 					}
-					gl = new LOAGameLogic('2');
+					gl = new LOAGameLogic(2);
 				}
 
 
