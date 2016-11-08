@@ -62,7 +62,7 @@ public class GameState {
 		this.parent = parentGameState;
 		this.currentPlayer = (parentGameState.currentPlayer == 1) ? 2 : 1;
 		stringMoveFromParent = positionNameYX[posPawnBegin.y][posPawnBegin.x]+positionNameYX[posPawnEnd.y][posPawnEnd.x];
-		this.board = parentGameState.board;
+		this.board = GameState.cloneBoard(parentGameState.board);
 		this.board[posPawnEnd.x][posPawnEnd.y] = this.board[posPawnBegin.x][posPawnBegin.y];
 		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
 	}
@@ -308,5 +308,15 @@ public class GameState {
 	 */
 	public static String pawnPositionToStringUtility(int x, int y){
 		return positionNameYX[y][x];
+	}
+	
+	public static int[][] cloneBoard(int [][] board){
+		int[][] result = new int[8][8];
+		for(int i=0;i<8;i++){
+			for(int j=0;j<8;j++){
+				result[i][j] = board[i][j];
+			}
+		}
+		return result;
 	}
 }
