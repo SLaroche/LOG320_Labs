@@ -95,30 +95,28 @@ public class AlgoTest extends LOAAlgo {
 				}
 			}
 		}*/
-		Random scoreR = new Random();
-		score = scoreR.nextInt();
+		//Random scoreR = new Random();
+		//score = scoreR.nextInt();
 		return score;
 	}
 	
 	private int evaluationMax(GameState state){
 		int score = 1;
 		int board[][] = state.board;
-		/*for(int i=0;i<8;i++)
+		for(int i=0;i<8;i++)
 		{
 			for(int j=0;j<8;j++){
 				if(board[i][j] == 1) 
 				{
-					if(j<7 && board[i][j+1] == 1)score++;
-					
-					if(i<0){
-						if(board[i+1][j] == 1)score++;
-						if(j<7 && board[i+1][j+1] == 1)score++;
-					}
+					if(i>1 && i<7)score+=1;
+					if(j>1 && j<7)score+=1;
+					if(i>2 && i<6)score+=2;
+					if(j>2 && j<6)score+=2;
 				}
 			}
-		}*/
-		Random scoreR = new Random();
-		score = scoreR.nextInt();
+		}
+		//Random scoreR = new Random();
+		//score = scoreR.nextInt();
 		return score;
 	}
 }
