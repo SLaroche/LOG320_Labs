@@ -5,23 +5,57 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 import Modele.LOAGameLogic;
+import util.GameState;
+import util.Pos2D;
 
 public class LOAGamePanel extends JPanel{
 	//constantes
 	private final int LINESIZE = 4;
 	//attributs
-	private LOAGameLogic LOAgame = new LOAGameLogic(0);
+	private LOAGameLogic LOAgame = new LOAGameLogic(1);
+	ArrayList<Pos2D> possibleMove = new ArrayList<Pos2D>();
 	
 	public LOAGamePanel(){
 		this.setMaximumSize(new Dimension(501, 501));
 		this.setMinimumSize(new Dimension(501, 501));
+		mouseListenerSetup();
 	}
 	
+	private void mouseListenerSetup() {
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+		    public void mouseClicked(MouseEvent e) {
+				int x = e.getX() * 8 / 501;
+				int y = e.getY() * 8 / 501;
+
+				possibleMove.clear();
+				
+		        System.out.println("x:" + x + " y:" + y);
+		        
+		        ArrayList<GameState> childGameState = LOAgame.currentGameState.findPawnMove(new Pos2D(x,y));
+		        
+		        
+		        if(childGameState != null){
+			        for(GameState gState: childGameState){
+			        	Pos2D move = GameState.pawnPositionToPositionUtility(gState.stringMoveFromParent.substring(2));
+			        	possibleMove.add(move);
+			        	System.out.println(move.x +" "+ move.y);
+			        }
+		        }
+		        
+		        
+		        LOAGamePanel.this.repaint();
+		    }
+        });
+	}
+
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -56,15 +90,16 @@ public class LOAGamePanel extends JPanel{
 		}
 		
 		//Draw Pawn
-		
 		int[][] board = LOAgame.currentGameState.board;
-				
+		
+		int positionDiv = panHeight/8;
+		int diametre = panHeight/8-13;
+		int offsetX = 6;
+		int offsetY = 6;
+		
 		for(int i=0; i<8; i++){//number of block
 			for(int j=0; j<8; j++){
-				int positionDiv = panHeight/8;
-				int diametre = panHeight/8-13;
-				int offsetX = 6;
-				int offsetY = 6;
+				
 				
 				if(board[j][i] == 1){
 					g2d.setColor(Color.white);
@@ -79,5 +114,14 @@ public class LOAGamePanel extends JPanel{
 				}
 			}
 		}
+		
+		//Draw Possible move
+		for(Pos2D move: possibleMove){
+			g2d.setColor(Color.GREEN);
+			System.out.println(move.x*(501/8) + " "+ move.y*(501/8));
+			g2d.fillOval(positionDiv*move.x+offsetX, positionDiv*move.y+offsetY, diametre+offsetX, diametre+offsetY);
+			g2d.setColor(Color.black);
+			g2d.drawOval(positionDiv*move.x+offsetX, positionDiv*move.y+offsetY, diametre+offsetX, diametre+offsetY);
+        }
 	}
 }
