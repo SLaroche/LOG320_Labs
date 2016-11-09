@@ -39,8 +39,8 @@ public class LOAGameLogic {
 			updateBoard(lastMove);
 		}
 		tree = new Node(currentGameState, null);
-		generateTree(currentGameState);
-		String bestMove = algo.getBestMove(currentGameState, tree);
+		generateTree(currentGameState, tree);
+		String bestMove = algo.getBestMove(currentGameState, tree, this);
 		updateBoard(bestMove);
 		
 		return bestMove;
@@ -52,13 +52,12 @@ public class LOAGameLogic {
 		currentGameState = currentGameState.updateBoard(lastMovePosPawnBegin, lastMovePosPawnEnd);
 	}
 	
-	public void generateTree(GameState state) {
+	public void generateTree(GameState state, Node tree) {
 		List <GameState> AllMove= state.getAllMove();
 		for (GameState stateLel0 : AllMove) {
 			Node maxNode = new Node(stateLel0,tree);
 			tree.addChildren(maxNode); // Level 0,5 adverser
-			System.out.println("hshhs "+maxNode.getGameState().stringMoveFromParent);
-			List <GameState>  AllMoveLvl1 = state.getAllMove();
+			List <GameState>  AllMoveLvl1 = stateLel0.getAllMove();
 			for (GameState stateLvl1 : AllMoveLvl1) {
 				Node minNode = new Node(stateLvl1,maxNode);
 				maxNode.addChildren(minNode); // Level 1 prochaine coup

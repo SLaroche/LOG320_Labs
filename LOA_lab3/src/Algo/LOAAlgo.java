@@ -2,10 +2,11 @@ package Algo;
 
 import java.util.List;
 
+import Modele.LOAGameLogic;
 import util.GameState;
 import util.Node;
 
 public abstract class LOAAlgo {
 
-	public abstract String getBestMove(GameState state, Node tree);
+	public abstract String getBestMove(GameState state, Node tree, LOAGameLogic gameLogic);
 } 

@@ -3,13 +3,17 @@ package Algo;
 import java.util.List;
 import java.util.Random;
 
+import Modele.LOAGameLogic;
 import util.GameState;
 import util.Node;
 
 public class AlgoTest extends LOAAlgo {
+	private long startTime;
+	private LOAGameLogic gameLogic;
 	@Override
-	public String getBestMove(GameState state, Node tree) {
-		
+	public String getBestMove(GameState state, Node tree, LOAGameLogic gameLogic) {
+		this.gameLogic = gameLogic;
+		startTime = System.currentTimeMillis();
 		return getbestNode(tree).getGameState().stringMoveFromParent;
 	}
 	
@@ -24,6 +28,12 @@ public class AlgoTest extends LOAAlgo {
 				resultNode = currentNode;
 			}
 		}
+		/*System.out.println(System.currentTimeMillis()-startTime);
+		if(System.currentTimeMillis()-startTime<=2000){
+			gameLogic.generateTree(resultNode.getGameState(), resultNode);
+			resultNode = getbestNode(resultNode);
+		}*/
+			
 		return resultNode;
 	}
 	
@@ -85,6 +95,8 @@ public class AlgoTest extends LOAAlgo {
 				}
 			}
 		}*/
+		Random scoreR = new Random();
+		score = scoreR.nextInt();
 		return score;
 	}
 	
@@ -105,6 +117,8 @@ public class AlgoTest extends LOAAlgo {
 				}
 			}
 		}*/
+		Random scoreR = new Random();
+		score = scoreR.nextInt();
 		return score;
 	}
 }
