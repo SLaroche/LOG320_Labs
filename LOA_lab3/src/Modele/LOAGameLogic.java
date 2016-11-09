@@ -4,11 +4,13 @@ import java.util.List;
 import Algo.AlgoTest;
 import Algo.LOAAlgo;
 import util.GameState;
+import util.Node;
 import util.Pos2D;
 
 public class LOAGameLogic {
 	public GameState currentGameState;
 	private LOAAlgo algo;
+	private Node tree;
 	
 	public LOAGameLogic(int player){
 		this.currentGameState = new GameState(player);
@@ -31,20 +33,35 @@ public class LOAGameLogic {
 	}
 	
 	public String move(String lastMove) {
-		Pos2D lastMovePosPawnBegin = GameState.pawnPositionToPositionUtility(lastMove.substring(0, 2));
-		Pos2D lastMovePosPawnEnd = GameState.pawnPositionToPositionUtility(lastMove.substring(lastMove.length()-2, lastMove.length()));
-		currentGameState = new GameState(currentGameState, lastMovePosPawnBegin, lastMovePosPawnEnd);
+		if(lastMove != null){
+			lastMove = lastMove.replaceAll("\\s", "");
+			lastMove = lastMove.replaceAll("-", "");
+			updateBoard(lastMove);
+		}
+		tree = new Node(currentGameState, null);
 		generateTree(currentGameState);
-		return algo.getBestMove(currentGameState);
+		String bestMove = algo.getBestMove(currentGameState, tree);
+		updateBoard(bestMove);
+		
+		return bestMove;
 	}
 	
-	private void generateTree(GameState state) {
+	private void  updateBoard(String move){
+		Pos2D lastMovePosPawnBegin = GameState.pawnPositionToPositionUtility(move.substring(0, 2));
+		Pos2D lastMovePosPawnEnd = GameState.pawnPositionToPositionUtility(move.substring(2, 4));
+		currentGameState = currentGameState.updateBoard(lastMovePosPawnBegin, lastMovePosPawnEnd);
+	}
+	
+	public void generateTree(GameState state) {
 		List <GameState> AllMove= state.getAllMove();
 		for (GameState stateLel0 : AllMove) {
-			state.children.add(stateLel0); // Level 0,5 adverser
+			Node maxNode = new Node(stateLel0,tree);
+			tree.addChildren(maxNode); // Level 0,5 adverser
+			System.out.println("hshhs "+maxNode.getGameState().stringMoveFromParent);
 			List <GameState>  AllMoveLvl1 = state.getAllMove();
 			for (GameState stateLvl1 : AllMoveLvl1) {
-				stateLel0.children.add(stateLvl1); // Level 1 prochaine coup
+				Node minNode = new Node(stateLvl1,maxNode);
+				maxNode.addChildren(minNode); // Level 1 prochaine coup
 			}
 		}
 	}

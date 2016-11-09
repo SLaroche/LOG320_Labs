@@ -67,6 +67,16 @@ public class GameState {
 		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
 	}
 	
+	public GameState updateBoard(Pos2D posPawnBegin,Pos2D posPawnEnd)
+	{
+		System.out.println(posPawnBegin.x+" "+posPawnBegin.y+" "+posPawnEnd.x+" "+posPawnEnd.y);
+		stringMoveFromParent = positionNameYX[posPawnBegin.y][posPawnBegin.x]+positionNameYX[posPawnEnd.y][posPawnEnd.x];
+		System.out.println(stringMoveFromParent);
+		this.board[posPawnEnd.x][posPawnEnd.y] = this.board[posPawnBegin.x][posPawnBegin.y];
+		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
+		return this;	
+	}
+	
 	//retourne les GameStates qui sont g�n�r� par le pawn qui se deplacer
 	public ArrayList<GameState> findPawnMove(Pos2D pawnPosition){
 		ArrayList<GameState> result = new ArrayList<GameState>();
@@ -75,7 +85,6 @@ public class GameState {
 		int y = pawnPosition.y;
 		
 		if(board[x][y] != currentPlayer){
-			System.out.println("Pas le bon joueur at ("+x+","+y+") , board value = " + board[x][y] + ", currentPlayer = " + currentPlayer);
 			return null;
 		}
 		
@@ -131,7 +140,7 @@ public class GameState {
 		//1-Move Nord
 		if(y-verticalPawn>=0){
 			boolean moveOk = true;
-			for(int i=0;i<=verticalPawn-1&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0;i++){
+			for(int i=0;i<=verticalPawn-1/*&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0*/;i++){
 				if(board[x][y-i] == enemyPlayer){
 					moveOk = false;
 				}
@@ -147,7 +156,7 @@ public class GameState {
 		//2-Move Sud
 		if(y+verticalPawn<8){
 			boolean moveOk = true;
-			for(int i=0;i<=verticalPawn-1&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0;i++){
+			for(int i=0;i<=verticalPawn-1/*&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0*/;i++){
 				if(board[x][y+i] == enemyPlayer){
 					moveOk = false;
 				}
@@ -163,7 +172,7 @@ public class GameState {
 		//3-Move Est
 		if(x+horizontalPawn < 8){
 			boolean moveOk = true;
-			for(int i=0;i<=horizontalPawn-1&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0;i++){
+			for(int i=0;i<=horizontalPawn-1/*&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0*/;i++){
 				if(board[x+i][y] == enemyPlayer){
 					moveOk = false;
 				}
@@ -179,7 +188,7 @@ public class GameState {
 		//4-Move Ouest
 		if(x-horizontalPawn >=0){
 			boolean moveOk = true;
-			for(int i=0;i<=horizontalPawn-1&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0;i++){
+			for(int i=0;i<=horizontalPawn-1/*&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0*/;i++){
 				if(board[x-i][y] == enemyPlayer){
 					moveOk = false;
 				}
@@ -195,7 +204,7 @@ public class GameState {
 		//5-Move Nord-Est
 		if(x+topRightDiagonalPawn<8&&y-topRightDiagonalPawn>=0){
 			boolean moveOk = true;
-			for(int i=0;i<=topRightDiagonalPawn-1&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0;i++){
+			for(int i=0;i<=topRightDiagonalPawn-1/*&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0*/;i++){
 				if(board[x+i][y-i] == enemyPlayer){
 					moveOk = false;
 				}
@@ -211,7 +220,7 @@ public class GameState {
 		//6-Move Sud-Ouest
 		if(x-topRightDiagonalPawn>=0&&y+topRightDiagonalPawn<8){
 			boolean moveOk = true;
-			for(int i=0;i<=topRightDiagonalPawn-1&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0;i++){
+			for(int i=0;i<=topRightDiagonalPawn-1/*&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0*/;i++){
 				if(board[x-i][y+i] == enemyPlayer){
 					moveOk = false;
 				}
@@ -227,7 +236,7 @@ public class GameState {
 		//7-Nord-Ouest
 		if(x-topLeftDiagonalPawn>=0&&y-topLeftDiagonalPawn>=0){
 			boolean moveOk = true;
-			for(int i=0;i<=topLeftDiagonalPawn-1&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0;i++){
+			for(int i=0;i<=topLeftDiagonalPawn-1/*&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0*/;i++){
 				if(board[x-i][y-i] == enemyPlayer){
 					moveOk = false;
 				}
@@ -243,7 +252,7 @@ public class GameState {
 		//8-Sud-Est
 		if(x+topLeftDiagonalPawn<8&&y+topLeftDiagonalPawn<8){
 			boolean moveOk = true;
-			for(int i=0;i<=topLeftDiagonalPawn-1&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0;i++){
+			for(int i=0;i<=topLeftDiagonalPawn-1/*&&(x+i)<8&&(x-i)>=0&&(y+i)<8&&(y-i)>=0*/;i++){
 				if(board[x+i][y+i] == enemyPlayer){
 					moveOk = false;
 				}
@@ -271,10 +280,13 @@ public class GameState {
 		for(int i=0;i<8;i++){
 			for(int j=0;j<8;j++){
 				Pos2D position = new Pos2D(i,j);
-				result.addAll(findPawnMove(position));
-			}
+				ArrayList<GameState> pawnMovePosition = findPawnMove(position);
+				if(pawnMovePosition != null) 
+					result.addAll(pawnMovePosition);
+			}			
 		}
-		return new ArrayList<GameState>();
+		System.out.println(result.size()+" movements sont possibles");
+		return result;
 	}
 	
 	/**

@@ -73,6 +73,13 @@ public class Node {
 	public void print() {
 		System.out.println(value);
 	}
-
+	public int getMax(){
+		int max = 1;
+		return max;
+	}
+	public int getMin(){
+		int min = 100;
+		return min;
+	}
 }
 
