@@ -1,6 +1,7 @@
 package Modele;
 import java.util.List;
 
+import Algo.AlgoMarc;
 import Algo.AlgoTest;
 import Algo.LOAAlgo;
 import util.GameState;
@@ -14,7 +15,7 @@ public class LOAGameLogic {
 	
 	public LOAGameLogic(int player){
 		this.currentGameState = new GameState(player);
-		algo = new AlgoTest();
+		algo = new AlgoMarc();
 		System.out.println("__start__");
 		System.out.println("Player : " + currentGameState.currentPlayer);
 		for (int i = 0; i < currentGameState.board.length; i++) {
@@ -39,8 +40,9 @@ public class LOAGameLogic {
 			updateBoard(lastMove);
 		}
 		tree = new Node(currentGameState, null);
-		generateTree(currentGameState);
-		String bestMove = algo.getBestMove(currentGameState, tree);
+		generateTree(currentGameState, tree);
+		String bestMove = algo.getBestMove(currentGameState, tree, this);
+
 		updateBoard(bestMove);
 		
 		return bestMove;
@@ -52,13 +54,12 @@ public class LOAGameLogic {
 		currentGameState = currentGameState.updateBoard(lastMovePosPawnBegin, lastMovePosPawnEnd);
 	}
 	
-	public void generateTree(GameState state) {
+	public void generateTree(GameState state, Node tree) {
 		List <GameState> AllMove= state.getAllMove();
 		for (GameState stateLel0 : AllMove) {
 			Node maxNode = new Node(stateLel0,tree);
 			tree.addChildren(maxNode); // Level 0,5 adverser
-			System.out.println("hshhs "+maxNode.getGameState().stringMoveFromParent);
-			List <GameState>  AllMoveLvl1 = state.getAllMove();
+			List <GameState>  AllMoveLvl1 = stateLel0.getAllMove();
 			for (GameState stateLvl1 : AllMoveLvl1) {
 				Node minNode = new Node(stateLvl1,maxNode);
 				maxNode.addChildren(minNode); // Level 1 prochaine coup
