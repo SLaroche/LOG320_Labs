@@ -24,7 +24,7 @@ public abstract class LOAAlgo {
 		return resultNode;
 	}
 	
-	private int minmaxAlphaBeta(Node node, String player, int alpha, int beta){
+	protected int minmaxAlphaBeta(Node node, String player, int alpha, int beta){
 		List<Node> listChildren = node.getChildList();
 		int score = 0;
 		if(player.equals("Max")){
@@ -69,4 +69,5 @@ public abstract class LOAAlgo {
 	protected abstract int evaluationMin(GameState state);
 	
 	protected abstract int evaluationMax(GameState state);
+
 } 
