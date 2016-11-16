@@ -10,6 +10,7 @@ public class Node {
 	private GameState value;
 	private boolean visited;
 	private boolean isLeaf;
+	private int score;
 	
 	public Node (GameState gameState, Node parent) {
 		children = new ArrayList<Node>();
@@ -17,8 +18,28 @@ public class Node {
 		value = gameState;
 		visited = false;
 		isLeaf = true;
+		score = 0;
 	}
-	
+	public void sortChildScore(){
+		for(int g=0;g<children.size();g++){
+			for(int i=0;i<children.size();i++)
+			{
+				
+				if(i+1 < children.size()){
+					Node n1 = children.get(i);
+					Node n2 = children.get(i+1);
+					System.out.println("hdhadjshdasj"+n1.getScore());
+					System.out.println(n2.getScore());
+					if(n1.getScore()<n2.getScore())
+					{
+						this.children.set(i,n2);
+						this.children.set(i+1,n1);
+						System.out.println("hdhadjshdasj"+n1.getScore());
+					}
+				}
+			}
+		}
+	}
 	public void addChildren(Node child) {
 		children.add(child);
 		if (isLeaf) {
@@ -80,6 +101,13 @@ public class Node {
 	public int getMin(){
 		int min = 100;
 		return min;
+	}
+	public int getScore(){
+		return score;
+	}
+	public void setScore(int score)
+	{
+		this.score = score;
 	}
 }
 

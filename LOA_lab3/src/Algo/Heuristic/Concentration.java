@@ -6,7 +6,7 @@ import util.Pos2D;
 public class Concentration implements HeuristicInterface{
 
 	@Override
-	public int getScore(GameState gameState) {
+	public float getScore(GameState gameState) {
 		return 0;
 	}
 	

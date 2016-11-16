@@ -1,11 +1,14 @@
 package util;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.text.Position;
+
 public class GameState {
+	public ArrayList<GameState> children = new ArrayList<GameState>();
+	public GameState parent;
 	public int[][] board = new int[8][8];
 	public double gameStateScore;
 	public int currentPlayer;
@@ -13,8 +16,8 @@ public class GameState {
 	public List<Pos2D> pawnOfPlayer;
 	public List<Pos2D> pawnOfOpponent; 
 	//Heuristic Attributes
-	public ArrayList<ArrayList<Pos2D>> playerLinks;
-	public ArrayList<ArrayList<Pos2D>> opponentLinks;
+  	public ArrayList<ArrayList<Pos2D>> playerLinks;
+  	public ArrayList<ArrayList<Pos2D>> opponentLinks;
 	
 	private static final String[][] positionNameYX = new String[][]{
 		{"A8","B8","C8","D8","E8","F8","G8","H8"},
@@ -31,20 +34,6 @@ public class GameState {
 	public GameState(int player){
 		this.pawnOfPlayer = new ArrayList<Pos2D>();
 		this.pawnOfOpponent = new ArrayList<Pos2D>();
-		board[0][1] = 1;
-		board[0][2] = 1;
-		board[0][3] = 1;
-		board[0][4] = 1;
-		board[0][5] = 1;
-		board[0][6] = 1;
-		
-		board[7][1] = 1;
-		board[7][2] = 1;
-		board[7][3] = 1;
-		board[7][4] = 1;
-		board[7][5] = 1;
-		board[7][6] = 1;
-		
 		board[1][0] = 2;
 		board[2][0] = 2;
 		board[3][0] = 2;
@@ -87,22 +76,28 @@ public class GameState {
 		
 		this.currentPlayer = player;
 	}
-	//constructeur base sur un deplacement  
+	//constructeur bas� sur un deplacement 
 	public GameState(GameState parentGameState,Pos2D posPawnBegin,Pos2D posPawnEnd){
+		this.parent = parentGameState;
 		this.currentPlayer = (parentGameState.currentPlayer == 1) ? 2 : 1;
 		stringMoveFromParent = positionNameYX[posPawnBegin.y][posPawnBegin.x]+positionNameYX[posPawnEnd.y][posPawnEnd.x];
 		this.board = GameState.cloneBoard(parentGameState.board);
 		this.board[posPawnEnd.x][posPawnEnd.y] = this.board[posPawnBegin.x][posPawnBegin.y];
 		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
-		
-		//gestion List Pawn
 		pawnOfPlayer.remove(posPawnEnd);
 		pawnOfOpponent.remove(posPawnEnd);
-		if(parentGameState.currentPlayer == 1){
 			pawnOfPlayer.add(posPawnBegin);
-		}else{
 			pawnOfOpponent.add(posPawnBegin);
-		}
+	}
+	
+	public GameState updateBoard(Pos2D posPawnBegin,Pos2D posPawnEnd)
+	{
+		System.out.println(posPawnBegin.x+" "+posPawnBegin.y+" "+posPawnEnd.x+" "+posPawnEnd.y);
+		stringMoveFromParent = positionNameYX[posPawnBegin.y][posPawnBegin.x]+positionNameYX[posPawnEnd.y][posPawnEnd.x];
+		System.out.println(stringMoveFromParent);
+		this.board[posPawnEnd.x][posPawnEnd.y] = this.board[posPawnBegin.x][posPawnBegin.y];
+		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
+		return this;	
 	}
 	
 	//retourne les GameStates qui sont g�n�r� par le pawn qui se deplacer
@@ -313,7 +308,6 @@ public class GameState {
 					result.addAll(pawnMovePosition);
 			}			
 		}
-		System.out.println(result.size()+" movements sont possibles");
 		return result;
 	}
 	
@@ -337,31 +331,6 @@ public class GameState {
 	 */
 	public static String pawnPositionToStringUtility(int x, int y){
 		return positionNameYX[y][x];
-	}
-	
-	public int nbOfPawn() {
-		int nb = 0;
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
-				if (board[i][j] == currentPlayer) {
-					nb++;
-				}
-			}
-		}
-		return nb;
-	}
-	
-	public int nbOfOpponentPawn() {
-		int nb = 0;
-		int opponent = (currentPlayer == 1) ? 2 : 1;
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
-				if (board[i][j] == opponent) {
-					nb++;
-				}
-			}
-		}
-		return nb;
 	}
 	
 	public static int[][] cloneBoard(int [][] board){
