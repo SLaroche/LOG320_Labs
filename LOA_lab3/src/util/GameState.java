@@ -10,13 +10,11 @@ public class GameState {
 	public double gameStateScore;
 	public int currentPlayer;
 	public String stringMoveFromParent;
-<<<<<<< HEAD
 	private List<Pos2D> pawnOfPlayer1 = new ArrayList();
 	private List<Pos2D> pawnOfPlayer2 = new ArrayList(); 
-=======
+	//Heuristic Attributes
 	public ArrayList<ArrayList<Pos2D>> playerLinks;
 	public ArrayList<ArrayList<Pos2D>> opponentLinks;
->>>>>>> bdfd89cbb7894d0fedebe6e138b0ee77d61721d7
 	
 	private static final String[][] positionNameYX = new String[][]{
 		{"A8","B8","C8","D8","E8","F8","G8","H8"},
