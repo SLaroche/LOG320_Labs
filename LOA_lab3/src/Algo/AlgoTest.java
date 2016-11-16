@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Algo.Heuristic.HeuristicInterface;
+import Algo.Heuristic.Mobility;
+import Algo.Heuristic.WinLose;
 import Modele.LOAGameLogic;
 import util.GameState;
 import util.Node;
@@ -12,19 +15,21 @@ import util.Pos2D;
 public class AlgoTest extends LOAAlgo {
 	private long startTime;
 	private LOAGameLogic gameLogic;
-	private int limit = 0;
+	private float limit = 0;
+	private HeuristicInterface heuristicMobility = new Mobility();
+	private HeuristicInterface heuristicWinLose = new WinLose();
 	@Override
 	public String getBestMove(GameState state, Node tree, LOAGameLogic gameLogic) {
 		this.gameLogic = gameLogic;
 		startTime = System.currentTimeMillis();
-		return getbestNode(tree).getChildList().get(0).getGameState().stringMoveFromParent;
+		return getbestNode(tree).getGameState().stringMoveFromParent;
 	}
 	
 	private Node getbestNode(Node tree){
-		int currentScoreMax = -1000;
+		float currentScoreMax = -1000;
 		Node resultNode = null;
 		for(Node currentNode : tree.getChildList()){
-			int score = minmaxAlphaBeta(currentNode,"Max",-1000,1000);
+			float score = minmaxAlphaBeta(currentNode,"Max",-1000,1000);
 			currentNode.setScore(score);
 			if(currentScoreMax<score)
 			{
@@ -32,7 +37,7 @@ public class AlgoTest extends LOAAlgo {
 				resultNode = currentNode;
 			}
 		}
-		tree.sortChildScore();
+		
 		System.out.println(System.currentTimeMillis()-startTime);
 		if(System.currentTimeMillis()-startTime<=3000 && limit<7){
 			limit++;
@@ -40,15 +45,15 @@ public class AlgoTest extends LOAAlgo {
 			resultNode = getbestNode(resultNode);
 			limit --;
 		}
-			
+		tree.sortChildScore();
 		return resultNode;
 	}
 	
-	private int minmaxAlphaBeta(Node node, String player, int alpha, int beta){
+	private float minmaxAlphaBeta(Node node, String player, float alpha, float beta){
 		List<Node> listChildren = node.getChildList();
-		int score = 0;
+		float score = 0;
 		if(player.equals("Max")){
-			int alphaT = -1000; 
+			float alphaT = -1000; 
 			alphaT = evaluation(node.getGameState());
 			for(Node currentNode : listChildren){
 				score = minmaxAlphaBeta(currentNode, "Min", max(alpha,alphaT), beta);
@@ -59,7 +64,7 @@ public class AlgoTest extends LOAAlgo {
 			return alphaT;
 		}
 		else if(player.equals("Min")){
-			int betaT = 1000; 
+			float betaT = 1000; 
 			betaT = evaluation(node.getGameState());
 			for(Node currentNode : listChildren){
 				score = minmaxAlphaBeta(currentNode, "Max", alpha, min(beta,betaT));
@@ -72,22 +77,22 @@ public class AlgoTest extends LOAAlgo {
 		return 0;
 	}
 	
-	private int min(int score1, int score2)
+	private float min(float score1, float score2)
 	{
 		if(score1 < score2)
 			return score1;
 		return score2;
 	}
 	
-	private int max(int score1, int score2)
+	private float max(float score1, float score2)
 	{
 		if(score1 > score2)
 			return score1;
 		return score2;
 	}
 
-	private int evaluation(GameState state){
-		int score = 1;
+	private float evaluation(GameState state){
+		float score = 1;
 		int board[][] = state.board;
 
 		for(int i=0;i<8;i++)
@@ -102,13 +107,17 @@ public class AlgoTest extends LOAAlgo {
 				}
 			}
 		}
-		//if(didWinNextTurn(state,1)) score = 1000;
+		if(didWinNextTurn(state)) score = 1000;
+
+		score+= heuristicMobility.getScore(state);
+		score+= heuristicWinLose.getScore(state);
 		//Random scoreR = new Random();
 		//score = scoreR.nextInt();
 		return score;
 	}
-	private boolean didWinNextTurn(GameState state, int player){
+	private boolean didWinNextTurn(GameState state){
 		int board[][] = state.board;
+		int player = state.currentPlayer;
 		for(int i=0;i<8;i++)
 		{
 			for(int j=0;j<8;j++){

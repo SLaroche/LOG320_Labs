@@ -34,6 +34,20 @@ public class GameState {
 	public GameState(int player){
 		this.pawnOfPlayer = new ArrayList<Pos2D>();
 		this.pawnOfOpponent = new ArrayList<Pos2D>();
+		board[0][1] = 1;
+		board[0][2] = 1;
+		board[0][3] = 1;
+		board[0][4] = 1;
+		board[0][5] = 1;
+		board[0][6] = 1;
+		
+		board[7][1] = 1;
+		board[7][2] = 1;
+		board[7][3] = 1;
+		board[7][4] = 1;
+		board[7][5] = 1;
+		board[7][6] = 1;
+		
 		board[1][0] = 2;
 		board[2][0] = 2;
 		board[3][0] = 2;
@@ -84,10 +98,13 @@ public class GameState {
 		this.board = GameState.cloneBoard(parentGameState.board);
 		this.board[posPawnEnd.x][posPawnEnd.y] = this.board[posPawnBegin.x][posPawnBegin.y];
 		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
-		pawnOfPlayer.remove(posPawnEnd);
-		pawnOfOpponent.remove(posPawnEnd);
+		if(pawnOfPlayer.contains(posPawnEnd)) pawnOfPlayer.remove(posPawnEnd);
+		if(pawnOfOpponent.contains(posPawnEnd)) pawnOfOpponent.remove(posPawnEnd);
+		if(parentGameState.currentPlayer == 1){
 			pawnOfPlayer.add(posPawnBegin);
+		}else{
 			pawnOfOpponent.add(posPawnBegin);
+		}
 	}
 	
 	public GameState updateBoard(Pos2D posPawnBegin,Pos2D posPawnEnd)
@@ -108,9 +125,10 @@ public class GameState {
 		int y = pawnPosition.y;
 		
 		if(board[x][y] != currentPlayer){
+			System.out.println(board[x][y]);
 			return null;
 		}
-		
+		System.out.println(board[x][y]);
 		int verticalPawn = 0;
 		int horizontalPawn= 0;
 		int topRightDiagonalPawn = 0;
@@ -308,6 +326,7 @@ public class GameState {
 					result.addAll(pawnMovePosition);
 			}			
 		}
+		
 		return result;
 	}
 	

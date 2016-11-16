@@ -10,7 +10,7 @@ public class Node {
 	private GameState value;
 	private boolean visited;
 	private boolean isLeaf;
-	private int score;
+	private float score;
 	
 	public Node (GameState gameState, Node parent) {
 		children = new ArrayList<Node>();
@@ -102,10 +102,10 @@ public class Node {
 		int min = 100;
 		return min;
 	}
-	public int getScore(){
+	public float getScore(){
 		return score;
 	}
-	public void setScore(int score)
+	public void setScore(float score)
 	{
 		this.score = score;
 	}

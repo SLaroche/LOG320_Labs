@@ -61,7 +61,6 @@ public class LOAGameLogic {
 			for (GameState stateLvl1 : AllMoveLvl1) {
 				Node minNode = new Node(stateLvl1,maxNode);
 				maxNode.addChildren(minNode); // Level 1 prochaine coup
-				List <GameState>  AllMoveLvl2 = stateLvl1.getAllMove();
 			}
 		}
 	}
