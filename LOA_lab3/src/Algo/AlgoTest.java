@@ -1,11 +1,13 @@
 package Algo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import Modele.LOAGameLogic;
 import util.GameState;
 import util.Node;
+import util.Pos2D;
 
 public class AlgoTest extends LOAAlgo {
 	private long startTime;
@@ -118,5 +120,25 @@ public class AlgoTest extends LOAAlgo {
 		//Random scoreR = new Random();
 		//score = scoreR.nextInt();
 		return score;
+	}
+	/**
+	 * 
+	 * @return 1 : win
+	 * @return 0 : no win no lose
+	 * @return -1 : lose
+	 * @return 2 : Draw
+	 */
+	public int winLoseCondition (GameState state) {
+		int opponent = state.currentPlayer == 1 ? 2 : 1 ;
+		ArrayList<ArrayList<Pos2D>> playerLinks = state.findLinks(state.getAllPawnPos(state.currentPlayer));
+		ArrayList<ArrayList<Pos2D>> opponentLinks = state.findLinks(state.getAllPawnPos(opponent));
+		if(playerLinks.size() == 1) {
+			return 1;
+		} else if (opponentLinks.size() == 1) {
+			return -1;
+		} else if (playerLinks.size() == 1 && opponentLinks.size() == 1) {
+			return 2;
+		}
+		return 0;
 	}
 }

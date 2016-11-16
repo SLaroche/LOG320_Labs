@@ -1,10 +1,9 @@
 package util;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.text.Position;
 
 public class GameState {
 	public ArrayList<GameState> children = new ArrayList<GameState>();
@@ -309,6 +308,136 @@ public class GameState {
 	 */
 	public static String pawnPositionToStringUtility(int x, int y){
 		return positionNameYX[y][x];
+	}
+	
+	public int nbOfPawn() {
+		int nb = 0;
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j] == currentPlayer) {
+					nb++;
+				}
+			}
+		}
+		return nb;
+	}
+	
+	public int nbOfOpponentPawn() {
+		int nb = 0;
+		int opponent = (currentPlayer == 1) ? 2 : 1;
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j] == opponent) {
+					nb++;
+				}
+			}
+		}
+		return nb;
+	}
+	
+	public ArrayList<Pos2D> getAllPawnPos (int player) {
+		ArrayList<Pos2D> pawnsPos = new ArrayList<Pos2D>();
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j] == player) {
+					pawnsPos.add(new Pos2D(i, j));
+				}
+			}
+		}
+		return pawnsPos;
+	}
+	
+	public ArrayList<ArrayList<Pos2D>> findLinks(ArrayList<Pos2D> pawnsPos) {
+		/*for (Pos2D pos2d : pawnsPos) {
+			System.out.print(" " + pos2d.toString() + " ");
+		}*/
+		//System.out.println();
+		HashMap<Pos2D, Integer> zoneMap = new HashMap<Pos2D, Integer>();
+		int zoneValue = 1;
+		// tab de liaison de links
+		for (int i = 0; i < pawnsPos.size(); i++) {
+			Pos2D pawn = pawnsPos.get(i);
+			if (zoneMap.get(pawn)==null){
+				zoneMap.put(pawn, zoneValue++);
+				//System.out.println("zone value: " + zoneValue);
+			}
+			for (int j = i; j < pawnsPos.size(); j++) {
+				Pos2D otherPawn = pawnsPos.get(j);
+				//System.out.println("pos to compair: " + pawn.toString() + " " + otherPawn.toString());
+				if ((pawn.x+1)==otherPawn.x && pawn.y==otherPawn.y) {
+					//System.out.println("condition entered: x+1");
+					mapLinks(zoneMap, pawn, otherPawn);
+				}
+				else if ((pawn.x-1)==otherPawn.x && pawn.y==otherPawn.y){
+					//System.out.println("condition entered: x-1");
+					mapLinks(zoneMap, pawn, otherPawn);				
+				}
+				else if (pawn.x==otherPawn.x && (pawn.y+1)==otherPawn.y){
+					//System.out.println("condition entered: y+1");
+					mapLinks(zoneMap, pawn, otherPawn);
+				}
+				else if (pawn.x==otherPawn.x && (pawn.y-1)==otherPawn.y){
+					//System.out.println("condition entered: y-1");
+					mapLinks(zoneMap, pawn, otherPawn);
+				}
+				else if ((pawn.x+1)==otherPawn.x && (pawn.y+1)==otherPawn.y){
+					//System.out.println("condition entered: x+1 y+1");
+					mapLinks(zoneMap, pawn, otherPawn);
+				}
+				else if ((pawn.x-1)==otherPawn.x && (pawn.y-1)==otherPawn.y){
+					//System.out.println("condition entered: x-1 y-1");
+					mapLinks(zoneMap, pawn, otherPawn);
+				}
+				else if ((pawn.x+1)==otherPawn.x && (pawn.y-1)==otherPawn.y){
+					//System.out.println("condition entered: x+1 y-1");
+					mapLinks(zoneMap, pawn, otherPawn);
+				}
+				else if ((pawn.x-1)==otherPawn.x && (pawn.y+1)==otherPawn.y){
+					//System.out.println("condition entered: x-1 y+1");
+					mapLinks(zoneMap, pawn, otherPawn);
+				}
+			}
+		}
+		//faire la list de link
+		ArrayList<ArrayList<Pos2D>> links = new ArrayList<ArrayList<Pos2D>>();
+		for (int i = 1; i < zoneValue; i++) {
+			//System.out.println("zone: " + i);
+			ArrayList<Pos2D> link = new ArrayList<Pos2D>();
+			Iterator<Pos2D> keySetIterator = zoneMap.keySet().iterator(); 
+			while(keySetIterator.hasNext()){ 
+				Pos2D key = keySetIterator.next();
+				if (zoneMap.get(key)==i){
+					link.add(key);
+				}
+			}
+			links.add(link);
+		}
+		for (ArrayList<Pos2D> arrayList : links) {
+			for (Pos2D pos2d : arrayList) {
+				System.out.print(" " + pos2d.toString() + " ");
+			}
+			System.out.println();
+		}
+		return links;
+	}
+	
+	private void mapLinks (HashMap<Pos2D, Integer> zoneMap, Pos2D pawn, Pos2D otherPawn) {
+		if (zoneMap.get(otherPawn)==null){
+			zoneMap.put(otherPawn, zoneMap.get(pawn));
+		} else if (zoneMap.get(pawn)!=zoneMap.get(otherPawn)){
+			//ajouter a liaison
+			int value = zoneMap.get(pawn)<zoneMap.get(otherPawn) ? zoneMap.get(pawn) : zoneMap.get(otherPawn);
+			int oldValue = zoneMap.get(pawn)>zoneMap.get(otherPawn) ? zoneMap.get(pawn) : zoneMap.get(otherPawn);
+			//System.out.println("old new value: " + oldValue + " " + value);
+			Iterator<Pos2D> keySetIterator = zoneMap.keySet().iterator(); 
+			while(keySetIterator.hasNext()){ 
+				Pos2D key = keySetIterator.next();
+				if (zoneMap.get(key)==oldValue){
+					//System.out.println("changing value: " + key.toString());
+					zoneMap.put(key, value);
+				}
+			}
+		}
 	}
 	
 	public static int[][] cloneBoard(int [][] board){
