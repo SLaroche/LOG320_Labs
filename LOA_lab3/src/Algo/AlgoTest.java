@@ -1,11 +1,13 @@
 package Algo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import Modele.LOAGameLogic;
 import util.GameState;
 import util.Node;
+import util.Pos2D;
 
 public class AlgoTest extends LOAAlgo {
 	private long startTime;
