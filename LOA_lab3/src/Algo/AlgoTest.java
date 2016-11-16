@@ -38,8 +38,8 @@ public class AlgoTest extends LOAAlgo {
 			}
 		}
 		
-		System.out.println(System.currentTimeMillis()-startTime);
-		if(System.currentTimeMillis()-startTime<=3000 && limit<7){
+		//system.out.println(//system.currentTimeMillis()-startTime);
+		if(System.currentTimeMillis()-startTime<=3000 && limit<4){
 			limit++;
 			gameLogic.generateTree(resultNode.getGameState(), resultNode);
 			resultNode = getbestNode(resultNode);
@@ -135,7 +135,7 @@ public class AlgoTest extends LOAAlgo {
 				}
 			}
 		}
-		System.out.println("god dmdndaijhdasiujbdjsahbadsjhbgdasjbgadsj");
+		//system.out.println("god dmdndaijhdasiujbdjsahbadsjhbgdasjbgadsj");
 		return true;
 	}
 }

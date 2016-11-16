@@ -33,11 +33,8 @@ public class WinLose implements HeuristicInterface {
 	
 	public ArrayList<ArrayList<Pos2D>> findLinks(GameState gameState, int player) {
 		ArrayList<Pos2D> pawnsPos;
-		if (player == gameState.currentPlayer) {
-			pawnsPos = (ArrayList<Pos2D>) gameState.pawnOfPlayer;
-		} else {
-			pawnsPos = (ArrayList<Pos2D>) gameState.pawnOfOpponent;
-		}
+		
+		pawnsPos = (ArrayList<Pos2D>) gameState.pawnOfPlayer[gameState.currentPlayer];
 		/*for (Pos2D pos2d : pawnsPos) {
 			System.out.print(" " + pos2d.toString() + " ");
 		}*/
@@ -101,12 +98,6 @@ public class WinLose implements HeuristicInterface {
 				}
 			}
 			links.add(link);
-		}
-		for (ArrayList<Pos2D> arrayList : links) {
-			for (Pos2D pos2d : arrayList) {
-				System.out.print(" " + pos2d.toString() + " ");
-			}
-			System.out.println();
 		}
 		
 		if (player == gameState.currentPlayer) {

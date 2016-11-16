@@ -11,6 +11,7 @@ class Client {
 		BufferedOutputStream output;
 		LOAGameLogic gl = null;
 		int[][] board = new int[8][8];
+		
 		try {
 			MyClient = new Socket("localhost", 8888);
 			input    = new BufferedInputStream(MyClient.getInputStream());
@@ -26,10 +27,10 @@ class Client {
 					byte[] aBuffer = new byte[1024];
 
 					int size = input.available();
-					//System.out.println("size " + size);
+					////system.out.println("size " + size);
 					input.read(aBuffer,0,size);
 					String s = new String(aBuffer).trim();
-					System.out.println(s);
+					//system.out.println(s);
 					String[] boardValues;
 					boardValues = s.split(" ");
 					int x=0,y=0;
@@ -43,23 +44,23 @@ class Client {
 					}
 					gl = new LOAGameLogic(1);
 
-					System.out.println("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
+					//system.out.println("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
 					String move = null;
 					move = gl.move(null);
-					System.out.println(move);
+					//system.out.println(move);
 					output.write(move.getBytes(),0,move.length());
 					output.flush();
 				}
 				// Début de la partie en joueur Noir
 				if(cmd == '2'){
-					System.out.println("Nouvelle partie! Vous jouer noir, attendez le coup des blancs");
+					//system.out.println("Nouvelle partie! Vous jouer noir, attendez le coup des blancs");
 					byte[] aBuffer = new byte[1024];
 
 					int size = input.available();
-					//System.out.println("size " + size);
+					////system.out.println("size " + size);
 					input.read(aBuffer,0,size);
 					String s = new String(aBuffer).trim();
-					System.out.println(s);
+					//system.out.println(s);
 					String[] boardValues;
 					boardValues = s.split(" ");
 					int x=0,y=0;
@@ -81,12 +82,12 @@ class Client {
 					byte[] aBuffer = new byte[16];
 
 					int size = input.available();
-					//System.out.println("size " + size);
+					////system.out.println("size " + size);
 					input.read(aBuffer,0,size);
 
 					String s = new String(aBuffer);
-					System.out.println("Dernier coup : "+ s);
-					System.out.println("Entrez votre coup : ");
+					//system.out.println("Dernier coup : "+ s);
+					//system.out.println("Entrez votre coup : ");
 					String move = null;
 					move = gl.move(s);
 					//move = gl.move(s);
@@ -96,7 +97,7 @@ class Client {
 				}
 				// Le dernier coup est invalide
 				if(cmd == '4'){
-					System.out.println("Coup invalide, entrez un nouveau coup : ");
+					//system.out.println("Coup invalide, entrez un nouveau coup : ");
 					String move = null;
 					
 					move = gl.move(null);
@@ -107,7 +108,7 @@ class Client {
 			}
 		}
 		catch (IOException e) {
-			System.out.println(e);
+			//system.out.println(e);
 		}
 	}
 }

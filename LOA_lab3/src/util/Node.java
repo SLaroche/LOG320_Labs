@@ -28,13 +28,13 @@ public class Node {
 				if(i+1 < children.size()){
 					Node n1 = children.get(i);
 					Node n2 = children.get(i+1);
-					System.out.println("hdhadjshdasj"+n1.getScore());
-					System.out.println(n2.getScore());
+					//System.out.println("hdhadjshdasj"+n1.getScore());
+					//System.out.println(n2.getScore());
 					if(n1.getScore()<n2.getScore())
 					{
 						this.children.set(i,n2);
 						this.children.set(i+1,n1);
-						System.out.println("hdhadjshdasj"+n1.getScore());
+						//System.out.println("hdhadjshdasj"+n1.getScore());
 					}
 				}
 			}
@@ -92,7 +92,7 @@ public class Node {
 	}
 	
 	public void print() {
-		System.out.println(value);
+		//System.out.println(value);
 	}
 	public int getMax(){
 		int max = 1;
