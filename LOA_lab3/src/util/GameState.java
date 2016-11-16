@@ -1,18 +1,22 @@
 package util;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.text.Position;
 
 public class GameState {
 	public int[][] board = new int[8][8];
 	public double gameStateScore;
 	public int currentPlayer;
 	public String stringMoveFromParent;
+<<<<<<< HEAD
 	private List<Pos2D> pawnOfPlayer1 = new ArrayList();
 	private List<Pos2D> pawnOfPlayer2 = new ArrayList(); 
+=======
+	public ArrayList<ArrayList<Pos2D>> playerLinks;
+	public ArrayList<ArrayList<Pos2D>> opponentLinks;
+>>>>>>> bdfd89cbb7894d0fedebe6e138b0ee77d61721d7
 	
 	private static final String[][] positionNameYX = new String[][]{
 		{"A8","B8","C8","D8","E8","F8","G8","H8"},
@@ -333,6 +337,43 @@ public class GameState {
 	 */
 	public static String pawnPositionToStringUtility(int x, int y){
 		return positionNameYX[y][x];
+	}
+	
+	public int nbOfPawn() {
+		int nb = 0;
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j] == currentPlayer) {
+					nb++;
+				}
+			}
+		}
+		return nb;
+	}
+	
+	public int nbOfOpponentPawn() {
+		int nb = 0;
+		int opponent = (currentPlayer == 1) ? 2 : 1;
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j] == opponent) {
+					nb++;
+				}
+			}
+		}
+		return nb;
+	}
+	
+	public ArrayList<Pos2D> getAllPawnPos (int player) {
+		ArrayList<Pos2D> pawnsPos = new ArrayList<Pos2D>();
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j] == player) {
+					pawnsPos.add(new Pos2D(i, j));
+				}
+			}
+		}
+		return pawnsPos;
 	}
 	
 	public static int[][] cloneBoard(int [][] board){
