@@ -49,7 +49,7 @@ public class LOAGameLogic {
 	private void  updateBoard(String move){
 		Pos2D lastMovePosPawnBegin = GameState.pawnPositionToPositionUtility(move.substring(0, 2));
 		Pos2D lastMovePosPawnEnd = GameState.pawnPositionToPositionUtility(move.substring(2, 4));
-		currentGameState = currentGameState.updateBoard(lastMovePosPawnBegin, lastMovePosPawnEnd);
+		currentGameState = new GameState(currentGameState, lastMovePosPawnBegin, lastMovePosPawnEnd);
 	}
 	
 	public void generateTree(GameState state, Node tree) {

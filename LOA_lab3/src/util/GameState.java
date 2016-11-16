@@ -11,6 +11,8 @@ public class GameState {
 	public double gameStateScore;
 	public int currentPlayer;
 	public String stringMoveFromParent;
+	private List<Pos2D> pawnOfPlayer1 = new ArrayList();
+	private List<Pos2D> pawnOfPlayer2 = new ArrayList(); 
 	
 	private static final String[][] positionNameYX = new String[][]{
 		{"A8","B8","C8","D8","E8","F8","G8","H8"},
@@ -25,20 +27,6 @@ public class GameState {
 	
 	//default constructor, setup the initial state
 	public GameState(int player){
-		board[1][0] = 2;
-		board[2][0] = 2;
-		board[3][0] = 2;
-		board[4][0] = 2;
-		board[5][0] = 2;
-		board[6][0] = 2;
-		
-		board[1][7] = 2;
-		board[2][7] = 2;
-		board[3][7] = 2;
-		board[4][7] = 2;
-		board[5][7] = 2;
-		board[6][7] = 2;
-		
 		board[0][1] = 1;
 		board[0][2] = 1;
 		board[0][3] = 1;
@@ -53,6 +41,46 @@ public class GameState {
 		board[7][5] = 1;
 		board[7][6] = 1;
 		
+		board[1][0] = 2;
+		board[2][0] = 2;
+		board[3][0] = 2;
+		board[4][0] = 2;
+		board[5][0] = 2;
+		board[6][0] = 2;
+		
+		board[1][7] = 2;
+		board[2][7] = 2;
+		board[3][7] = 2;
+		board[4][7] = 2;
+		board[5][7] = 2;
+		board[6][7] = 2;
+		
+		pawnOfPlayer1.add(new Pos2D(0,1));
+		pawnOfPlayer1.add(new Pos2D(0,2));
+		pawnOfPlayer1.add(new Pos2D(0,3));
+		pawnOfPlayer1.add(new Pos2D(0,4));
+		pawnOfPlayer1.add(new Pos2D(0,5));
+		pawnOfPlayer1.add(new Pos2D(0,6));
+		pawnOfPlayer1.add(new Pos2D(7,1));
+		pawnOfPlayer1.add(new Pos2D(7,2));
+		pawnOfPlayer1.add(new Pos2D(7,3));
+		pawnOfPlayer1.add(new Pos2D(7,4));
+		pawnOfPlayer1.add(new Pos2D(7,5));
+		pawnOfPlayer1.add(new Pos2D(7,6));
+		
+		pawnOfPlayer2.add(new Pos2D(1,0));
+		pawnOfPlayer2.add(new Pos2D(2,0));
+		pawnOfPlayer2.add(new Pos2D(3,0));
+		pawnOfPlayer2.add(new Pos2D(4,0));
+		pawnOfPlayer2.add(new Pos2D(5,0));
+		pawnOfPlayer2.add(new Pos2D(6,0));
+		pawnOfPlayer2.add(new Pos2D(1,7));
+		pawnOfPlayer2.add(new Pos2D(2,7));
+		pawnOfPlayer2.add(new Pos2D(3,7));
+		pawnOfPlayer2.add(new Pos2D(4,7));
+		pawnOfPlayer2.add(new Pos2D(5,7));
+		pawnOfPlayer2.add(new Pos2D(6,7));
+		
 		this.currentPlayer = player;
 	}
 	//constructeur base sur un deplacement  
@@ -62,16 +90,15 @@ public class GameState {
 		this.board = GameState.cloneBoard(parentGameState.board);
 		this.board[posPawnEnd.x][posPawnEnd.y] = this.board[posPawnBegin.x][posPawnBegin.y];
 		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
-	}
-	
-	public GameState updateBoard(Pos2D posPawnBegin,Pos2D posPawnEnd)
-	{
-		System.out.println(posPawnBegin.x+" "+posPawnBegin.y+" "+posPawnEnd.x+" "+posPawnEnd.y);
-		stringMoveFromParent = positionNameYX[posPawnBegin.y][posPawnBegin.x]+positionNameYX[posPawnEnd.y][posPawnEnd.x];
-		System.out.println(stringMoveFromParent);
-		this.board[posPawnEnd.x][posPawnEnd.y] = this.board[posPawnBegin.x][posPawnBegin.y];
-		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
-		return this;	
+		
+		//gestion List Pawn
+		pawnOfPlayer1.remove(posPawnEnd);
+		pawnOfPlayer2.remove(posPawnEnd);
+		if(parentGameState.currentPlayer == 1){
+			pawnOfPlayer1.add(posPawnBegin);
+		}else{
+			pawnOfPlayer2.add(posPawnBegin);
+		}
 	}
 	
 	//retourne les GameStates qui sont g�n�r� par le pawn qui se deplacer
