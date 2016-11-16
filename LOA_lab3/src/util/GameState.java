@@ -57,7 +57,7 @@ public class GameState {
 		
 		this.currentPlayer = player;
 	}
-	//constructeur basé sur un deplacement 
+	//constructeur basï¿½ sur un deplacement 
 	public GameState(GameState parentGameState,Pos2D posPawnBegin,Pos2D posPawnEnd){
 		this.parent = parentGameState;
 		this.currentPlayer = (parentGameState.currentPlayer == 1) ? 2 : 1;
@@ -285,7 +285,6 @@ public class GameState {
 					result.addAll(pawnMovePosition);
 			}			
 		}
-		System.out.println(result.size()+" movements sont possibles");
 		return result;
 	}
 	
