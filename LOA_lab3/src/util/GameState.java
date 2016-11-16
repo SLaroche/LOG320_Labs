@@ -10,8 +10,8 @@ public class GameState {
 	public double gameStateScore;
 	public int currentPlayer;
 	public String stringMoveFromParent;
-	private List<Pos2D> pawnOfPlayer1 = new ArrayList();
-	private List<Pos2D> pawnOfPlayer2 = new ArrayList(); 
+	public List<Pos2D> pawnOfPlayer;
+	public List<Pos2D> pawnOfOpponent; 
 	//Heuristic Attributes
 	public ArrayList<ArrayList<Pos2D>> playerLinks;
 	public ArrayList<ArrayList<Pos2D>> opponentLinks;
@@ -29,6 +29,8 @@ public class GameState {
 	
 	//default constructor, setup the initial state
 	public GameState(int player){
+		this.pawnOfPlayer = new ArrayList<Pos2D>();
+		this.pawnOfOpponent = new ArrayList<Pos2D>();
 		board[0][1] = 1;
 		board[0][2] = 1;
 		board[0][3] = 1;
@@ -57,31 +59,31 @@ public class GameState {
 		board[5][7] = 2;
 		board[6][7] = 2;
 		
-		pawnOfPlayer1.add(new Pos2D(0,1));
-		pawnOfPlayer1.add(new Pos2D(0,2));
-		pawnOfPlayer1.add(new Pos2D(0,3));
-		pawnOfPlayer1.add(new Pos2D(0,4));
-		pawnOfPlayer1.add(new Pos2D(0,5));
-		pawnOfPlayer1.add(new Pos2D(0,6));
-		pawnOfPlayer1.add(new Pos2D(7,1));
-		pawnOfPlayer1.add(new Pos2D(7,2));
-		pawnOfPlayer1.add(new Pos2D(7,3));
-		pawnOfPlayer1.add(new Pos2D(7,4));
-		pawnOfPlayer1.add(new Pos2D(7,5));
-		pawnOfPlayer1.add(new Pos2D(7,6));
+		pawnOfPlayer.add(new Pos2D(0,1));
+		pawnOfPlayer.add(new Pos2D(0,2));
+		pawnOfPlayer.add(new Pos2D(0,3));
+		pawnOfPlayer.add(new Pos2D(0,4));
+		pawnOfPlayer.add(new Pos2D(0,5));
+		pawnOfPlayer.add(new Pos2D(0,6));
+		pawnOfPlayer.add(new Pos2D(7,1));
+		pawnOfPlayer.add(new Pos2D(7,2));
+		pawnOfPlayer.add(new Pos2D(7,3));
+		pawnOfPlayer.add(new Pos2D(7,4));
+		pawnOfPlayer.add(new Pos2D(7,5));
+		pawnOfPlayer.add(new Pos2D(7,6));
 		
-		pawnOfPlayer2.add(new Pos2D(1,0));
-		pawnOfPlayer2.add(new Pos2D(2,0));
-		pawnOfPlayer2.add(new Pos2D(3,0));
-		pawnOfPlayer2.add(new Pos2D(4,0));
-		pawnOfPlayer2.add(new Pos2D(5,0));
-		pawnOfPlayer2.add(new Pos2D(6,0));
-		pawnOfPlayer2.add(new Pos2D(1,7));
-		pawnOfPlayer2.add(new Pos2D(2,7));
-		pawnOfPlayer2.add(new Pos2D(3,7));
-		pawnOfPlayer2.add(new Pos2D(4,7));
-		pawnOfPlayer2.add(new Pos2D(5,7));
-		pawnOfPlayer2.add(new Pos2D(6,7));
+		pawnOfOpponent.add(new Pos2D(1,0));
+		pawnOfOpponent.add(new Pos2D(2,0));
+		pawnOfOpponent.add(new Pos2D(3,0));
+		pawnOfOpponent.add(new Pos2D(4,0));
+		pawnOfOpponent.add(new Pos2D(5,0));
+		pawnOfOpponent.add(new Pos2D(6,0));
+		pawnOfOpponent.add(new Pos2D(1,7));
+		pawnOfOpponent.add(new Pos2D(2,7));
+		pawnOfOpponent.add(new Pos2D(3,7));
+		pawnOfOpponent.add(new Pos2D(4,7));
+		pawnOfOpponent.add(new Pos2D(5,7));
+		pawnOfOpponent.add(new Pos2D(6,7));
 		
 		this.currentPlayer = player;
 	}
@@ -94,12 +96,12 @@ public class GameState {
 		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
 		
 		//gestion List Pawn
-		pawnOfPlayer1.remove(posPawnEnd);
-		pawnOfPlayer2.remove(posPawnEnd);
+		pawnOfPlayer.remove(posPawnEnd);
+		pawnOfOpponent.remove(posPawnEnd);
 		if(parentGameState.currentPlayer == 1){
-			pawnOfPlayer1.add(posPawnBegin);
+			pawnOfPlayer.add(posPawnBegin);
 		}else{
-			pawnOfPlayer2.add(posPawnBegin);
+			pawnOfOpponent.add(posPawnBegin);
 		}
 	}
 	
@@ -360,18 +362,6 @@ public class GameState {
 			}
 		}
 		return nb;
-	}
-	
-	public ArrayList<Pos2D> getAllPawnPos (int player) {
-		ArrayList<Pos2D> pawnsPos = new ArrayList<Pos2D>();
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
-				if (board[i][j] == player) {
-					pawnsPos.add(new Pos2D(i, j));
-				}
-			}
-		}
-		return pawnsPos;
 	}
 	
 	public static int[][] cloneBoard(int [][] board){
