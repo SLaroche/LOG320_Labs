@@ -29,7 +29,7 @@ public class LOAGameLogic {
 			System.out.println();
 		}
 		List<GameState> list = currentGameState.findPawnMove(new Pos2D(1, 0));
-		System.out.println("number of children : " + currentGameState.children.size());
+		//System.out.println("number of children : " + currentGameState.children.size());
 	}
 	
 	public String move(String lastMove) {

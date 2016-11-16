@@ -7,8 +7,6 @@ import java.util.List;
 import javax.swing.text.Position;
 
 public class GameState {
-	public ArrayList<GameState> children = new ArrayList<GameState>();
-	public GameState parent;
 	public int[][] board = new int[8][8];
 	public double gameStateScore;
 	public int currentPlayer;
@@ -57,9 +55,8 @@ public class GameState {
 		
 		this.currentPlayer = player;
 	}
-	//constructeur basé sur un deplacement 
+	//constructeur base sur un deplacement  
 	public GameState(GameState parentGameState,Pos2D posPawnBegin,Pos2D posPawnEnd){
-		this.parent = parentGameState;
 		this.currentPlayer = (parentGameState.currentPlayer == 1) ? 2 : 1;
 		stringMoveFromParent = positionNameYX[posPawnBegin.y][posPawnBegin.x]+positionNameYX[posPawnEnd.y][posPawnEnd.x];
 		this.board = GameState.cloneBoard(parentGameState.board);
