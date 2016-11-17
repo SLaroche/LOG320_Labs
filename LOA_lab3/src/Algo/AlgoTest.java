@@ -109,8 +109,8 @@ public class AlgoTest extends LOAAlgo {
 		}
 		if(didWinNextTurn(state)) score = 1000;
 
-		score+= heuristicMobility.getScore(state);
-		score+= heuristicWinLose.getScore(state);
+		score+= heuristicMobility.getScore(state,-1);
+		score+= heuristicWinLose.getScore(state,-1);
 		//Random scoreR = new Random();
 		//score = scoreR.nextInt();
 		return score;

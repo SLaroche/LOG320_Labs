@@ -8,7 +8,7 @@ import util.Pos2D;
 public class Mobility implements HeuristicInterface{
 
 	@Override
-	public float getScore(GameState gameState) {
+	public float getScore(GameState gameState , int PlayerNumber) {
 		
 		//Get tous les childs
 		List<GameState> childs = gameState.getAllMove();

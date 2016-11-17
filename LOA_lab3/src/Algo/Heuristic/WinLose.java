@@ -17,7 +17,7 @@ public class WinLose implements HeuristicInterface {
 	 * @return 2 : Draw
 	 */
 	@Override
-	public float getScore(GameState gameState) {
+	public float getScore(GameState gameState, int PlayerNumber) {
 		int opponent = gameState.currentPlayer == 1 ? 2 : 1 ;
 		ArrayList<ArrayList<Pos2D>> playerLinks = findLinks(gameState, gameState.currentPlayer);
 		ArrayList<ArrayList<Pos2D>> opponentLinks = findLinks(gameState, opponent);
