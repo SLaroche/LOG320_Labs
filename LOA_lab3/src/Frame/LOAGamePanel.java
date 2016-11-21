@@ -139,7 +139,7 @@ public class LOAGamePanel extends JPanel{
 		GameState root = LOAgame.currentGameState;
 		
 		//generate Basic Tree for Test
-		SamAlgo.generateTree(root,2);
+		SamAlgo.generateTree(root,6);
 		SamAlgo.evalTree(root);
 		
 		try {

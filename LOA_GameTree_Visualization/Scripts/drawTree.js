@@ -25,7 +25,7 @@ document.getElementById('file').onchange = function () {
 // set the dimensions and margins of the diagram
         var margin = {top: 100, right: 100, bottom: 100, left: 100},
             width = 200000 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+            height = 2000 - margin.top - margin.bottom;
 
 // declares a tree layout and assigns the size
         var treemap = d3.tree()

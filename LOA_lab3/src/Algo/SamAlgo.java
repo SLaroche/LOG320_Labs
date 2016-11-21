@@ -14,8 +14,8 @@ public class SamAlgo {
 		while(!GameStateToDig.isEmpty()){
 			GameState currentState = (GameState) GameStateToDig.pop();
 			
-			if(currentState.children.isEmpty() && currentState.deepness < maxDeepness){
-				currentState.children.addAll(currentState.getAllMove());
+			if(currentState.children.isEmpty() && currentState.deepness < maxDeepness-1){
+				currentState.children.addAll(currentState.getAllMove().subList(0, 5));//TODO remove subList
 				for(int i=0;i<currentState.children.size();i++){
 					GameStateToDig.push(currentState.children.get(i));
 				}
