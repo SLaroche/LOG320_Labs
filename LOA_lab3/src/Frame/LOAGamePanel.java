@@ -153,7 +153,10 @@ public class LOAGamePanel extends JPanel{
 			}
 			System.out.println("gameTree Generated");
 			
-			File htmlFile = new File("C:\\Users\\Sam\\Desktop\\LOG320Cours\\LOG320\\LOA_GameTree_Visualization\\index.html");
+			String indexPath = new java.io.File("").getAbsolutePath();
+			indexPath = indexPath.substring(0, indexPath.lastIndexOf('\\')) + "\\LOA_GameTree_Visualization\\index.html";
+
+			File htmlFile = new File(indexPath);
 			try {
 				Desktop.getDesktop().browse(htmlFile.toURI());
 				System.out.println("View Opened");
