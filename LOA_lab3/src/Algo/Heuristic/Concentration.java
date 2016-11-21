@@ -11,8 +11,6 @@ public class Concentration implements HeuristicInterface{
 	@Override
 	public float getScore(GameState gameState, int PlayerNumber) {
 		this.gameState = gameState;
-		
-		//TODO CAREFUL THIS IS HARD CODED TO WORK ONLY IF YOUR PLAYER 1
 		return ComputeConcentration(PlayerNumber);
 	}
 	
@@ -30,7 +28,10 @@ public class Concentration implements HeuristicInterface{
 			sumOfDistances += (deltaX > deltaY) ? deltaX : deltaY;
 		}
 		
-		int SurplusOfDistances = sumOfDistances - MinSumOfDistances[nbOfPawn];
+		//System.out.println("sumOfDistances : " + sumOfDistances);
+		//System.out.println("MinSumOfDistances[nbOfPawn] : " + MinSumOfDistances[nbOfPawn]);
+		
+		float SurplusOfDistances = sumOfDistances - MinSumOfDistances[nbOfPawn];
 
 		return 1 / SurplusOfDistances;
 	}

@@ -23,8 +23,8 @@ document.getElementById('file').onchange = function () {
 
 
 // set the dimensions and margins of the diagram
-        var margin = {top: 40, right: 90, bottom: 50, left: 90},
-            width = 20660 - margin.left - margin.right,
+        var margin = {top: 100, right: 100, bottom: 100, left: 100},
+            width = 200000 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
 // declares a tree layout and assigns the size
@@ -108,6 +108,13 @@ document.getElementById('file').onchange = function () {
                         "stroke": gridColor,
                         "stroke-width": lineWidth
                     });
+                    //text: Score
+                    n.append("text")
+                        .attr("dy", ".35em")
+                        .attr("y",50)
+                        .style("text-anchor", "middle")
+                        .text(function(d) { return d.data.gameStateScore;});
+
                 }
                 var scale = d3.scaleBand()
                     .domain([0, 1, 2, 3, 4, 5, 6, 7])

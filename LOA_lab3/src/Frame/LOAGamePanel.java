@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import Algo.SamAlgo;
 import Modele.LOAGameLogic;
 import util.GameState;
 import util.Pos2D;
@@ -136,10 +137,10 @@ public class LOAGamePanel extends JPanel{
 		ObjectMapper mapper = new ObjectMapper();
 		//Object to JSON in String
 		GameState root = LOAgame.currentGameState;
-		root.children.addAll(root.getAllMove());
 		
-		root.children.get(0).children.addAll(root.children.get(0).getAllMove());
-		root.children.get(1).children.addAll(root.children.get(1).getAllMove());
+		//generate Basic Tree for Test
+		SamAlgo.generateTree(root,2);
+		SamAlgo.evalTree(root);
 		
 		try {
 			String jsonInString = mapper.writeValueAsString(root);

@@ -13,7 +13,8 @@ public class GameState {
 	@JsonIgnore  
 	public GameState parent;
 	public int[][] board = new int[8][8];
-	public double gameStateScore;
+	public float gameStateScore;
+	public int deepness;
 	public int currentPlayer;
 	@JsonIgnore  
 	public String stringMoveFromParent;
@@ -100,6 +101,7 @@ public class GameState {
 		pawnOfPlayer[2].add(new Pos2D(6,7));
 		
 		this.currentPlayer = player;
+		this.deepness = 0;
 	}
 	//constructeur bas� sur un deplacement 
 	@JsonIgnore
@@ -112,15 +114,18 @@ public class GameState {
 		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
 		this.pawnOfPlayer[1] = new ArrayList<Pos2D>(parentGameState.pawnOfPlayer[1]);
 		this.pawnOfPlayer[2] = new ArrayList<Pos2D>(parentGameState.pawnOfPlayer[2]);
+		this.deepness = parentGameState.deepness + 1;
 		
 		//setup List Pawn
-		if(pawnOfPlayer[1].contains(posPawnEnd)) pawnOfPlayer[1].remove(posPawnEnd);
-		if(pawnOfPlayer[2].contains(posPawnEnd)) pawnOfPlayer[2].remove(posPawnEnd);
+		pawnOfPlayer[1].remove(posPawnEnd);
+		pawnOfPlayer[2].remove(posPawnEnd);
+		pawnOfPlayer[1].remove(posPawnBegin);
+		pawnOfPlayer[2].remove(posPawnBegin);
 		
 		if(parentGameState.currentPlayer == 1){
-			pawnOfPlayer[1].add(posPawnBegin);
+			pawnOfPlayer[1].add(posPawnEnd);
 		}else{
-			pawnOfPlayer[2].add(posPawnBegin);
+			pawnOfPlayer[2].add(posPawnEnd);
 		}
 	}
 	
