@@ -1,15 +1,22 @@
 package Frame;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Modele.LOAGameLogic;
 import util.GameState;
@@ -123,5 +130,40 @@ public class LOAGamePanel extends JPanel{
 			g2d.setColor(Color.black);
 			g2d.drawOval(positionDiv*move.x+offsetX, positionDiv*move.y+offsetY, diametre+offsetX, diametre+offsetY);
         }
+	}
+
+	public void generateTree() {
+		ObjectMapper mapper = new ObjectMapper();
+		//Object to JSON in String
+		GameState root = LOAgame.currentGameState;
+		root.children.addAll(root.getAllMove());
+		
+		root.children.get(0).children.addAll(root.children.get(0).getAllMove());
+		root.children.get(1).children.addAll(root.children.get(1).getAllMove());
+		
+		try {
+			String jsonInString = mapper.writeValueAsString(root);
+			try{
+			    PrintWriter writer = new PrintWriter("GameTree.txt", "UTF-8");
+			    writer.print(jsonInString);
+			    writer.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("gameTree Generated");
+			
+			File htmlFile = new File("C:\\Users\\Sam\\Desktop\\LOG320Cours\\LOG320\\LOA_GameTree_Visualization\\index.html");
+			try {
+				Desktop.getDesktop().browse(htmlFile.toURI());
+				System.out.println("View Opened");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 	}
 }

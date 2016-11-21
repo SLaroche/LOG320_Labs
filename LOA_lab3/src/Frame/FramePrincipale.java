@@ -17,7 +17,7 @@ public class FramePrincipale extends JFrame implements Runnable{
 	
 	//Attribut
 	private JPanel panneauPrincipal;  //pointera sur getContentPane()
-	private JButton bStartAlgo;
+	private JButton bGenerateTree;
 	private LOAGamePanel gamePannel;
 	
 	public void run() {
@@ -28,17 +28,17 @@ public class FramePrincipale extends JFrame implements Runnable{
 		panneauPrincipal.setLayout(new BoxLayout(panneauPrincipal, BoxLayout.Y_AXIS));
 		
 		gamePannel = new LOAGamePanel();
-		bStartAlgo = new JButton("Start Algo");
+		bGenerateTree = new JButton("Generate Tree");
 		
 		gamePannel.setAlignmentX(CENTER_ALIGNMENT);
-		bStartAlgo.setAlignmentX(CENTER_ALIGNMENT);
+		bGenerateTree.setAlignmentX(CENTER_ALIGNMENT);
 		
 		panneauPrincipal.add(Box.createRigidArea(new Dimension(0,40)));
 		panneauPrincipal.add(gamePannel);
 		panneauPrincipal.add(Box.createRigidArea(new Dimension(0,10)));
-		panneauPrincipal.add(bStartAlgo);
+		panneauPrincipal.add(bGenerateTree);
 		
-		bStartAlgo.addActionListener(new EcouteurBoutton());
+		bGenerateTree.addActionListener(new EcouteurBoutton());
 		
         this.setSize(DIMENSION);
         setResizable(false);
@@ -52,8 +52,8 @@ public class FramePrincipale extends JFrame implements Runnable{
 
 		public void actionPerformed(ActionEvent e) {
 			
-			if (e.getSource() == bStartAlgo){
-				//gamePannel.solveAlgo();
+			if (e.getSource() == bGenerateTree){
+				gamePannel.generateTree();
 			}
 		}
 		

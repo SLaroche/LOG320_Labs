@@ -4,9 +4,8 @@ import Modele.LOAGameLogic;
 
 public class MainClass {
 	public static void main(String[] args) {
-		/*FramePrincipale g = new FramePrincipale();
+		FramePrincipale g = new FramePrincipale();
 		Thread t = new Thread(g);
-		t.start();*/
-		LOAGameLogic gl = new LOAGameLogic(1);
+		t.start();
 	}
 }

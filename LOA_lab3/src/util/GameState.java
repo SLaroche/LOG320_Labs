@@ -6,19 +6,27 @@ import java.util.List;
 
 import javax.swing.text.Position;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class GameState {
 	public ArrayList<GameState> children = new ArrayList<GameState>();
+	@JsonIgnore  
 	public GameState parent;
 	public int[][] board = new int[8][8];
 	public double gameStateScore;
 	public int currentPlayer;
+	@JsonIgnore  
 	public String stringMoveFromParent;
+	@JsonIgnore  
 	public ArrayList<Pos2D> pawnOfPlayer[] = (ArrayList<Pos2D>[])new ArrayList[3];
 	//Heuristic Attributes
-  	public ArrayList<ArrayList<Pos2D>> playerLinks;
-  	public ArrayList<ArrayList<Pos2D>> opponentLinks;
+	@JsonIgnore  
+	public ArrayList<ArrayList<Pos2D>> playerLinks;
+	@JsonIgnore  
+	public ArrayList<ArrayList<Pos2D>> opponentLinks;
 	
-	private static final String[][] positionNameYX = new String[][]{
+  	@JsonIgnore  
+  	private static final String[][] positionNameYX = new String[][]{
 		{"A8","B8","C8","D8","E8","F8","G8","H8"},
 		{"A7","B7","C7","D7","E7","F7","G7","H7"},
 		{"A6","B6","C6","D6","E6","F6","G6","H6"},
@@ -30,6 +38,7 @@ public class GameState {
 	};
 	
 	//default constructor, setup the initial state
+	@JsonIgnore
 	public GameState(int player){
 		board[0][1] = 1;
 		board[0][2] = 1;
@@ -93,6 +102,7 @@ public class GameState {
 		this.currentPlayer = player;
 	}
 	//constructeur bas� sur un deplacement 
+	@JsonIgnore
 	public GameState(GameState parentGameState,Pos2D posPawnBegin,Pos2D posPawnEnd){
 		this.parent = parentGameState;
 		this.currentPlayer = (parentGameState.currentPlayer == 1) ? 2 : 1;
@@ -115,6 +125,7 @@ public class GameState {
 	}
 	
 	//retourne les GameStates qui sont g�n�r� par le pawn qui se deplacer
+	@JsonIgnore
 	public ArrayList<GameState> findPawnMove(Pos2D pawnPosition){
 		ArrayList<GameState> result = new ArrayList<GameState>();
 		int enemyPlayer = (currentPlayer == 1) ? 2 : 1;
@@ -312,6 +323,7 @@ public class GameState {
 	 * Il utilise la methode findPawnMove(int, int) pour trouver tous les coups d'un pion
 	 * @return result
 	 */
+	@JsonIgnore
 	public List<GameState> getAllMove(){
 		ArrayList<GameState> result = new ArrayList<GameState>();
 		
@@ -332,6 +344,7 @@ public class GameState {
 	 * @param letters
 	 * @return la position en point2D
 	 */
+	@JsonIgnore
 	public static Pos2D pawnPositionToPositionUtility(String letters){
 		int x = letters.charAt(0) - 65;
 		int y = 8 - Character.getNumericValue(letters.charAt(1));
@@ -345,10 +358,11 @@ public class GameState {
 	 * @param y
 	 * @return position du pion en String
 	 */
+	@JsonIgnore
 	public static String pawnPositionToStringUtility(int x, int y){
 		return positionNameYX[y][x];
 	}
-	
+	@JsonIgnore
 	public static int[][] cloneBoard(int [][] board){
 		int[][] result = new int[8][8];
 		for(int i=0;i<8;i++){

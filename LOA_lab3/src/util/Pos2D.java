@@ -1,5 +1,7 @@
 package util;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Pos2D {
 	public Pos2D(int x, int y) {
 		this.x = x;
