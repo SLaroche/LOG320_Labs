@@ -1,6 +1,7 @@
 package Algo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -22,13 +23,18 @@ public class AlgoTest extends LOAAlgo {
 	public String getBestMove(GameState state, Node tree, LOAGameLogic gameLogic) {
 		this.gameLogic = gameLogic;
 		startTime = System.currentTimeMillis();
-		return getbestNode(tree).getGameState().stringMoveFromParent;
+		Node bestNode = null;
+		while(System.currentTimeMillis()-startTime<=3000)
+		{
+			addDeepness(tree);
+			bestNode = getbestNode(tree);
+		}
+		gameLogic.buildHash(bestNode);
+		return bestNode.getGameState().stringMoveFromParent;
 	}
 	
 	private Node getbestNode(Node tree){
 		float currentScoreMax = -1000;
-		System.out.println("haha"+tree.getchild().getGameState().stringMoveFromParent);
-		System.out.println("hahb"+tree.getchild().getchild().getGameState().stringMoveFromParent);
 		Node resultNode = null;
 		for(Node currentNode : tree.getChildList()){
 			float score = minmaxAlphaBeta(currentNode,"Max",-1000,1000);
@@ -54,7 +60,6 @@ public class AlgoTest extends LOAAlgo {
 	private float minmaxAlphaBeta(Node node, String player, float alpha, float beta){
 		List<Node> listChildren = node.getChildList();
 		float score = 0;
-		System.out.println(player);
 		if(player.equals("Max")){
 			float alphaT = -1000; 
 			alphaT = evaluation(node.getGameState());
@@ -116,5 +121,25 @@ public class AlgoTest extends LOAAlgo {
 		//Random scoreR = new Random();
 		//score = scoreR.nextInt();
 		return score;
+	}
+	private int findDeepness(Node tree)
+	{
+		int deep = 0;
+		Node currentNode = tree;
+		while(currentNode.getchild()!=null)
+			deep++;
+		
+		return deep;
+	}
+	private void addDeepness(Node currentNodeParent)
+	{
+		List<Node> listChildren = currentNodeParent.getChildList();
+		for(Node currentNode : listChildren)
+		{
+			if(currentNode.getchild()==null)
+				gameLogic.generateTree(currentNode.getGameState(), currentNode);
+			else
+				addDeepness(currentNode);		
+		}
 	}
 }

@@ -1,4 +1,5 @@
 package Modele;
+import java.util.HashMap;
 import java.util.List;
 
 import Algo.AlgoTest;
@@ -12,10 +13,12 @@ public class LOAGameLogic {
 	public GameState currentGameState;
 	private LOAAlgo algo;
 	private Node tree;
+	HashMap<String,Node> listGameboard;
 	
 	public LOAGameLogic(int player){
 		this.currentGameState = new GameState(player);
 		algo = new AlgoTest();
+		listGameboard = new HashMap<String,Node>();
 		//system.out.println("__start__");
 		//system.out.println("Player : " + currentGameState.currentPlayer);
 		for (int i = 0; i < currentGameState.board.length; i++) {
@@ -38,15 +41,13 @@ public class LOAGameLogic {
 			updateBoard(lastMove);
 			System.out.println("His move");
 			printTab(currentGameState);
-			System.out.println("should be 1 "+ currentGameState.currentPlayer);
 		}
-		tree = new Node(currentGameState, null);
-		generateTree(currentGameState, tree);
+		tree = findCurrentTree(currentGameState);
+		if(tree.getchild()==null)
+			generateTree(currentGameState, tree);
 		
 		String bestMove = algo.getBestMove(currentGameState, tree, this);
-		System.out.println("should be 1 "+ currentGameState.currentPlayer);
 		updateBoard(bestMove);
-		System.out.println("should be 2 "+ currentGameState.currentPlayer);
 		//System.out.println("My move");
 		//printTab(currentGameState);
 		//LOAGamePanel gamePannel = new LOAGamePanel();
@@ -76,7 +77,6 @@ public class LOAGameLogic {
 	}
 	public void generateTree(GameState state, Node tree) {
 		List <GameState> AllMove= state.getAllMove();
-		System.out.println("should be 1 "+ state.currentPlayer);
 		for (GameState stateLel0 : AllMove) {
 			Node maxNode = new Node(stateLel0,tree);
 			tree.addChildren(maxNode); // Level 0,5 adverser
@@ -86,6 +86,37 @@ public class LOAGameLogic {
 				maxNode.addChildren(minNode); // Level 1 prochaine coup
 			}
 		}
+	}
+	public void buildHash(Node currentMove)
+	{
+		for(Node currentNode : currentMove.getChildList()){
+			System.out.println(getStringBoardValue(currentNode.getGameState()));
+			listGameboard.put(getStringBoardValue(currentNode.getGameState()), currentNode);
+		}
+		
+	}
+	private Node findCurrentTree(GameState state){
+		Node tree = listGameboard.get(getStringBoardValue(state));
+		System.out.println(getStringBoardValue(state));
+		listGameboard = new HashMap<String,Node>();
+		if(tree==null){
+			System.out.println("no hash");
+			return new Node(currentGameState, null);
+		}
+		else {
+			System.out.println("hash work");
+			return tree;
+		}
+	}
+	private String getStringBoardValue(GameState state){
+		String str = "";
+		int[][] board = state.board;
+		for(int i=0;i<board.length;i++){
+			for(int j=0;j<board[i].length;j++){
+				str+=""+board[j][i];
+			}
+		}
+		return str;
 	}
 }
 
