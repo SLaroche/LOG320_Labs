@@ -99,7 +99,7 @@ class Client {
 				if(cmd == '4'){
 					//system.out.println("Coup invalide, entrez un nouveau coup : ");
 					String move = null;
-					
+					System.out.println("damn");
 					move = gl.move(null);
 					output.write(move.getBytes(),0,move.length());
 					output.flush();

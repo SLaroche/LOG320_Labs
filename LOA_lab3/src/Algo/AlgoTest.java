@@ -27,6 +27,8 @@ public class AlgoTest extends LOAAlgo {
 	
 	private Node getbestNode(Node tree){
 		float currentScoreMax = -1000;
+		System.out.println("haha"+tree.getchild().getGameState().stringMoveFromParent);
+		System.out.println("hahb"+tree.getchild().getchild().getGameState().stringMoveFromParent);
 		Node resultNode = null;
 		for(Node currentNode : tree.getChildList()){
 			float score = minmaxAlphaBeta(currentNode,"Max",-1000,1000);
@@ -39,12 +41,12 @@ public class AlgoTest extends LOAAlgo {
 		}
 		
 		//system.out.println(//system.currentTimeMillis()-startTime);
-		if(System.currentTimeMillis()-startTime<=3000 && limit<4){
+		/*if(System.currentTimeMillis()-startTime<=3000 && limit<4){
 			limit++;
 			gameLogic.generateTree(resultNode.getGameState(), resultNode);
 			resultNode = getbestNode(resultNode);
 			limit --;
-		}
+		}*/
 		tree.sortChildScore();
 		return resultNode;
 	}
@@ -52,6 +54,7 @@ public class AlgoTest extends LOAAlgo {
 	private float minmaxAlphaBeta(Node node, String player, float alpha, float beta){
 		List<Node> listChildren = node.getChildList();
 		float score = 0;
+		System.out.println(player);
 		if(player.equals("Max")){
 			float alphaT = -1000; 
 			alphaT = evaluation(node.getGameState());
@@ -107,35 +110,11 @@ public class AlgoTest extends LOAAlgo {
 				}
 			}
 		}
-		if(didWinNextTurn(state)) score = 1000;
-
-		score+= heuristicMobility.getScore(state,-1);
-		score+= heuristicWinLose.getScore(state,-1);
+		//if(didWinNextTurn(state)) score = 1000;
+		score+= heuristicMobility.getScore(state,state.currentPlayer);
+		score+= heuristicWinLose.getScore(state,state.currentPlayer);
 		//Random scoreR = new Random();
 		//score = scoreR.nextInt();
 		return score;
-	}
-	private boolean didWinNextTurn(GameState state){
-		int board[][] = state.board;
-		int player = state.currentPlayer;
-		for(int i=0;i<8;i++)
-		{
-			for(int j=0;j<8;j++){
-				if(board[i][j] == player) 
-				{
-					if(i+1<8 && board[i+1][j]==player)continue;
-					else if(i+1<8 && j+1<8 && board[i+1][j+1]==player)continue;
-					else if(i+1<8 && j-1>-1 && board[i+1][j-1]==player)continue;
-					else if(i-1>-1 && board[i-1][j]==player)continue;
-					else if(i-1>-1 && j+1<8 && board[i-1][j+1]==player)continue;
-					else if(i-1>-1 && j-1>-1 && board[i-1][j-1]==player)continue;
-					else if(j+1<8 && board[i][j+1]==player)continue;
-					else if(j-1>-1 && board[i][j-1]==player)continue;
-					else return false;
-				}
-			}
-		}
-		//system.out.println("god dmdndaijhdasiujbdjsahbadsjhbgdasjbgadsj");
-		return true;
 	}
 }

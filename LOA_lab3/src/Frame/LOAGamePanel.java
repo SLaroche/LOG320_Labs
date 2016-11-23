@@ -27,7 +27,7 @@ public class LOAGamePanel extends JPanel{
 	//constantes
 	private final int LINESIZE = 4;
 	//attributs
-	private LOAGameLogic LOAgame = new LOAGameLogic(1);
+	public LOAGameLogic LOAgame = new LOAGameLogic(1);
 	ArrayList<Pos2D> possibleMove = new ArrayList<Pos2D>();
 	
 	public LOAGamePanel(){

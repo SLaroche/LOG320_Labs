@@ -3,6 +3,7 @@ import java.util.List;
 
 import Algo.AlgoTest;
 import Algo.LOAAlgo;
+import Frame.LOAGamePanel;
 import util.GameState;
 import util.Node;
 import util.Pos2D;
@@ -35,13 +36,23 @@ public class LOAGameLogic {
 			lastMove = lastMove.replaceAll("\\s", "");
 			lastMove = lastMove.replaceAll("-", "");
 			updateBoard(lastMove);
+			System.out.println("His move");
+			printTab(currentGameState);
+			System.out.println("should be 1 "+ currentGameState.currentPlayer);
 		}
 		tree = new Node(currentGameState, null);
 		generateTree(currentGameState, tree);
 		
 		String bestMove = algo.getBestMove(currentGameState, tree, this);
+		System.out.println("should be 1 "+ currentGameState.currentPlayer);
 		updateBoard(bestMove);
-		
+		System.out.println("should be 2 "+ currentGameState.currentPlayer);
+		//System.out.println("My move");
+		//printTab(currentGameState);
+		//LOAGamePanel gamePannel = new LOAGamePanel();
+		//gamePannel.LOAgame = this;
+		//gamePannel.generateTree();
+		System.out.println(bestMove);
 		return bestMove;
 	}
 	
@@ -50,9 +61,22 @@ public class LOAGameLogic {
 		Pos2D lastMovePosPawnEnd = GameState.pawnPositionToPositionUtility(move.substring(2, 4));
 		currentGameState = new GameState(currentGameState, lastMovePosPawnBegin, lastMovePosPawnEnd);
 	}
-	
+	public void printTab(GameState state){
+		System.out.println("  ABCDEFGH");
+		
+		for(int i=0;i<8;i++)
+		{
+			System.out.print(8-i+" ");
+			for(int j=0;j<8;j++)
+			{
+				System.out.print(state.board[j][i]);
+			}
+			System.out.println("");
+		}
+	}
 	public void generateTree(GameState state, Node tree) {
 		List <GameState> AllMove= state.getAllMove();
+		System.out.println("should be 1 "+ state.currentPlayer);
 		for (GameState stateLel0 : AllMove) {
 			Node maxNode = new Node(stateLel0,tree);
 			tree.addChildren(maxNode); // Level 0,5 adverser
@@ -64,3 +88,4 @@ public class LOAGameLogic {
 		}
 	}
 }
+
