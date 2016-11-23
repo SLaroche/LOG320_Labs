@@ -39,13 +39,13 @@ public class LOAGameLogic {
 			lastMove = lastMove.replaceAll("\\s", "");
 			lastMove = lastMove.replaceAll("-", "");
 			updateBoard(lastMove);
-			System.out.println("His move");
-			printTab(currentGameState);
+			//System.out.println("His move");
+			//printTab(currentGameState);
 		}
 		tree = findCurrentTree(currentGameState);
+		System.out.println("hase a 1 de moins" + algo.findDeepness(tree)+" "+tree.getGameState().stringMoveFromParent);
 		if(tree.getchild()==null)
 			generateTree(currentGameState, tree);
-		
 		String bestMove = algo.getBestMove(currentGameState, tree, this);
 		updateBoard(bestMove);
 		//System.out.println("My move");
@@ -90,21 +90,17 @@ public class LOAGameLogic {
 	public void buildHash(Node currentMove)
 	{
 		for(Node currentNode : currentMove.getChildList()){
-			System.out.println(getStringBoardValue(currentNode.getGameState()));
 			listGameboard.put(getStringBoardValue(currentNode.getGameState()), currentNode);
 		}
 		
 	}
 	private Node findCurrentTree(GameState state){
 		Node tree = listGameboard.get(getStringBoardValue(state));
-		System.out.println(getStringBoardValue(state));
-		listGameboard = new HashMap<String,Node>();
+		listGameboard.clear();
 		if(tree==null){
-			System.out.println("no hash");
 			return new Node(currentGameState, null);
 		}
 		else {
-			System.out.println("hash work");
 			return tree;
 		}
 	}

@@ -24,11 +24,13 @@ public class AlgoTest extends LOAAlgo {
 		this.gameLogic = gameLogic;
 		startTime = System.currentTimeMillis();
 		Node bestNode = null;
-		while(System.currentTimeMillis()-startTime<=3000)
+		while(System.currentTimeMillis()-startTime<=4000)
 		{
-			addDeepness(tree);
+			System.out.println(findDeepness(tree));
 			bestNode = getbestNode(tree);
+			addDeepness(tree);
 		}
+		System.out.println("My node "+findDeepness(bestNode));
 		gameLogic.buildHash(bestNode);
 		return bestNode.getGameState().stringMoveFromParent;
 	}
@@ -122,24 +124,30 @@ public class AlgoTest extends LOAAlgo {
 		//score = scoreR.nextInt();
 		return score;
 	}
-	private int findDeepness(Node tree)
+	public int findDeepness(Node tree)
 	{
 		int deep = 0;
 		Node currentNode = tree;
-		while(currentNode.getchild()!=null)
+		while(currentNode.getchild()!=null){
+			currentNode = currentNode.getchild();
 			deep++;
+		}
 		
 		return deep;
 	}
 	private void addDeepness(Node currentNodeParent)
 	{
 		List<Node> listChildren = currentNodeParent.getChildList();
-		for(Node currentNode : listChildren)
+		if(System.currentTimeMillis()-startTime<=3000 || (currentNodeParent.getScore()>0 && currentNodeParent.getchild()!=null))
 		{
-			if(currentNode.getchild()==null)
-				gameLogic.generateTree(currentNode.getGameState(), currentNode);
-			else
-				addDeepness(currentNode);		
+			for(Node currentNode : listChildren)
+			{
+				if(System.currentTimeMillis()-startTime>=3000)break;
+				if(currentNode.getchild()==null)
+					gameLogic.generateTree(currentNode.getGameState(), currentNode);
+				else
+					addDeepness(currentNode);		
+			}
 		}
 	}
 }
