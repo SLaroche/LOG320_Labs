@@ -8,9 +8,12 @@ import util.Pos2D;
 
 public class GameTree {
 	public Node root;
+	public int playerToStart = 0;
+	public float bestLastScore = 0;
 	
 	public GameTree(int playerToStart){
 		root = new Node(playerToStart);
+		this.playerToStart = playerToStart;
 	}	
 	public String getBestMove() {
 		this.generateTree(3);
@@ -26,7 +29,7 @@ public class GameTree {
 				bestScore = n.getScore();
 			}
 		}
-		
+		bestLastScore = bestScore;
 		return bestNode.getGameState().stringMoveFromParent;
 	}
 	public void updateRoot(String move){
@@ -35,7 +38,7 @@ public class GameTree {
 		moveString = moveString.replaceAll("-", "");
 		moveString = moveString.replaceAll(" ", "");
 		moveString = moveString.substring(0, 4);
-
+		
 		Pos2D lastMovePosPawnBegin = GameState.pawnPositionToPositionUtility(moveString.substring(0, 2));
 		Pos2D lastMovePosPawnEnd = GameState.pawnPositionToPositionUtility(moveString.substring(2, 4));
 		

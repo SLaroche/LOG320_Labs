@@ -21,12 +21,12 @@ public class WinLose implements HeuristicInterface {
 		int opponent = gameState.currentPlayer == 1 ? 2 : 1 ;
 		ArrayList<ArrayList<Pos2D>> playerLinks = findLinks(gameState, gameState.currentPlayer);
 		ArrayList<ArrayList<Pos2D>> opponentLinks = findLinks(gameState, opponent);
-		if(playerLinks.size() == 1 && gameState.currentPlayer == PlayerNumber)         return 1000;//player num gagne
-		else if (opponentLinks.size() == 1 && opponent == PlayerNumber) 	           return 1000;//player num gagne
-		else if (playerLinks.size() == 1 && opponent == PlayerNumber)                  return -1000;//ennemie player num gagne
-		else if (opponentLinks.size() == 1 && gameState.currentPlayer == PlayerNumber) return -1000;//ennemie player num gagne
-		else if (playerLinks.size() == 1 && opponentLinks.size() == 1)                 return 2;
-																					   return 0;
+		if(playerLinks.size() == 1 && gameState.currentPlayer == PlayerNumber)          return 1000;//player num gagne
+		else if (opponentLinks.size() == 1 && opponent == PlayerNumber) 	            return 1000;//player num gagne
+		else if (playerLinks.size() == 1 && opponent == PlayerNumber)                   return -1000;//ennemie player num gagne
+		else if (opponentLinks.size() == 1 && gameState.currentPlayer == PlayerNumber)  return -1000;//ennemie player num gagne
+		else if (playerLinks.size() == 1 && opponentLinks.size() == 1)                  return 0;
+																					    return 0;
 	}
 	
 	private ArrayList<ArrayList<Pos2D>> findLinks(GameState gameState, int player) {

@@ -20,10 +20,9 @@ public class Quad implements HeuristicInterface {
 				if (board[i][j+1] == playerNumber) quadCount++;
 				if (board[i+1][j+1] == playerNumber) quadCount++; crossCount++;
 				
-				System.out.println(" c " + quadCount + " " + crossCount);
-				if (quadCount == 3) value += 3f;
-				if (quadCount == 4) value += 4f;
-				if (quadCount == 2 && crossCount != 1) value += 2f;
+				if (quadCount == 3) value += 0.5f;
+				if (quadCount == 4) value += 0.5f;
+				if (quadCount == 2 && crossCount != 1) value += 0.25f;
 				quadCount = 0;
 				crossCount = 0;
 			}

@@ -21,6 +21,8 @@ public class SamAlgo {
 		HeuristicInterface concentrationHeuristic = new Concentration();
 		HeuristicInterface mobilityHeuristic = new Mobility();
 		HeuristicInterface maximeHeuristic = new MaximeHeuristic();
+		HeuristicInterface wl = new WinLose();
+		HeuristicInterface q = new Quad();
 		
 		NodeToEval.push(tree.root);
 		
@@ -28,7 +30,9 @@ public class SamAlgo {
 			Node currentNode = NodeToEval.pop();
 			
 			float HeuristicScore = 0;
-			HeuristicScore += concentrationHeuristic.getScore(currentNode.getGameState(), 1);
+			HeuristicScore += wl.getScore(currentNode.getGameState(), tree.playerToStart);
+			HeuristicScore += concentrationHeuristic.getScore(currentNode.getGameState(), tree.playerToStart);
+			HeuristicScore += q.getScore(currentNode.getGameState(), tree.playerToStart);
 			//HeuristicScore += mobilityHeuristic.getScore(currentState, 1);
 			//HeuristicScore += maximeHeuristic.getScore(currentState, 1);
 			

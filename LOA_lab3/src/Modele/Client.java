@@ -48,7 +48,7 @@ class Client {
 					gameTree = new GameTree(1);
 					
 					//Mon Coup
-					System.out.println("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
+					System.out.print("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
 					String move = gameTree.getBestMove();
 					gameTree.updateRoot(move);
 					System.out.println(move);
@@ -88,16 +88,22 @@ class Client {
 					int size = input.available();
 					input.read(aBuffer,0,size);
 					String lastMove = new String(aBuffer);
+					String moveString = lastMove.toUpperCase();
+					moveString = moveString.replaceAll("\\s", "");
+					moveString = moveString.replaceAll("-", "");
+					moveString = moveString.replaceAll(" ", "");
+					moveString = moveString.substring(0, 4);
 					
 					//Dernier Coup
-					System.out.println("Dernier coup : "+ lastMove);
+					System.out.println("Dernier coup : "+ moveString);
 					gameTree.updateRoot(lastMove);
 					
 					//Mon Coup
-					System.out.println("Entrez votre coup : ");
+					System.out.print("Entrez votre coup : ");
 					String move = gameTree.getBestMove();
 					gameTree.updateRoot(move);
 					System.out.println(move);
+					System.out.println(gameTree.bestLastScore);
 					
 					output.write(move.getBytes(),0,move.length());
 					output.flush();

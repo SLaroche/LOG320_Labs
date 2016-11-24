@@ -80,9 +80,6 @@ public class Node {
 		ArrayList<Node> allPossibleChild = new ArrayList<Node>();
 		ArrayList<GameState> listGameStateMove = new ArrayList<GameState>(gameState.getAllMove());
 		
-		
-		
-		
 		for(GameState gState: listGameStateMove){
 			allPossibleChild.add(new Node(gState,this));
 		}
