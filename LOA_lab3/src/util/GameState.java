@@ -372,4 +372,12 @@ public class GameState {
 		}
 		return result;
 	}
+	public void showBoard() {
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				System.out.print(" "+board[j][i]+" ");
+			}
+			System.out.println();
+		}
+	}
 }
