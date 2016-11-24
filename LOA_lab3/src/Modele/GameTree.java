@@ -16,9 +16,10 @@ public class GameTree {
 		this.playerToStart = playerToStart;
 	}	
 	public String getBestMove() {
-		this.generateTree(3);
+		int deepth = 5;
+		
 		//TODO :  Max remplace cette fonction devaluation par la tienne 
-		SamAlgo.evalTree(this); //<-- cette fonction		
+		SamAlgo.evalTree(this,deepth); //<-- cette fonction		
 		
 		Node bestNode = root.getChildList().get(0);
 		float bestScore =  bestNode.getScore();
@@ -44,23 +45,6 @@ public class GameTree {
 		
 		GameState newRootGameState = new GameState(root.getGameState(), lastMovePosPawnBegin, lastMovePosPawnEnd);
 		this.root = new Node(newRootGameState,null); 
-	}
-	
-	public void generateTree(int maxDeepness) {
-		Stack<Node> nodesToDig = new Stack<Node>();
-		
-		nodesToDig.push(this.root);
-		
-		while(!nodesToDig.isEmpty()){
-			Node currentNode = (Node)nodesToDig.pop();
-			
-			if(currentNode.children.isEmpty() && currentNode.deepness < (maxDeepness-1)){
-				currentNode.children.addAll(currentNode.getAllPossibleChild());
-				for(Node n : currentNode.getChildList()){
-					nodesToDig.push(n);
-				}
-			}
-		}
 	}
 }
 

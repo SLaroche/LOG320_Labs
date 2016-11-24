@@ -14,7 +14,7 @@ public class Node {
 	@JsonProperty("children")
 	public ArrayList<Node> children = new ArrayList<Node>();
 	@JsonProperty("score")
-	public float score = -1;
+	public float score = Float.MIN_VALUE;
 	@JsonProperty("gameState")
 	public GameState gameState;
 	

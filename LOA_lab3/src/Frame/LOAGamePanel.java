@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import Algo.SamAlgo;
 import Modele.GameTree;
 import util.GameState;
-import util.Node;
 import util.Pos2D;
 
 public class LOAGamePanel extends JPanel{
@@ -134,10 +133,8 @@ public class LOAGamePanel extends JPanel{
 		
 		//generate Basic Tree for Test
 		GameTree gameTree = new GameTree(1);
-		gameTree.generateTree(4);
-		SamAlgo.evalTree(gameTree);
-		
-		gameTree.root.getChildList().add(new Node(1));
+		int maxDeepth = 4;
+		SamAlgo.evalTree(gameTree,maxDeepth);
 		
 		try {
 			String jsonInString = mapper.writeValueAsString(gameTree.root);

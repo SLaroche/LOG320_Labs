@@ -1,46 +1,57 @@
 package Algo;
 
-import java.util.Stack;
-
 import Algo.Heuristic.*;
 import Modele.GameTree;
-import util.GameState;
 import util.Node;
 
 public class SamAlgo {
-	
-	static public String findBestMove(GameTree tree){
-		tree.generateTree(4);
-		evalTree(tree);
-		
-		return tree.getBestMove();
+	static public void evalTree(GameTree tree, int depth){				
+		alphaBeta(tree.root,depth,Integer.MIN_VALUE,Integer.MAX_VALUE,true);
 	}
 	
-	static public void evalTree(GameTree tree){
-		Stack<Node> NodeToEval = new Stack<Node>();
+	static public float evaluateNode(Node node,int playerToEval){
 		HeuristicInterface concentrationHeuristic = new Concentration();
-		HeuristicInterface mobilityHeuristic = new Mobility();
-		HeuristicInterface maximeHeuristic = new MaximeHeuristic();
-		HeuristicInterface wl = new WinLose();
-		HeuristicInterface q = new Quad();
+		HeuristicInterface winLoseHeuristic = new WinLose();
+		//HeuristicInterface mobilityHeuristic = new Mobility();
+		//HeuristicInterface maximeHeuristic = new MaximeHeuristic();
+		//HeuristicInterface quadHeuristic = new Quad();
 		
-		NodeToEval.push(tree.root);
+		float HeuristicScore = 0;
+		HeuristicScore += winLoseHeuristic.getScore(node.getGameState(), playerToEval);
+		HeuristicScore += concentrationHeuristic.getScore(node.getGameState(), playerToEval); //Ami
+		HeuristicScore -= concentrationHeuristic.getScore(node.getGameState(), (playerToEval == 1)? 2 : 1); //Enemie
+		//HeuristicScore += q.getScore(currentNode.getGameState(), tree.playerToStart);
+		//HeuristicScore += mobilityHeuristic.getScore(currentState, 1);
+		//HeuristicScore += maximeHeuristic.getScore(currentState, 1);
 		
-		while(!NodeToEval.isEmpty()){
-			Node currentNode = NodeToEval.pop();
-			
-			float HeuristicScore = 0;
-			HeuristicScore += wl.getScore(currentNode.getGameState(), tree.playerToStart);
-			HeuristicScore += concentrationHeuristic.getScore(currentNode.getGameState(), tree.playerToStart);
-			HeuristicScore += q.getScore(currentNode.getGameState(), tree.playerToStart);
-			//HeuristicScore += mobilityHeuristic.getScore(currentState, 1);
-			//HeuristicScore += maximeHeuristic.getScore(currentState, 1);
-			
-			currentNode.setScore(HeuristicScore);
-			
-			for(Node currentNodeChild : currentNode.getChildList()){
-				NodeToEval.push(currentNodeChild);
-			}
+		return HeuristicScore;
+	}
+	
+	private static float alphaBeta(Node node, int maxDepth, float a, float b, boolean isMax){
+		//if node = leaf
+		if(node.deepness == maxDepth-1){
+			float score = evaluateNode(node,1);//TODO change playerToEval
+			node.score = score;
+			return score;
 		}
+		//if Max
+		if(isMax){
+			node.children.addAll(node.getAllPossibleChild());
+			for(Node child: node.children){
+				a  = Math.max(a, alphaBeta(child,maxDepth,a,b,!isMax));
+				if(b <= a) break; //pruning
+			}
+			node.score = a;
+			return a;
+		}else{ //if Min
+			node.children.addAll(node.getAllPossibleChild());
+			for(Node child: node.children){
+				b  = Math.min(b, alphaBeta(child,maxDepth,a,b,!isMax));
+				if(b <= a) break; //pruning
+			}
+			node.score = b;
+			return b;
+		}
+		
 	}
 }
