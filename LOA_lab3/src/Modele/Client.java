@@ -9,14 +9,17 @@ class Client {
 		Socket MyClient;
 		BufferedInputStream input;
 		BufferedOutputStream output;
-		LOAGameLogic gl = null;
+		GameTree gameTree = null;
 		int[][] board = new int[8][8];
+		
+		System.out.println("Start Client");
 		
 		try {
 			MyClient = new Socket("localhost", 8888);
 			input    = new BufferedInputStream(MyClient.getInputStream());
 			output   = new BufferedOutputStream(MyClient.getOutputStream());
 			BufferedReader console = new BufferedReader(new InputStreamReader(System.in));  
+			
 			while(true){
 				char cmd = 0;
 
@@ -42,12 +45,14 @@ class Client {
 							y++;
 						}
 					}
-					gl = new LOAGameLogic(1);
-
-					//system.out.println("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
-					String move = null;
-					move = gl.move(null);
-					//system.out.println(move);
+					gameTree = new GameTree(1);
+					
+					//Mon Coup
+					System.out.println("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
+					String move = gameTree.getBestMove();
+					gameTree.updateRoot(move);
+					System.out.println(move);
+					
 					output.write(move.getBytes(),0,move.length());
 					output.flush();
 				}
@@ -72,7 +77,7 @@ class Client {
 							y++;
 						}
 					}
-					gl = new LOAGameLogic(2);
+					gameTree = new GameTree(2);
 				}
 
 
@@ -80,35 +85,38 @@ class Client {
 				// Le message contient aussi le dernier coup joué.
 				if(cmd == '3'){
 					byte[] aBuffer = new byte[16];
-
 					int size = input.available();
-					////system.out.println("size " + size);
 					input.read(aBuffer,0,size);
-
-					String s = new String(aBuffer);
-					//system.out.println("Dernier coup : "+ s);
-					//system.out.println("Entrez votre coup : ");
-					String move = null;
-					move = gl.move(s);
-					//move = gl.move(s);
+					String lastMove = new String(aBuffer);
+					
+					//Dernier Coup
+					System.out.println("Dernier coup : "+ lastMove);
+					gameTree.updateRoot(lastMove);
+					
+					//Mon Coup
+					System.out.println("Entrez votre coup : ");
+					String move = gameTree.getBestMove();
+					gameTree.updateRoot(move);
+					System.out.println(move);
+					
 					output.write(move.getBytes(),0,move.length());
 					output.flush();
-
 				}
 				// Le dernier coup est invalide
 				if(cmd == '4'){
-					//system.out.println("Coup invalide, entrez un nouveau coup : ");
-					String move = null;
-					System.out.println("damn");
-					move = gl.move(null);
+					//Mon Coup
+					System.out.println("Coup invalide, entrez un nouveau coup : ");
+					String move = gameTree.getBestMove();
+					gameTree.updateRoot(move);
+					System.out.println(move);
+					
 					output.write(move.getBytes(),0,move.length());
 					output.flush();
-
 				}
 			}
 		}
 		catch (IOException e) {
-			//system.out.println(e);
+			System.out.println(e);
 		}
 	}
 }

@@ -2,24 +2,35 @@ package util;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Node {
+	@JsonIgnore
+	public Node parent;
+	@JsonIgnore
+	public int deepness = 0;
 	
-	private Node parent;
-	private List<Node> children;
-	private GameState value;
-	private boolean visited;
-	private boolean isLeaf;
-	private float score;
+	@JsonProperty("children")
+	public ArrayList<Node> children = new ArrayList<Node>();
+	@JsonProperty("score")
+	public float score = -1;
+	@JsonProperty("gameState")
+	public GameState gameState;
 	
-	public Node (GameState gameState, Node parent) {
-		children = new ArrayList<Node>();
-		this.parent = parent;
-		value = gameState;
-		visited = false;
-		isLeaf = true;
-		score = 0;
+	@JsonIgnore
+	public Node (int playerToStart){
+		gameState = new GameState(playerToStart);
 	}
+	@JsonIgnore
+	public Node (GameState gameState, Node parent) {
+		this.gameState = gameState;
+		if(parent != null){
+			this.parent = parent;
+			this.deepness = parent.deepness+1;
+		}
+	}
+	@JsonIgnore
 	public void sortChildScore(){
 		for(int g=0;g<children.size();g++){
 			for(int i=0;i<children.size();i++)
@@ -40,74 +51,43 @@ public class Node {
 			}
 		}
 	}
+	@JsonIgnore
 	public void addChildren(Node child) {
 		children.add(child);
-		if (isLeaf) {
-			isLeaf = false;
-		}
 	}
+	@JsonIgnore
 	public List<Node> getChildList(){
 		return children;
 	}
-	public Node getchild() {	
-		//incremente index after get the child
-		for(int i=0;i<children.size();i++){
-			Node currentChildren = children.get(i);
-			if(!currentChildren.isVisited())
-				return currentChildren;
-		}	
-		return null;
-	}
+	@JsonIgnore
 	public Node getParent(){
 		return parent;
 	}
-	
-	public boolean isVisited () {
-		return visited;
-	}
-	
-	public void setVisited () {
-		visited = true;
-		children = null;
-	}
-	
-	public Node nextChildToVisit () {
-		for (Node node : children) {
-			if (!node.isVisited()) {
-				return node;
-			}
-		}
-		return null;
-	}
-	
-	public boolean isAllChildrenBeenVisited () {
-		if (nextChildToVisit() == null) {
-			return true;
-		}
-		return false;
-	}
-	
+	@JsonIgnore
 	public GameState getGameState (){
-		return value;
+		return gameState;
 	}
-	
-	public void print() {
-		//System.out.println(value);
-	}
-	public int getMax(){
-		int max = 1;
-		return max;
-	}
-	public int getMin(){
-		int min = 100;
-		return min;
-	}
+	@JsonIgnore
 	public float getScore(){
 		return score;
 	}
-	public void setScore(float score)
-	{
+	@JsonIgnore
+	public void setScore(float score){
 		this.score = score;
 	}
+	@JsonIgnore
+	public ArrayList<Node> getAllPossibleChild() {
+		ArrayList<Node> allPossibleChild = new ArrayList<Node>();
+		ArrayList<GameState> listGameStateMove = new ArrayList<GameState>(gameState.getAllMove());
+		
+		
+		
+		
+		for(GameState gState: listGameStateMove){
+			allPossibleChild.add(new Node(gState,this));
+		}
+		
+		return allPossibleChild;
+	}	
 }
 

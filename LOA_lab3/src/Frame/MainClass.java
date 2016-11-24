@@ -1,6 +1,6 @@
 package Frame;
 
-import Modele.LOAGameLogic;
+import Modele.GameTree;
 
 public class MainClass {
 	public static void main(String[] args) {

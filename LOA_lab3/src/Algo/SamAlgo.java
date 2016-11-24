@@ -3,46 +3,39 @@ package Algo;
 import java.util.Stack;
 
 import Algo.Heuristic.*;
+import Modele.GameTree;
 import util.GameState;
+import util.Node;
 
 public class SamAlgo {
-	static public void generateTree(GameState root,int maxDeepness){
-		Stack<GameState> GameStateToDig = new Stack<GameState>();
+	
+	static public String findBestMove(GameTree tree){
+		tree.generateTree(4);
+		evalTree(tree);
 		
-		GameStateToDig.push(root);
-		
-		while(!GameStateToDig.isEmpty()){
-			GameState currentState = (GameState) GameStateToDig.pop();
-			
-			if(currentState.children.isEmpty() && currentState.deepness < maxDeepness-1){
-				currentState.children.addAll(currentState.getAllMove().subList(0, 5));//TODO remove subList
-				for(int i=0;i<currentState.children.size();i++){
-					GameStateToDig.push(currentState.children.get(i));
-				}
-			}
-		}
+		return tree.getBestMove();
 	}
 	
-	static public void evalTree(GameState root){
-		Stack<GameState> GameStateToEval = new Stack<GameState>();
+	static public void evalTree(GameTree tree){
+		Stack<Node> NodeToEval = new Stack<Node>();
 		HeuristicInterface concentrationHeuristic = new Concentration();
 		HeuristicInterface mobilityHeuristic = new Mobility();
 		HeuristicInterface maximeHeuristic = new MaximeHeuristic();
 		
-		GameStateToEval.push(root);
+		NodeToEval.push(tree.root);
 		
-		while(!GameStateToEval.isEmpty()){
-			GameState currentState = (GameState) GameStateToEval.pop();
+		while(!NodeToEval.isEmpty()){
+			Node currentNode = NodeToEval.pop();
 			
 			float HeuristicScore = 0;
-			//HeuristicScore += concentrationHeuristic.getScore(currentState, 1);
+			HeuristicScore += concentrationHeuristic.getScore(currentNode.getGameState(), 1);
 			//HeuristicScore += mobilityHeuristic.getScore(currentState, 1);
-			HeuristicScore += maximeHeuristic.getScore(currentState, 1);
+			//HeuristicScore += maximeHeuristic.getScore(currentState, 1);
 			
-			currentState.gameStateScore = HeuristicScore;
+			currentNode.setScore(HeuristicScore);
 			
-			for(int i=0;i<currentState.children.size();i++){
-				GameStateToEval.push(currentState.children.get(i));
+			for(Node currentNodeChild : currentNode.getChildList()){
+				NodeToEval.push(currentNodeChild);
 			}
 		}
 	}

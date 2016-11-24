@@ -113,7 +113,7 @@ document.getElementById('file').onchange = function () {
                         .attr("dy", ".35em")
                         .attr("y",50)
                         .style("text-anchor", "middle")
-                        .text(function(d) { return d.data.gameStateScore;});
+                        .text(function(d) { return d.data.score;});
 
                 }
                 var scale = d3.scaleBand()
@@ -140,7 +140,7 @@ document.getElementById('file').onchange = function () {
 
                 for (var row = 0; row < 8; row++) {
                     for (var col = 0; col < 8; col++) {
-                        var cellValue = node.data.board[col][row];
+                        var cellValue = node.data.gameState.board[col][row];
                         if (cellValue != 0) {
                             drawPawn(row, col, cellValue);
                         }

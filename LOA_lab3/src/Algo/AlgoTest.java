@@ -8,19 +8,19 @@ import java.util.Random;
 import Algo.Heuristic.HeuristicInterface;
 import Algo.Heuristic.Mobility;
 import Algo.Heuristic.WinLose;
-import Modele.LOAGameLogic;
+import Modele.GameTree;
 import util.GameState;
 import util.Node;
 import util.Pos2D;
 
 public class AlgoTest extends LOAAlgo {
 	private long startTime;
-	private LOAGameLogic gameLogic;
+	private GameTree gameLogic;
 	private float limit = 0;
 	private HeuristicInterface heuristicMobility = new Mobility();
 	private HeuristicInterface heuristicWinLose = new WinLose();
 	@Override
-	public String getBestMove(GameState state, Node tree, LOAGameLogic gameLogic) {
+	public String getBestMove(GameState state, Node tree, GameTree gameLogic) {
 		this.gameLogic = gameLogic;
 		startTime = System.currentTimeMillis();
 		Node bestNode = null;
@@ -28,10 +28,9 @@ public class AlgoTest extends LOAAlgo {
 		{
 			System.out.println(findDeepness(tree));
 			bestNode = getbestNode(tree);
-			addDeepness(tree);
 		}
 		System.out.println("My node "+findDeepness(bestNode));
-		gameLogic.buildHash(bestNode);
+		//gameLogic.buildHash(bestNode);
 		return bestNode.getGameState().stringMoveFromParent;
 	}
 	
@@ -123,31 +122,5 @@ public class AlgoTest extends LOAAlgo {
 		//Random scoreR = new Random();
 		//score = scoreR.nextInt();
 		return score;
-	}
-	public int findDeepness(Node tree)
-	{
-		int deep = 0;
-		Node currentNode = tree;
-		while(currentNode.getchild()!=null){
-			currentNode = currentNode.getchild();
-			deep++;
-		}
-		
-		return deep;
-	}
-	private void addDeepness(Node currentNodeParent)
-	{
-		List<Node> listChildren = currentNodeParent.getChildList();
-		if(System.currentTimeMillis()-startTime<=3000 || (currentNodeParent.getScore()>0 && currentNodeParent.getchild()!=null))
-		{
-			for(Node currentNode : listChildren)
-			{
-				if(System.currentTimeMillis()-startTime>=3000)break;
-				if(currentNode.getchild()==null)
-					gameLogic.generateTree(currentNode.getGameState(), currentNode);
-				else
-					addDeepness(currentNode);		
-			}
-		}
 	}
 }

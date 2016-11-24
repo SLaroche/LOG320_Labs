@@ -12,22 +12,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import Algo.SamAlgo;
-import Modele.LOAGameLogic;
+import Modele.GameTree;
 import util.GameState;
+import util.Node;
 import util.Pos2D;
 
 public class LOAGamePanel extends JPanel{
 	//constantes
 	private final int LINESIZE = 4;
 	//attributs
-	public LOAGameLogic LOAgame = new LOAGameLogic(1);
+	public GameTree gameTree = new GameTree(1);
 	ArrayList<Pos2D> possibleMove = new ArrayList<Pos2D>();
 	
 	public LOAGamePanel(){
@@ -47,7 +45,7 @@ public class LOAGamePanel extends JPanel{
 				
 		        System.out.println("x:" + x + " y:" + y);
 		        
-		        ArrayList<GameState> childGameState = LOAgame.currentGameState.findPawnMove(new Pos2D(x,y));
+		        ArrayList<GameState> childGameState = gameTree.root.getGameState().findPawnMove(new Pos2D(x,y));
 		        
 		        
 		        if(childGameState != null){
@@ -98,7 +96,7 @@ public class LOAGamePanel extends JPanel{
 		}
 		
 		//Draw Pawn
-		int[][] board = LOAgame.currentGameState.board;
+		int[][] board = gameTree.root.getGameState().board;
 		
 		int positionDiv = panHeight/8;
 		int diametre = panHeight/8-13;
@@ -107,8 +105,6 @@ public class LOAGamePanel extends JPanel{
 		
 		for(int i=0; i<8; i++){//number of block
 			for(int j=0; j<8; j++){
-				
-				
 				if(board[j][i] == 1){
 					g2d.setColor(Color.white);
 					g2d.fillOval(positionDiv*j+offsetX, positionDiv*i+offsetY, diametre+offsetX, diametre+offsetY);
@@ -135,15 +131,17 @@ public class LOAGamePanel extends JPanel{
 
 	public void generateTree() {
 		ObjectMapper mapper = new ObjectMapper();
-		//Object to JSON in String
-		GameState root = LOAgame.currentGameState;
 		
 		//generate Basic Tree for Test
-		SamAlgo.generateTree(root,6);
-		SamAlgo.evalTree(root);
+		GameTree gameTree = new GameTree(1);
+		gameTree.generateTree(4);
+		SamAlgo.evalTree(gameTree);
+		
+		gameTree.root.getChildList().add(new Node(1));
 		
 		try {
-			String jsonInString = mapper.writeValueAsString(root);
+			String jsonInString = mapper.writeValueAsString(gameTree.root);
+			//System.out.println(jsonInString);
 			try{
 			    PrintWriter writer = new PrintWriter("GameTree.txt", "UTF-8");
 			    writer.print(jsonInString);
@@ -161,7 +159,6 @@ public class LOAGamePanel extends JPanel{
 				Desktop.getDesktop().browse(htmlFile.toURI());
 				System.out.println("View Opened");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			

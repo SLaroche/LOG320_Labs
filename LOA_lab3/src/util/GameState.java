@@ -1,20 +1,11 @@
 package util;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.text.Position;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class GameState {
-	public ArrayList<GameState> children = new ArrayList<GameState>();
-	@JsonIgnore  
-	public GameState parent;
 	public int[][] board = new int[8][8];
-	public float gameStateScore;
-	public int deepness;
 	public int currentPlayer;
 	@JsonIgnore  
 	public String stringMoveFromParent;
@@ -37,6 +28,15 @@ public class GameState {
 		{"A2","B2","C2","D2","E2","F2","G2","H2"},
 		{"A1","B1","C1","D1","E1","F1","G1","H1"},
 	};
+	
+	@JsonIgnore  
+	public GameState(GameState gameStateToClone){
+		this.board = GameState.cloneBoard(gameStateToClone.board);
+		this.currentPlayer = gameStateToClone.currentPlayer;
+		this.stringMoveFromParent = gameStateToClone.stringMoveFromParent;
+		this.pawnOfPlayer[1] = new ArrayList<Pos2D>(gameStateToClone.pawnOfPlayer[1]);
+		this.pawnOfPlayer[2] = new ArrayList<Pos2D>(gameStateToClone.pawnOfPlayer[2]);
+	}
 	
 	//default constructor, setup the initial state
 	@JsonIgnore
@@ -72,8 +72,6 @@ public class GameState {
 		this.pawnOfPlayer[1] = new ArrayList<Pos2D>();
 		this.pawnOfPlayer[2] = new ArrayList<Pos2D>();
 		
-		//system.out.println("test " + pawnOfPlayer[1]);
-		
 		pawnOfPlayer[1].add(new Pos2D(0,1));
 		pawnOfPlayer[1].add(new Pos2D(0,2));
 		pawnOfPlayer[1].add(new Pos2D(0,3));
@@ -101,12 +99,10 @@ public class GameState {
 		pawnOfPlayer[2].add(new Pos2D(6,7));
 		
 		this.currentPlayer = player;
-		this.deepness = 0;
 	}
 	//constructeur bas� sur un deplacement 
 	@JsonIgnore
 	public GameState(GameState parentGameState,Pos2D posPawnBegin,Pos2D posPawnEnd){
-		this.parent = parentGameState;
 		this.currentPlayer = (parentGameState.currentPlayer == 1) ? 2 : 1;
 		stringMoveFromParent = positionNameYX[posPawnBegin.y][posPawnBegin.x]+positionNameYX[posPawnEnd.y][posPawnEnd.x];
 		this.board = GameState.cloneBoard(parentGameState.board);
@@ -114,7 +110,6 @@ public class GameState {
 		this.board[posPawnBegin.x][posPawnBegin.y] = 0;
 		this.pawnOfPlayer[1] = new ArrayList<Pos2D>(parentGameState.pawnOfPlayer[1]);
 		this.pawnOfPlayer[2] = new ArrayList<Pos2D>(parentGameState.pawnOfPlayer[2]);
-		this.deepness = parentGameState.deepness + 1;
 		
 		//setup List Pawn
 		pawnOfPlayer[1].remove(posPawnEnd);
