@@ -6,7 +6,7 @@ import util.Node;
 
 public class SamAlgo {
 	static public void evalTree(GameTree tree, int depth){				
-		alphaBeta(tree.root,depth,Integer.MIN_VALUE,Integer.MAX_VALUE,true);
+		alphaBeta(tree.root,depth,Integer.MIN_VALUE,Integer.MAX_VALUE,true,tree.playerToStart);
 	}
 	
 	static public float evaluateNode(Node node,int playerToEval){
@@ -18,8 +18,8 @@ public class SamAlgo {
 		
 		float HeuristicScore = 0;
 		HeuristicScore += winLoseHeuristic.getScore(node.getGameState(), playerToEval);
-		HeuristicScore += concentrationHeuristic.getScore(node.getGameState(), playerToEval); //Ami
-		HeuristicScore -= concentrationHeuristic.getScore(node.getGameState(), (playerToEval == 1)? 2 : 1); //Enemie
+		HeuristicScore += 2*concentrationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
+		HeuristicScore -= concentrationHeuristic.getScore(node.getGameState(), (playerToEval == 1)? 2 : 1); //Enemie Score
 		//HeuristicScore += q.getScore(currentNode.getGameState(), tree.playerToStart);
 		//HeuristicScore += mobilityHeuristic.getScore(currentState, 1);
 		//HeuristicScore += maximeHeuristic.getScore(currentState, 1);
@@ -27,10 +27,10 @@ public class SamAlgo {
 		return HeuristicScore;
 	}
 	
-	private static float alphaBeta(Node node, int maxDepth, float a, float b, boolean isMax){
+	private static float alphaBeta(Node node, int maxDepth, float a, float b, boolean isMax,int playerToEval){
 		//if node = leaf
 		if(node.deepness == maxDepth-1){
-			float score = evaluateNode(node,1);//TODO change playerToEval
+			float score = evaluateNode(node,playerToEval);
 			node.score = score;
 			return score;
 		}
@@ -38,7 +38,7 @@ public class SamAlgo {
 		if(isMax){
 			node.children.addAll(node.getAllPossibleChild());
 			for(Node child: node.children){
-				a  = Math.max(a, alphaBeta(child,maxDepth,a,b,!isMax));
+				a  = Math.max(a, alphaBeta(child,maxDepth,a,b,!isMax,playerToEval));
 				if(b <= a) break; //pruning
 			}
 			node.score = a;
@@ -46,7 +46,7 @@ public class SamAlgo {
 		}else{ //if Min
 			node.children.addAll(node.getAllPossibleChild());
 			for(Node child: node.children){
-				b  = Math.min(b, alphaBeta(child,maxDepth,a,b,!isMax));
+				b  = Math.min(b, alphaBeta(child,maxDepth,a,b,!isMax,playerToEval));
 				if(b <= a) break; //pruning
 			}
 			node.score = b;
