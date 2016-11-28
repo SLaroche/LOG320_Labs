@@ -5,8 +5,9 @@ import Modele.GameTree;
 import util.Node;
 
 public class SamAlgo {
+	static WinLose WinLoseHeuristic = new WinLose();
 	static public void evalTree(GameTree tree, int depth){				
-		alphaBeta(tree.root,depth,Integer.MIN_VALUE,Integer.MAX_VALUE,true,tree.playerToStart);
+		alphaBeta(tree.root,depth,Integer.MIN_VALUE,Integer.MAX_VALUE,true,tree.playerToWin);
 	}
 	
 	static public float evaluateNode(Node node,int playerToEval){
@@ -14,17 +15,19 @@ public class SamAlgo {
 		HeuristicInterface winLoseHeuristic = new WinLose();
 		//HeuristicInterface mobilityHeuristic = new Mobility();
 		//HeuristicInterface maximeHeuristic = new MaximeHeuristic();
-		//HeuristicInterface quadHeuristic = new Quad();
+		HeuristicInterface quadHeuristic = new Quad();
 		
 		float HeuristicScore = 0;
-		HeuristicScore += winLoseHeuristic.getScore(node.getGameState(), playerToEval);
-		HeuristicScore += 2*concentrationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
-		HeuristicScore -= concentrationHeuristic.getScore(node.getGameState(), (playerToEval == 1)? 2 : 1); //Enemie Score
-		//HeuristicScore += q.getScore(currentNode.getGameState(), tree.playerToStart);
+		HeuristicScore += 1000*winLoseHeuristic.getScore(node.getGameState(), playerToEval);
+		if (HeuristicScore >= 1000 || HeuristicScore <= -1000){
+			return (float) (HeuristicScore - (0.01*(float)node.deepness));
+		}
+		HeuristicScore += 40*concentrationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
+		HeuristicScore += 1/2*quadHeuristic.getScore(node.getGameState(), playerToEval);
 		//HeuristicScore += mobilityHeuristic.getScore(currentState, 1);
-		//HeuristicScore += maximeHeuristic.getScore(currentState, 1);
 		
-		return HeuristicScore;
+		
+		return (float) (HeuristicScore - (0.01*(float)node.deepness));
 	}
 	
 	private static float alphaBeta(Node node, int maxDepth, float a, float b, boolean isMax,int playerToEval){
@@ -33,6 +36,10 @@ public class SamAlgo {
 			float score = evaluateNode(node,playerToEval);
 			node.score = score;
 			return score;
+		}
+		float winLoseScore = WinLoseHeuristic.getScore(node.gameState, playerToEval);
+		if(winLoseScore!=0){
+			return winLoseScore*1000;
 		}
 		//if Max
 		if(isMax){

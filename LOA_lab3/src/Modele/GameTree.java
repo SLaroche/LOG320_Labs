@@ -8,12 +8,12 @@ import util.Pos2D;
 
 public class GameTree {
 	public Node root;
-	public int playerToStart = 0;
+	public int playerToWin = 0;
 	public float bestLastScore = 0;
 	
-	public GameTree(int playerToStart){
-		root = new Node(playerToStart);
-		this.playerToStart = playerToStart;
+	public GameTree(int playerToWin){
+		root = new Node(1);
+		this.playerToWin = playerToWin;
 	}	
 	public String getBestMove() {
 		int deepth = 5;
