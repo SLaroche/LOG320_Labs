@@ -15,10 +15,9 @@ public class GameTree {
 		root = new Node(playerToStart);
 		this.playerToStart = playerToStart;
 	}	
-	public String getBestMove() {
-		int deepth = 5;
+	public String getBestMove(long endTime) {
+		int deepth = 4;
 		
-		//TODO :  Max remplace cette fonction devaluation par la tienne 
 		SamAlgo.evalTree(this,deepth); //<-- cette fonction		
 		
 		Node bestNode = root.getChildList().get(0);

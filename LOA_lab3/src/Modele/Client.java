@@ -49,7 +49,7 @@ class Client {
 					
 					//Mon Coup
 					System.out.print("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
-					String move = gameTree.getBestMove();
+					String move = gameTree.getBestMove(System.currentTimeMillis()+5000);
 					gameTree.updateRoot(move);
 					System.out.println(move);
 					
@@ -100,7 +100,7 @@ class Client {
 					
 					//Mon Coup
 					System.out.print("Entrez votre coup : ");
-					String move = gameTree.getBestMove();
+					String move = gameTree.getBestMove(System.currentTimeMillis()+5000);
 					gameTree.updateRoot(move);
 					System.out.println(move);
 					System.out.println(gameTree.bestLastScore);
@@ -112,7 +112,7 @@ class Client {
 				if(cmd == '4'){
 					//Mon Coup
 					System.out.println("Coup invalide, entrez un nouveau coup : ");
-					String move = gameTree.getBestMove();
+					String move = gameTree.getBestMove(System.currentTimeMillis()+5000);
 					gameTree.updateRoot(move);
 					System.out.println(move);
 					
