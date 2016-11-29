@@ -14,7 +14,13 @@ public class GameTree {
 	public GameTree(int playerToWin){
 		root = new Node(1);
 		this.playerToWin = playerToWin;
-	}	
+	}
+	
+	public void clearTree(){
+		this.root = new Node(1);
+	}
+	
+	
 	public String getBestMove(long endTime) {
 		long endTimeMinusBuffer = endTime-500;
 		int deepth = 3;
@@ -23,6 +29,7 @@ public class GameTree {
 		String moveString ="nope";
 		System.out.println();
 		while(true){
+			this.clearTree();
 			SamAlgo algo = new SamAlgo();
 			
 			long deepthBeginTime = System.currentTimeMillis();
@@ -34,6 +41,8 @@ public class GameTree {
 				
 				bestNode = root.getChildList().get(0);
 				bestScore =  bestNode.getScore();
+				
+				
 				
 				for(Node n: root.getChildList()){
 					if(n.getScore() > bestScore){
@@ -49,6 +58,8 @@ public class GameTree {
 				break;
 			}
 		}
+		
+		System.out.println("children : " +bestNode.getChildList().size());
 		
 		return moveString;
 	}
