@@ -1,9 +1,14 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import Algo.Heuristic.Concentration;
+import Algo.Heuristic.HeuristicInterface;
 
 public class Node {
 	@JsonIgnore
@@ -76,9 +81,16 @@ public class Node {
 		this.score = score;
 	}
 	@JsonIgnore
-	public ArrayList<Node> getAllPossibleChild() {
+	public ArrayList<Node> getAllPossibleChild(int playerToWin) {
 		ArrayList<Node> allPossibleChild = new ArrayList<Node>();
 		ArrayList<GameState> listGameStateMove = new ArrayList<GameState>(gameState.getAllMove());
+		HeuristicInterface concentrationHeuristic = new Concentration();
+		
+		for(GameState gState: listGameStateMove){
+			gState.approxScore = concentrationHeuristic.getScore(gState, playerToWin);
+		}
+		
+		Collections.sort(listGameStateMove);
 		
 		for(GameState gState: listGameStateMove){
 			allPossibleChild.add(new Node(gState,this));

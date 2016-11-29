@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class GameState {
+public class GameState implements Comparable<GameState>{
 	public int[][] board = new int[8][8];
 	public int currentPlayer;
+	public float approxScore;
 	@JsonIgnore  
 	public String stringMoveFromParent;
 	@JsonIgnore  
@@ -379,5 +380,15 @@ public class GameState {
 			}
 			System.out.println();
 		}
+	}
+
+	@Override
+	public int compareTo(GameState another) {
+		if (this.approxScore < another.approxScore) {
+			return 1;
+		} else if (this.approxScore > another.approxScore) {
+			return -1;
+		} else
+			return 0;
 	}
 }
