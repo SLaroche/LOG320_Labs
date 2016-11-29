@@ -121,6 +121,7 @@ class Client {
 					
 					output.write(move.getBytes(),0,move.length());
 					output.flush();
+					gameTree.buildHash();
 				}
 			}
 		}

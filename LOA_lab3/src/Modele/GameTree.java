@@ -95,6 +95,8 @@ public class GameTree {
 	    listEnnemisMove.clear();
 	    for(Node currentNode : bestNode.getChildList()){
 	    	if(currentNode.getScore()>bestNode.getScore()) currentNode.children.clear();
+	    	currentNode.parent = null;
+	    	System.out.println(currentNode.getScore());
 	    	listEnnemisMove.put(currentNode.getGameState().stringMoveFromParent, currentNode);
 	    }
 	    bestNode = null;
