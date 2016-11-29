@@ -5,7 +5,10 @@ import Modele.GameTree;
 import util.Node;
 
 public class SamAlgo {
+<<<<<<< HEAD
 	WinLose winLoseHeuristic = new WinLose();
+=======
+>>>>>>> 054c4692646beeb66ed9143058d744c8e1443b2a
 	public boolean timeUp = false;
 	
 	public void evalTree(GameTree tree, int depth,long endTimeMinusBuffer){	
@@ -14,17 +17,23 @@ public class SamAlgo {
 	
 	public float evaluateNode(Node node,int playerToEval){
 		HeuristicInterface concentrationHeuristic = new Concentration();
-		HeuristicInterface winLoseHeuristic = new WinLose();
 		//HeuristicInterface mobilityHeuristic = new Mobility();
 		//HeuristicInterface maximeHeuristic = new MaximeHeuristic();
 		HeuristicInterface quadHeuristic = new Quad();
 		HeuristicInterface centralisationHeuristic = new Centralisation();
 		
 		float HeuristicScore = 0;
+<<<<<<< HEAD
 		HeuristicScore += 1000*winLoseHeuristic.getScore(node.getGameState(), playerToEval);
 		if (HeuristicScore != 0){
 			return  HeuristicScore - 0.01f*node.deepness;
 		}
+=======
+		//HeuristicScore += 1000*winLoseHeuristic.getScore(node.getGameState(), playerToEval);
+		//if (HeuristicScore >= 1000 || HeuristicScore <= -1000){
+		//	return (float) (HeuristicScore - (0.01*(float)node.deepness));
+		//}
+>>>>>>> 054c4692646beeb66ed9143058d744c8e1443b2a
 		HeuristicScore += 40*concentrationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
 		//HeuristicScore += 1/2*quadHeuristic.getScore(node.getGameState(), playerToEval);
 		HeuristicScore += centralisationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
@@ -48,26 +57,43 @@ public class SamAlgo {
 			node.score = score;
 			return score;
 		}
+<<<<<<< HEAD
 		
 		float winLoseScore = winLoseHeuristic.getScore(node.gameState, playerToEval);
+=======
+		WinLose WinLoseHeuristic = new WinLose();
+		float winLoseScore = WinLoseHeuristic.getScore(node.gameState, playerToEval);
+>>>>>>> 054c4692646beeb66ed9143058d744c8e1443b2a
 		if(winLoseScore!=0){
 			node.score = winLoseScore*1000;
 			return winLoseScore*1000;
 		}
+		WinLoseHeuristic = null;
+		
+		if(node.children.size() == 0) node.children.addAll(node.getAllPossibleChild(playerToEval));
+			
 		//if Max
 		if(isMax){
-			node.children.addAll(node.getAllPossibleChild(playerToEval));
 			for(Node child: node.children){
 				a  = Math.max(a, alphaBeta(child,maxDepth,a,b,!isMax,playerToEval,endTimeMinusBuffer));
-				if(b <= a) break; //pruning
+				if(b <= a){
+					child.getParent().children.remove(child);
+					child = null;
+					break; //pruning
+				}
 			}
 			node.score = a;
 			return a;
 		}else{ //if Min
+
 			node.children.addAll(node.getAllPossibleChild((playerToEval == 1) ? 2 : 1));
 			for(Node child: node.children){
 				b  = Math.min(b, alphaBeta(child,maxDepth,a,b,!isMax,playerToEval,endTimeMinusBuffer));
-				if(b <= a) break; //pruning
+				if(b <= a){
+					child.getParent().children.remove(child);
+					child = null;
+					break; //pruning
+				}
 			}
 			node.score = b;
 			return b;
