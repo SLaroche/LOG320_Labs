@@ -134,7 +134,7 @@ public class LOAGamePanel extends JPanel{
 		//generate Basic Tree for Test
 		GameTree gameTree = new GameTree(1);
 		int maxDeepth = 4;
-		SamAlgo.evalTree(gameTree,maxDeepth);
+		//SamAlgo.evalTree(gameTree,maxDeepth);
 		
 		try {
 			String jsonInString = mapper.writeValueAsString(gameTree.root);

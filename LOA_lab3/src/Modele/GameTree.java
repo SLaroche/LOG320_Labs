@@ -16,21 +16,40 @@ public class GameTree {
 		this.playerToWin = playerToWin;
 	}	
 	public String getBestMove(long endTime) {
-		int deepth = 4;
+		long endTimeMinusBuffer = endTime-500;
+		int deepth = 3;
+		Node bestNode = null;
+		float bestScore = 0;
+		String moveString ="nope";
 		
-		SamAlgo.evalTree(this,deepth); //<-- cette fonction		
-		
-		Node bestNode = root.getChildList().get(0);
-		float bestScore =  bestNode.getScore();
-		
-		for(Node n: root.getChildList()){
-			if(n.getScore() > bestScore){
-				bestNode = n;
-				bestScore = n.getScore();
+		while(true){
+			SamAlgo algo = new SamAlgo();
+			System.out.println(deepth);
+			
+			algo.evalTree(this,deepth,endTimeMinusBuffer);
+			
+			if(algo.timeUp == false){
+				deepth++;
+				
+				bestNode = root.getChildList().get(0);
+				bestScore =  bestNode.getScore();
+				
+				for(Node n: root.getChildList()){
+					if(n.getScore() > bestScore){
+						bestNode = n;
+						bestScore = n.getScore();
+					}
+				}
+				
+				this.bestLastScore = bestScore; //for debug
+				moveString = bestNode.getGameState().stringMoveFromParent ;
+			}else{
+				System.out.println("timeOut");
+				break;
 			}
 		}
-		bestLastScore = bestScore;
-		return bestNode.getGameState().stringMoveFromParent;
+		
+		return moveString;
 	}
 	public void updateRoot(String move){
 		String moveString = move.toUpperCase();
