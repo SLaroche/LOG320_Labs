@@ -53,7 +53,7 @@ public class SamAlgo {
 		}
 		//if Max
 		if(isMax){
-			node.children.addAll(node.getAllPossibleChild());
+			node.children.addAll(node.getAllPossibleChild(playerToEval));
 			for(Node child: node.children){
 				a  = Math.max(a, alphaBeta(child,maxDepth,a,b,!isMax,playerToEval,endTimeMinusBuffer));
 				if(b <= a) break; //pruning
@@ -61,7 +61,7 @@ public class SamAlgo {
 			node.score = a;
 			return a;
 		}else{ //if Min
-			node.children.addAll(node.getAllPossibleChild());
+			node.children.addAll(node.getAllPossibleChild(playerToEval));
 			for(Node child: node.children){
 				b  = Math.min(b, alphaBeta(child,maxDepth,a,b,!isMax,playerToEval,endTimeMinusBuffer));
 				if(b <= a) break; //pruning

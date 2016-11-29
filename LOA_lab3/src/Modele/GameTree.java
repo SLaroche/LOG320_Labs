@@ -21,14 +21,15 @@ public class GameTree {
 		Node bestNode = null;
 		float bestScore = 0;
 		String moveString ="nope";
-		
+		System.out.println();
 		while(true){
 			SamAlgo algo = new SamAlgo();
-			System.out.println(deepth);
 			
+			long deepthBeginTime = System.currentTimeMillis();
 			algo.evalTree(this,deepth,endTimeMinusBuffer);
 			
 			if(algo.timeUp == false){
+				System.out.println("deepth = " + deepth + "  Time took = " + (System.currentTimeMillis()-deepthBeginTime));
 				deepth++;
 				
 				bestNode = root.getChildList().get(0);
