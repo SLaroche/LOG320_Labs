@@ -10,6 +10,7 @@ public class GameTree {
 	public Node root;
 	public int playerToWin = 0;
 	public float bestLastScore = 0;
+	public GameState lastRootGameState = null;
 	
 	public GameTree(int playerToWin){
 		root = new Node(1);
@@ -17,9 +18,12 @@ public class GameTree {
 	}
 	
 	public void clearTree(){
-		this.root = new Node(1);
+		if (lastRootGameState == null){
+			this.root = new Node(1);
+		}else{
+			this.root = new Node(lastRootGameState,null);
+		}
 	}
-	
 	
 	public String getBestMove(long endTime) {
 		long endTimeMinusBuffer = endTime-500;
@@ -42,8 +46,6 @@ public class GameTree {
 				bestNode = root.getChildList().get(0);
 				bestScore =  bestNode.getScore();
 				
-				
-				
 				for(Node n: root.getChildList()){
 					if(n.getScore() > bestScore){
 						bestNode = n;
@@ -52,6 +54,7 @@ public class GameTree {
 				}
 				
 				this.bestLastScore = bestScore; //for debug
+				this.bestLastScore = bestScore;
 				moveString = bestNode.getGameState().stringMoveFromParent ;
 			}else{
 				System.out.println("timeOut");
@@ -74,7 +77,8 @@ public class GameTree {
 		Pos2D lastMovePosPawnEnd = GameState.pawnPositionToPositionUtility(moveString.substring(2, 4));
 		
 		GameState newRootGameState = new GameState(root.getGameState(), lastMovePosPawnBegin, lastMovePosPawnEnd);
-		this.root = new Node(newRootGameState,null); 
+		this.lastRootGameState = newRootGameState;
+		this.root = new Node(newRootGameState,null);
 	}
 }
 
