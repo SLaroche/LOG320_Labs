@@ -7,8 +7,11 @@ import util.Pos2D;
 
 public class Wall implements HeuristicInterface{
 
+	private static final float ESCAPE_SCORE = 200;
+	private static final float BLOCK_SCORE = 100;
+	
 	/**
-	 * 
+	 * Get score
 	 * @param gameState
 	 * @param playerNumber
 	 * @return
@@ -19,22 +22,19 @@ public class Wall implements HeuristicInterface{
 		/*
 		 + de score lorsque NOUS bloquons une piece
 		 
-		 + de score lorsque nous avons seulement 1 deplacement qui ne touche pas a un autre piece frendly...
+		 ++ de score lorsque nous avons seulement 1 deplacement qui ne touche pas a un autre piece frendly...
 		 
 		 */
 		float scoreWall = 0;
-		List<GameState> childs = gameState.getAllMove();
-		for(GameState child : childs){
-			
-			scoreWall += findScoreToBlockingOpponent(child, playerNumber);
-			scoreWall += findScoreToEscape(child, playerNumber);
-		}
+		
+		scoreWall += findScoreToBlockingOpponent(gameState, playerNumber);
+		scoreWall += findScoreToEscape(gameState, playerNumber);
 		
 		return scoreWall;
 	}
 	
 	/**
-	 * 
+	 * Get la liste des pions du joueur adverse
 	 * @param gameState
 	 * @param playerNumber
 	 * @return
@@ -49,18 +49,21 @@ public class Wall implements HeuristicInterface{
 	}
 	
 	/**
-	 * 
+	 * Get score lorsque NOUS bloquons une piece
 	 * @param gameState
 	 * @param playerNumber
 	 * @return
 	 */
 	private float findScoreToBlockingOpponent(GameState gameState, int playerNumber){
+		//Alors nous prenons tous les positions des pions 
+		// afin de trouver les pions qui ont aucun deplacement
 		List<Pos2D> pawn = getPawnOfOpponent(gameState,playerNumber);
 		float scoreWall = 0;
 		for(Pos2D p : pawn){
+			//Get tous les coups posible pour chaque piece adverse
 			List<GameState> listGameStateMove = gameState.findPawnMove(p);
 			if(listGameStateMove != null && listGameStateMove.size() == 0){
-				scoreWall += 100;
+				scoreWall += BLOCK_SCORE;
 			}
 		}
 		
@@ -68,7 +71,7 @@ public class Wall implements HeuristicInterface{
 	}
 	
 	/**
-	 * 
+	 * Get score lorsque nous avons seulement un seul deplacement qui ne touche pas une de nos pieces
 	 * @param gameState
 	 * @param playerNumber
 	 * @return
@@ -77,12 +80,13 @@ public class Wall implements HeuristicInterface{
 		List<Pos2D> pawn = gameState.pawnOfPlayer[playerNumber];
 		float scoreWall = 0;
 		for(Pos2D p : pawn){
+			//Get tous les coups posible pour chacune de nos pieces
 			List<GameState> pawnMode = gameState.findPawnMove(p);
 			if(pawnMode != null && pawnMode.size() == 1){
 				int[][] board = pawnMode.get(0).board;
 				
 				if(isPawnTouchFrendlyPawn(board, p, playerNumber)){
-					scoreWall += 200;
+					scoreWall += ESCAPE_SCORE;
 				}
 			}
 		}
@@ -91,7 +95,7 @@ public class Wall implements HeuristicInterface{
 	}
 	
 	/**
-	 * 
+	 * Verifie si notre piece ne touche pas une autre de nos piece
 	 * @param board
 	 * @param position
 	 * @param player
@@ -118,7 +122,7 @@ public class Wall implements HeuristicInterface{
 	}
 	
 	/**
-	 * 
+	 * Verefie si au coordonne(row, col), en parametre, corespond a une piece du player
 	 * @param board
 	 * @param row
 	 * @param col
