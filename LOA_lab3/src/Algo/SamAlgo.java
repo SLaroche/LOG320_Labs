@@ -66,6 +66,8 @@ public class SamAlgo {
 			node.score = a;
 			return a;
 		}else{ //if Min
+
+			node.children.addAll(node.getAllPossibleChild((playerToEval == 1) ? 2 : 1));
 			for(Node child: node.children){
 				b  = Math.min(b, alphaBeta(child,maxDepth,a,b,!isMax,playerToEval,endTimeMinusBuffer));
 				if(b <= a){

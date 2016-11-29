@@ -7,8 +7,8 @@ import util.Pos2D;
 
 public class Wall implements HeuristicInterface{
 
-	private static final float ESCAPE_SCORE = 200;
-	private static final float BLOCK_SCORE = 100;
+	private static final float ESCAPE_SCORE = 4;
+	private static final float BLOCK_SCORE = 2;
 	
 	/**
 	 * Get score

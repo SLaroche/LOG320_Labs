@@ -81,9 +81,9 @@ public class Node {
 		this.score = score;
 	}
 	@JsonIgnore
-	public ArrayList<Node> getAllPossibleChild(int playerToWin) {
-		ArrayList<Node> allPossibleChild = new ArrayList<Node>();
-		ArrayList<GameState> listGameStateMove = new ArrayList<GameState>(gameState.getAllMove());
+	public List<Node> getAllPossibleChild(int playerToWin) {
+		List<Node> allPossibleChild = new ArrayList<Node>();
+		List<GameState> listGameStateMove = new ArrayList<GameState>(gameState.getAllMove());
 		HeuristicInterface concentrationHeuristic = new Concentration();
 		
 		for(GameState gState: listGameStateMove){

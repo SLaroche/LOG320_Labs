@@ -14,6 +14,7 @@ public class GameTree {
 	public float bestLastScore = 0;
 	public HashMap<String,Node> listEnnemisMove;
 	public Node bestNode;
+	public GameState lastRootGameState = null;
 	
 	public GameTree(int playerToWin){
 		root = new Node(1);
@@ -22,9 +23,12 @@ public class GameTree {
 	}
 	
 	public void clearTree(){
-		this.root = new Node(1);
+		if (lastRootGameState == null){
+			this.root = new Node(1);
+		}else{
+			this.root = new Node(lastRootGameState,null);
+		}
 	}
-	
 	
 	public String getBestMove(long endTime) {
 		long endTimeMinusBuffer = endTime-1000;
@@ -55,6 +59,7 @@ public class GameTree {
 				}
 				
 				this.bestLastScore = bestScore; //for debug
+				this.bestLastScore = bestScore;
 				moveString = bestNode.getGameState().stringMoveFromParent ;
 			}else{
 				System.out.println("timeOut");
@@ -89,6 +94,8 @@ public class GameTree {
 	    }
 			
 		listEnnemisMove.clear();
+		this.lastRootGameState = newRootGameState;
+		this.root = new Node(newRootGameState,null);
 	}
 	public void buildHash()
     {
