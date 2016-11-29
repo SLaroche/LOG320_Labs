@@ -6,6 +6,9 @@ import util.GameState;
 import util.Pos2D;
 
 public class Quad implements HeuristicInterface {
+	
+	private static final float QUAD_SCORE = 0.5f;
+	private static final float CROSS_SCORE = 0.25f;
 
 	@Override
 	public float getScore(GameState gameState, int playerNumber) {
@@ -20,9 +23,9 @@ public class Quad implements HeuristicInterface {
 				if (board[i][j+1] == playerNumber) quadCount++;
 				if (board[i+1][j+1] == playerNumber) quadCount++; crossCount++;
 				
-				if (quadCount == 3) value += 0.5f;
-				if (quadCount == 4) value += 0.5f;
-				if (quadCount == 2 && crossCount != 1) value += 0.25f;
+				if (quadCount == 3) value += QUAD_SCORE;
+				if (quadCount == 4) value += QUAD_SCORE;
+				if (quadCount == 2 && crossCount != 1) value += CROSS_SCORE;
 				quadCount = 0;
 				crossCount = 0;
 			}
