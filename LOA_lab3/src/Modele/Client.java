@@ -25,7 +25,7 @@ class Client {
 
 				cmd = (char)input.read();
 
-				// Début de la partie en joueur blanc
+				// Dï¿½but de la partie en joueur blanc
 				if(cmd == '1'){
 					byte[] aBuffer = new byte[1024];
 
@@ -56,7 +56,7 @@ class Client {
 					output.write(move.getBytes(),0,move.length());
 					output.flush();
 				}
-				// Début de la partie en joueur Noir
+				// Dï¿½but de la partie en joueur Noir
 				if(cmd == '2'){
 					//system.out.println("Nouvelle partie! Vous jouer noir, attendez le coup des blancs");
 					byte[] aBuffer = new byte[1024];
@@ -82,7 +82,7 @@ class Client {
 
 
 				// Le serveur demande le prochain coup
-				// Le message contient aussi le dernier coup joué.
+				// Le message contient aussi le dernier coup jouï¿½.
 				if(cmd == '3'){
 					byte[] aBuffer = new byte[16];
 					int size = input.available();
@@ -107,6 +107,9 @@ class Client {
 					
 					output.write(move.getBytes(),0,move.length());
 					output.flush();
+					
+					//Build the ennemis possibles moves map after you shoot the move
+					gameTree.buildHash();
 				}
 				// Le dernier coup est invalide
 				if(cmd == '4'){
