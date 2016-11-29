@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import Algo.SamAlgo;
 import Modele.GameTree;
 import util.GameState;
+import util.Node;
 import util.Pos2D;
 
 public class LOAGamePanel extends JPanel{
@@ -42,19 +43,15 @@ public class LOAGamePanel extends JPanel{
 
 				possibleMove.clear();
 				
-		        System.out.println("x:" + x + " y:" + y);
+		        //System.out.println("x:" + x + " y:" + y);
 		        
-		        ArrayList<GameState> childGameState = gameTree.root.getGameState().findPawnMove(new Pos2D(x,y));
-		        
-		        
-		        if(childGameState != null){
-			        for(GameState gState: childGameState){
-			        	Pos2D move = GameState.pawnPositionToPositionUtility(gState.stringMoveFromParent.substring(2));
-			        	possibleMove.add(move);
-			        	System.out.println(move.x +" "+ move.y);
-			        }
+		        if(e.getButton() == 1){
+		        	gameTree.root.gameState.board[x][y] = 1;
+		        }else if(e.getButton() == 2){
+		        	gameTree.root.gameState.board[x][y] = 0;
+		        }else if(e.getButton() == 3){
+		        	gameTree.root.gameState.board[x][y] = 2;
 		        }
-		        
 		        
 		        LOAGamePanel.this.repaint();
 		    }
@@ -95,7 +92,7 @@ public class LOAGamePanel extends JPanel{
 		}
 		
 		//Draw Pawn
-		int[][] board = gameTree.root.getGameState().board;
+		int[][] board = gameTree.root.gameState.board;
 		
 		int positionDiv = panHeight/8;
 		int diametre = panHeight/8-13;
@@ -132,12 +129,16 @@ public class LOAGamePanel extends JPanel{
 		ObjectMapper mapper = new ObjectMapper();
 		
 		//generate Basic Tree for Test
-		GameTree gameTree = new GameTree(1);
+		gameTree.root.gameState.updateList();
+		gameTree.root = new Node(gameTree.root.gameState,null);
+		SamAlgo algo = new SamAlgo();
 		int maxDeepth = 4;
-		//SamAlgo.evalTree(gameTree,maxDeepth);
+		
+		algo.evalTree(this.gameTree,maxDeepth,Long.MAX_VALUE);
+		System.out.println(gameTree.root.children.size());
 		
 		try {
-			String jsonInString = mapper.writeValueAsString(gameTree.root);
+			String jsonInString = mapper.writeValueAsString(this.gameTree.root);
 			//System.out.println(jsonInString);
 			try{
 			    PrintWriter writer = new PrintWriter("GameTree.txt", "UTF-8");

@@ -391,4 +391,19 @@ public class GameState implements Comparable<GameState>{
 		} else
 			return 0;
 	}
+
+	public void updateList() {
+		pawnOfPlayer[1].clear();
+		pawnOfPlayer[2].clear();
+		
+		for(int i=0;i<8;i++){
+			for(int j=0;j<8;j++){
+				if(board[i][j] == 1){
+					pawnOfPlayer[1].add(new Pos2D(i,j));
+				}else if(board[i][j] == 2){
+					pawnOfPlayer[2].add(new Pos2D(i,j));
+				}
+			}
+		}
+	}
 }
