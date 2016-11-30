@@ -1,6 +1,4 @@
 package Modele;
-import java.util.Stack;
-
 import Algo.SamAlgo;
 import util.GameState;
 import util.Node;
@@ -12,9 +10,8 @@ public class GameTree {
 	public float bestLastScore = 0;
 	public GameState lastRootGameState = null;
 	
-	public GameTree(int playerToWin){
+	public GameTree(){
 		root = new Node(1);
-		this.playerToWin = playerToWin;
 	}
 	
 	public void clearTree(){
@@ -25,16 +22,15 @@ public class GameTree {
 		}
 	}
 	
-	public String getBestMove(long endTime) {
+	public String getBestMove(long endTime,SamAlgo algo) {
 		long endTimeMinusBuffer = endTime-500;
 		int deepth = 3;
 		Node bestNode = null;
 		float bestScore = 0;
 		String moveString ="nope";
-		System.out.println();
+		
 		while(true){
 			this.clearTree();
-			SamAlgo algo = new SamAlgo();
 			
 			long deepthBeginTime = System.currentTimeMillis();
 			algo.evalTree(this,deepth,endTimeMinusBuffer);
@@ -54,7 +50,6 @@ public class GameTree {
 				}
 				
 				this.bestLastScore = bestScore; //for debug
-				this.bestLastScore = bestScore;
 				moveString = bestNode.getGameState().stringMoveFromParent ;
 			}else{
 				System.out.println("timeOut");

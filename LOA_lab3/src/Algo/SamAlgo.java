@@ -5,36 +5,76 @@ import Modele.GameTree;
 import util.Node;
 
 public class SamAlgo {
-	WinLose winLoseHeuristic = new WinLose();
-	public boolean timeUp = false;
+	public static final float WINLOSE_SCORE = 1000000;
 	
-	public void evalTree(GameTree tree, int depth,long endTimeMinusBuffer){	
-		alphaBeta(tree.root,depth,Integer.MIN_VALUE,Integer.MAX_VALUE,true,tree.playerToWin,endTimeMinusBuffer);
+	float centralisationWeight;
+	float concentrationPlayerWeight;
+	float concentrationEnemyWeight;
+	float mobilityWeight;
+	float quadWeight;
+	float wallWeight;
+	int playerToWin;
+	
+	WinLose winLoseHeuristic = new WinLose();
+	public boolean timeUp;
+	
+	public String getWeightStringFormat(){
+		String result="";
+		result+= Float.toString(centralisationWeight)+"/";
+		result+= Float.toString(concentrationPlayerWeight)+"/";
+		result+= Float.toString(concentrationEnemyWeight)+"/";
+		result+= Float.toString(mobilityWeight)+"/";
+		result+= Float.toString(quadWeight)+"/";
+		result+= Float.toString(wallWeight);
+		return result;
 	}
 	
-	public float evaluateNode(Node node,int playerToEval){
-		HeuristicInterface concentrationHeuristic = new Concentration();
-		HeuristicInterface winLoseHeuristic = new WinLose();
-		//HeuristicInterface mobilityHeuristic = new Mobility();
-		//HeuristicInterface maximeHeuristic = new MaximeHeuristic();
-		HeuristicInterface quadHeuristic = new Quad();
+	public SamAlgo(float centralisationWeight,float concentrationPlayerWeight,float concentrationEnemyWeight,float mobilityWeight,float quadWeight,float wallWeight,int playerToWin){
+		this.centralisationWeight = centralisationWeight;
+		this.concentrationPlayerWeight = concentrationPlayerWeight;
+		this.concentrationEnemyWeight = concentrationEnemyWeight;
+		this.mobilityWeight = mobilityWeight;
+		this.quadWeight = quadWeight;
+		this.wallWeight = wallWeight;
+		this.playerToWin = playerToWin;
+		
+		timeUp = false;
+	}
+	
+	public void evalTree(GameTree tree, int depth,long endTimeMinusBuffer){	
+		timeUp = false;
+		alphaBeta(tree.root,depth,Integer.MIN_VALUE,Integer.MAX_VALUE,true,endTimeMinusBuffer);
+	}
+	
+	public float evaluateNode(Node node){
 		HeuristicInterface centralisationHeuristic = new Centralisation();
+		HeuristicInterface concentrationHeuristic = new Concentration();
+		HeuristicInterface mobilityHeuristic = new Mobility();
+		HeuristicInterface quadHeuristic = new Quad();
+		HeuristicInterface wallHeuristic = new Wall();
 		
 		float HeuristicScore = 0;
-		HeuristicScore += 1000*winLoseHeuristic.getScore(node.getGameState(), playerToEval);
+		//WinLoss
+		HeuristicScore += WINLOSE_SCORE*winLoseHeuristic.getScore(node.getGameState(), playerToWin);
 		if (HeuristicScore != 0){
 			return  HeuristicScore - 0.01f*node.deepness;
 		}
-		HeuristicScore += 40*concentrationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
-		//HeuristicScore += 1/2*quadHeuristic.getScore(node.getGameState(), playerToEval);
-		HeuristicScore += centralisationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
-		//HeuristicScore += mobilityHeuristic.getScore(currentState, 1);
-		
+		//Centralisation
+		HeuristicScore += centralisationWeight*centralisationHeuristic.getScore(node.getGameState(), playerToWin); //my Score
+		//Concentration
+		HeuristicScore += concentrationPlayerWeight*concentrationHeuristic.getScore(node.getGameState(), playerToWin); //my Score
+		HeuristicScore -= concentrationEnemyWeight*concentrationHeuristic.getScore(node.getGameState(), (playerToWin == 1) ? 2 : 1); //Enemy Score
+		//Mobility
+		HeuristicScore += mobilityWeight*mobilityHeuristic.getScore(node.getGameState(), playerToWin);
+		//Quad Heuristic
+		HeuristicScore += quadWeight*quadHeuristic.getScore(node.getGameState(), playerToWin);
+		//Wall Heuristic
+		HeuristicScore += wallWeight*wallHeuristic.getScore(node.getGameState(), playerToWin);
 		
 		return HeuristicScore - 0.01f*node.deepness;
 	}
 	
-	private float alphaBeta(Node node, int maxDepth, float a, float b, boolean isMax,int playerToEval,long endTimeMinusBuffer){
+	private float alphaBeta(Node node, int maxDepth, float a, float b, boolean isMax,long endTimeMinusBuffer){
 		//Time Up
 		if(timeUp){
 			return -1;
@@ -44,29 +84,29 @@ public class SamAlgo {
 		}
 		//if node = leaf
 		if(node.deepness == maxDepth-1){
-			float score = evaluateNode(node,playerToEval);
+			float score = evaluateNode(node);
 			node.score = score;
 			return score;
 		}
 		
-		float winLoseScore = winLoseHeuristic.getScore(node.gameState, playerToEval);
+		float winLoseScore = winLoseHeuristic.getScore(node.gameState, playerToWin);
 		if(winLoseScore!=0){
-			node.score = winLoseScore*1000;
-			return winLoseScore*1000;
+			node.score = winLoseScore*WINLOSE_SCORE;
+			return winLoseScore*WINLOSE_SCORE;
 		}
 		//if Max
 		if(isMax){
-			node.children.addAll(node.getAllPossibleChild(playerToEval));
+			node.children.addAll(node.getAllPossibleChild(playerToWin));
 			for(Node child: node.children){
-				a  = Math.max(a, alphaBeta(child,maxDepth,a,b,!isMax,playerToEval,endTimeMinusBuffer));
+				a  = Math.max(a, alphaBeta(child,maxDepth,a,b,!isMax,endTimeMinusBuffer));
 				if(b <= a) break; //pruning
 			}
 			node.score = a;
 			return a;
 		}else{ //if Min
-			node.children.addAll(node.getAllPossibleChild((playerToEval == 1) ? 2 : 1));
+			node.children.addAll(node.getAllPossibleChild((playerToWin == 1) ? 2 : 1));
 			for(Node child: node.children){
-				b  = Math.min(b, alphaBeta(child,maxDepth,a,b,!isMax,playerToEval,endTimeMinusBuffer));
+				b  = Math.min(b, alphaBeta(child,maxDepth,a,b,!isMax,endTimeMinusBuffer));
 				if(b <= a) break; //pruning
 			}
 			node.score = b;

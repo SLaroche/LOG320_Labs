@@ -2,6 +2,9 @@ package Modele;
 import java.io.*;
 import java.net.*;
 
+import Algo.Arena;
+import Algo.SamAlgo;
+
 
 class Client {
 	public static void main(String[] args) {
@@ -11,6 +14,13 @@ class Client {
 		BufferedOutputStream output;
 		GameTree gameTree = null;
 		int[][] board = new int[8][8];
+		
+			Arena arena = new Arena();
+			String[] lastLine = arena.getLastLine();
+			
+			SamAlgo bestAlgoYet = arena.getBestAlgoYet(lastLine,1);
+		
+		SamAlgo algo = null;
 		
 		System.out.println("Start Client");
 		
@@ -45,11 +55,12 @@ class Client {
 							y++;
 						}
 					}
-					gameTree = new GameTree(1);
+					gameTree = new GameTree();
+					algo = arena.getBestAlgoYet(lastLine,1);
 					
 					//Mon Coup
 					System.out.print("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
-					String move = gameTree.getBestMove(System.currentTimeMillis()+5000);
+					String move = gameTree.getBestMove(System.currentTimeMillis()+5000,algo);
 					gameTree.updateRoot(move);
 					System.out.println(move);
 					
@@ -77,7 +88,8 @@ class Client {
 							y++;
 						}
 					}
-					gameTree = new GameTree(2);
+					gameTree = new GameTree();
+					algo = arena.getBestAlgoYet(lastLine,2);
 				}
 
 
@@ -100,7 +112,7 @@ class Client {
 					
 					//Mon Coup
 					System.out.print("Entrez votre coup : ");
-					String move = gameTree.getBestMove(System.currentTimeMillis()+5000);
+					String move = gameTree.getBestMove(System.currentTimeMillis()+5000,algo);
 					gameTree.updateRoot(move);
 					System.out.println(move);
 					System.out.println(gameTree.bestLastScore);
@@ -112,7 +124,7 @@ class Client {
 				if(cmd == '4'){
 					//Mon Coup
 					System.out.println("Coup invalide, entrez un nouveau coup : ");
-					String move = gameTree.getBestMove(System.currentTimeMillis()+5000);
+					String move = gameTree.root.children.get(0).getGameState().stringMoveFromParent;
 					gameTree.updateRoot(move);
 					System.out.println(move);
 					

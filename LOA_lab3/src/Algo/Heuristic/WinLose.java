@@ -14,7 +14,7 @@ public class WinLose implements HeuristicInterface {
 	 * @return 1 : win
 	 * @return 0 : no win no lose
 	 * @return -1 : lose
-	 * @return 2 : Draw
+	 * @return 0.01 : Draw
 	 */
 	@Override
 /*	public float getScore(GameState gameState, int PlayerNumber) {
