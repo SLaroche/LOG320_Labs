@@ -18,6 +18,19 @@ public class SamAlgo {
 	WinLose winLoseHeuristic = new WinLose();
 	public boolean timeUp;
 	
+	
+	public SamAlgo(int playerToWin){
+		this.centralisationWeight = 1;
+		this.concentrationPlayerWeight = 100;
+		this.concentrationEnemyWeight = 90;
+		this.mobilityWeight = 0;
+		this.quadWeight = 0;
+		this.wallWeight = 0;
+		
+		this.playerToWin = playerToWin;
+		timeUp = false;
+	}
+	
 	public String getWeightStringFormat(){
 		String result="";
 		result+= Float.toString(centralisationWeight)+"/";
@@ -28,6 +41,8 @@ public class SamAlgo {
 		result+= Float.toString(wallWeight);
 		return result;
 	}
+	
+	
 	
 	public SamAlgo(float centralisationWeight,float concentrationPlayerWeight,float concentrationEnemyWeight,float mobilityWeight,float quadWeight,float wallWeight,int playerToWin){
 		this.centralisationWeight = centralisationWeight;
@@ -60,16 +75,22 @@ public class SamAlgo {
 			return  HeuristicScore - 0.01f*node.deepness;
 		}
 		//Centralisation
-		HeuristicScore += centralisationWeight*centralisationHeuristic.getScore(node.getGameState(), playerToWin); //my Score
+		if(centralisationWeight!=0)
+			HeuristicScore += centralisationWeight*centralisationHeuristic.getScore(node.getGameState(), playerToWin); //my Score
 		//Concentration
-		HeuristicScore += concentrationPlayerWeight*concentrationHeuristic.getScore(node.getGameState(), playerToWin); //my Score
+		if(concentrationPlayerWeight!=0)
+			HeuristicScore += concentrationPlayerWeight*concentrationHeuristic.getScore(node.getGameState(), playerToWin); //my Score
+		if(concentrationEnemyWeight!=0)	
 		HeuristicScore -= concentrationEnemyWeight*concentrationHeuristic.getScore(node.getGameState(), (playerToWin == 1) ? 2 : 1); //Enemy Score
 		//Mobility
-		HeuristicScore += mobilityWeight*mobilityHeuristic.getScore(node.getGameState(), playerToWin);
+		if(mobilityWeight!=0)
+			HeuristicScore += mobilityWeight*mobilityHeuristic.getScore(node.getGameState(), playerToWin);
 		//Quad Heuristic
-		HeuristicScore += quadWeight*quadHeuristic.getScore(node.getGameState(), playerToWin);
+		if(quadWeight!=0)
+			HeuristicScore += quadWeight*quadHeuristic.getScore(node.getGameState(), playerToWin);
 		//Wall Heuristic
-		HeuristicScore += wallWeight*wallHeuristic.getScore(node.getGameState(), playerToWin);
+		if(wallWeight!=0)
+			HeuristicScore += wallWeight*wallHeuristic.getScore(node.getGameState(), playerToWin);
 		
 		return HeuristicScore - 0.01f*node.deepness;
 	}
@@ -104,7 +125,7 @@ public class SamAlgo {
 			node.score = a;
 			return a;
 		}else{ //if Min
-			node.children.addAll(node.getAllPossibleChild((playerToWin == 1) ? 2 : 1));
+			node.children.addAll(node.getAllPossibleChild(playerToWin));
 			for(Node child: node.children){
 				b  = Math.min(b, alphaBeta(child,maxDepth,a,b,!isMax,endTimeMinusBuffer));
 				if(b <= a) break; //pruning

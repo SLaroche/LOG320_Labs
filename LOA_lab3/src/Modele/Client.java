@@ -15,11 +15,6 @@ class Client {
 		GameTree gameTree = null;
 		int[][] board = new int[8][8];
 		
-			Arena arena = new Arena();
-			String[] lastLine = arena.getLastLine();
-			
-			SamAlgo bestAlgoYet = arena.getBestAlgoYet(lastLine,1);
-		
 		SamAlgo algo = null;
 		
 		System.out.println("Start Client");
@@ -56,10 +51,10 @@ class Client {
 						}
 					}
 					gameTree = new GameTree();
-					algo = arena.getBestAlgoYet(lastLine,1);
+					algo = new SamAlgo(1);
 					
 					//Mon Coup
-					System.out.print("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
+					System.out.println("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
 					String move = gameTree.getBestMove(System.currentTimeMillis()+5000,algo);
 					gameTree.updateRoot(move);
 					System.out.println(move);
@@ -89,7 +84,7 @@ class Client {
 						}
 					}
 					gameTree = new GameTree();
-					algo = arena.getBestAlgoYet(lastLine,2);
+					algo = new SamAlgo(2);
 				}
 
 
@@ -111,7 +106,7 @@ class Client {
 					gameTree.updateRoot(lastMove);
 					
 					//Mon Coup
-					System.out.print("Entrez votre coup : ");
+					System.out.println("Entrez votre coup : ");
 					String move = gameTree.getBestMove(System.currentTimeMillis()+5000,algo);
 					gameTree.updateRoot(move);
 					System.out.println(move);

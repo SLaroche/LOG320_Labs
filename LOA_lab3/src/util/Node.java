@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import Algo.Heuristic.Centralisation;
 import Algo.Heuristic.Concentration;
 import Algo.Heuristic.HeuristicInterface;
 
@@ -83,13 +84,15 @@ public class Node {
 	public List<Node> getAllPossibleChild(int playerToWin) {
 		List<Node> allPossibleChild = new ArrayList<Node>();
 		List<GameState> listGameStateMove = new ArrayList<GameState>(gameState.getAllMove());
-		HeuristicInterface concentrationHeuristic = new Concentration();
+		HeuristicInterface centralisationHeuristic = new Centralisation();
 		
+		/*
 		for(GameState gState: listGameStateMove){
-			gState.approxScore = concentrationHeuristic.getScore(gState, playerToWin);
+			gState.approxScore = centralisationHeuristic.getScore(gState, playerToWin);
 		}
 		
 		Collections.sort(listGameStateMove);
+		*/
 		
 		for(GameState gState: listGameStateMove){
 			allPossibleChild.add(new Node(gState,this));

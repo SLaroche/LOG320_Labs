@@ -24,7 +24,7 @@ public class GameTree {
 	
 	public String getBestMove(long endTime,SamAlgo algo) {
 		long endTimeMinusBuffer = endTime-500;
-		int deepth = 3;
+		int deepth = 5;
 		Node bestNode = null;
 		float bestScore = 0;
 		String moveString ="nope";
