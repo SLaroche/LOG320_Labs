@@ -7,8 +7,8 @@ import util.Pos2D;
 
 public class Quad implements HeuristicInterface {
 	
-	private static final float QUAD_SCORE = 0.5f;
-	private static final float CROSS_SCORE = 0.25f;
+	private static final float QUAD_SCORE = 0.25f;
+	private static final float CROSS_SCORE = 0.10f;
 
 	@Override
 	public float getScore(GameState gameState, int playerNumber) {

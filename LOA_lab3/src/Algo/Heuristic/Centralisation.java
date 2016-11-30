@@ -24,6 +24,6 @@ public class Centralisation implements HeuristicInterface{
 			score += scorePerPosition[pos.x][pos.y];
 		}
 		
-		return 0;
+		return score*0.01f;
 	};
 }

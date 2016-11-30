@@ -5,10 +5,6 @@ import Modele.GameTree;
 import util.Node;
 
 public class SamAlgo {
-<<<<<<< HEAD
-	WinLose winLoseHeuristic = new WinLose();
-=======
->>>>>>> 054c4692646beeb66ed9143058d744c8e1443b2a
 	public boolean timeUp = false;
 	
 	public void evalTree(GameTree tree, int depth,long endTimeMinusBuffer){	
@@ -16,30 +12,38 @@ public class SamAlgo {
 	}
 	
 	public float evaluateNode(Node node,int playerToEval){
+		HeuristicInterface winLoseHeuristic = new WinLose();
 		HeuristicInterface concentrationHeuristic = new Concentration();
-		//HeuristicInterface mobilityHeuristic = new Mobility();
-		//HeuristicInterface maximeHeuristic = new MaximeHeuristic();
 		HeuristicInterface quadHeuristic = new Quad();
 		HeuristicInterface centralisationHeuristic = new Centralisation();
+		HeuristicInterface wallHeuristic = new Wall();
+		HeuristicInterface coupageHeuristic = new Coupage();
 		
 		float HeuristicScore = 0;
-<<<<<<< HEAD
-		HeuristicScore += 1000*winLoseHeuristic.getScore(node.getGameState(), playerToEval);
-		if (HeuristicScore != 0){
-			return  HeuristicScore - 0.01f*node.deepness;
-		}
-=======
-		//HeuristicScore += 1000*winLoseHeuristic.getScore(node.getGameState(), playerToEval);
+		winLoseHeuristic.getScore(node.getGameState(), playerToEval);
 		//if (HeuristicScore >= 1000 || HeuristicScore <= -1000){
 		//	return (float) (HeuristicScore - (0.01*(float)node.deepness));
 		//}
->>>>>>> 054c4692646beeb66ed9143058d744c8e1443b2a
-		HeuristicScore += 40*concentrationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
-		//HeuristicScore += 1/2*quadHeuristic.getScore(node.getGameState(), playerToEval);
-		HeuristicScore += centralisationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
-		//HeuristicScore += mobilityHeuristic.getScore(currentState, 1);
+		float a = 50*concentrationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
+		HeuristicScore += a;
+		System.out.print(a+" ");
 		
-		
+		if (a  >= 9) {
+			float c = centralisationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
+			HeuristicScore += c;
+			System.out.print(c+" ");
+			float b = quadHeuristic.getScore(node.getGameState(), playerToEval);
+			HeuristicScore += b;
+			System.out.print(b+" ");
+			float d = wallHeuristic.getScore(node.getGameState(), playerToEval); //my Score
+			HeuristicScore += d;
+			System.out.print(d+" ");
+			float e = coupageHeuristic.getScore(node.getGameState(), playerToEval); //my Score
+			HeuristicScore += e;
+			System.out.print(e+" ");
+		}
+		System.out.println();
+
 		return HeuristicScore - 0.01f*node.deepness;
 	}
 	
@@ -57,13 +61,9 @@ public class SamAlgo {
 			node.score = score;
 			return score;
 		}
-<<<<<<< HEAD
 		
-		float winLoseScore = winLoseHeuristic.getScore(node.gameState, playerToEval);
-=======
 		WinLose WinLoseHeuristic = new WinLose();
 		float winLoseScore = WinLoseHeuristic.getScore(node.gameState, playerToEval);
->>>>>>> 054c4692646beeb66ed9143058d744c8e1443b2a
 		if(winLoseScore!=0){
 			node.score = winLoseScore*1000;
 			return winLoseScore*1000;

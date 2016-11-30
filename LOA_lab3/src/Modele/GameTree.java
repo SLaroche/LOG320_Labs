@@ -103,7 +103,7 @@ public class GameTree {
 	    for(Node currentNode : bestNode.getChildList()){
 	    	if(currentNode.getScore()>bestNode.getScore()) currentNode.children.clear();
 	    	currentNode.parent = null;
-	    	System.out.println(currentNode.getScore());
+	    	//System.out.println(currentNode.getScore());
 	    	listEnnemisMove.put(currentNode.getGameState().stringMoveFromParent, currentNode);
 	    }
 	    bestNode = null;

@@ -3,7 +3,8 @@ import java.io.*;
 import java.net.*;
 
 
-class Client {
+public class Client {
+	public static int turn = 0;
 	public static void main(String[] args) {
 
 		Socket MyClient;
@@ -110,6 +111,7 @@ class Client {
 					
 					//Build the ennemis possibles moves map after you shoot the move
 					gameTree.buildHash();
+					System.out.println(turn++);
 				}
 				// Le dernier coup est invalide
 				if(cmd == '4'){
