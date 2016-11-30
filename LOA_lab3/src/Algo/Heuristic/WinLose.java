@@ -79,6 +79,8 @@ public class WinLose implements HeuristicInterface {
 		
 		if (player == gameState.currentPlayer) gameState.playerLinks = new ArrayList<ArrayList<Pos2D>>(links);
 		else                   		           gameState.opponentLinks = new ArrayList<ArrayList<Pos2D>>(links);
+		
+		
 		return links;
 	}
 	

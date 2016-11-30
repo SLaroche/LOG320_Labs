@@ -20,9 +20,9 @@ public class SamAlgo {
 	
 	
 	public SamAlgo(int playerToWin){
-		this.centralisationWeight = 0.5f;
+		this.centralisationWeight = 0;
 		this.concentrationPlayerWeight = 100.0f;
-		this.concentrationEnemyWeight = 90.0f;
+		this.concentrationEnemyWeight = 900.0f;
 		this.mobilityWeight = 0;
 		this.quadWeight = 0;
 		this.wallWeight = 0;
