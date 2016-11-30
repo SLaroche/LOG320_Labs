@@ -34,8 +34,8 @@ public class WinLose implements HeuristicInterface {
 		ArrayList<ArrayList<Pos2D>> opponentLinks = findLinks(gameState, opponent);
 
 		if (playerLinks.size() == 1 && opponentLinks.size() == 1) return 0.01f; //draw
-		else if (playerLinks.size() == 1) return 1; //win
-		else if (opponentLinks.size() == 1) return -1; //lose
+		else if (playerLinks.size() == 1) return 1000; //win
+		else if (opponentLinks.size() == 1) return -1000; //lose
 
 		return 0;
 	}

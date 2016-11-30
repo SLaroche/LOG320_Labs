@@ -21,13 +21,14 @@ public class SamAlgo {
 		HeuristicInterface centralisationHeuristic = new Centralisation();
 		
 		float HeuristicScore = 0;
-		HeuristicScore += 1000*winLoseHeuristic.getScore(node.getGameState(), playerToEval);
+		HeuristicScore += winLoseHeuristic.getScore(node.getGameState(), playerToEval);
 		if (HeuristicScore != 0){
 			return  HeuristicScore - 0.01f*node.deepness;
 		}
 		HeuristicScore += 40*concentrationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
+		HeuristicScore -= 40*concentrationHeuristic.getScore(node.getGameState(), (playerToEval == 1) ? 2 : 1); //my enemy
 		//HeuristicScore += 1/2*quadHeuristic.getScore(node.getGameState(), playerToEval);
-		HeuristicScore += centralisationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
+		//HeuristicScore += centralisationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
 		//HeuristicScore += mobilityHeuristic.getScore(currentState, 1);
 		
 		

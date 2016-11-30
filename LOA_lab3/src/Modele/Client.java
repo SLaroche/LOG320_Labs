@@ -112,7 +112,7 @@ class Client {
 				if(cmd == '4'){
 					//Mon Coup
 					System.out.println("Coup invalide, entrez un nouveau coup : ");
-					String move = gameTree.getBestMove(System.currentTimeMillis()+5000);
+					String move = gameTree.root.getChildList().get(0).getGameState().stringMoveFromParent;
 					gameTree.updateRoot(move);
 					System.out.println(move);
 					
