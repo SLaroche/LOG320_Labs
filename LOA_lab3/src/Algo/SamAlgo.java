@@ -20,9 +20,9 @@ public class SamAlgo {
 	
 	
 	public SamAlgo(int playerToWin){
-		this.centralisationWeight = 1;
-		this.concentrationPlayerWeight = 100;
-		this.concentrationEnemyWeight = 90;
+		this.centralisationWeight = 0.5f;
+		this.concentrationPlayerWeight = 100.0f;
+		this.concentrationEnemyWeight = 90.0f;
 		this.mobilityWeight = 0;
 		this.quadWeight = 0;
 		this.wallWeight = 0;
@@ -71,9 +71,6 @@ public class SamAlgo {
 		float HeuristicScore = 0;
 		//WinLoss
 		HeuristicScore += WINLOSE_SCORE*winLoseHeuristic.getScore(node.getGameState(), playerToWin);
-		if (HeuristicScore != 0){
-			return  HeuristicScore - 0.01f*node.deepness;
-		}
 		//Centralisation
 		if(centralisationWeight!=0)
 			HeuristicScore += centralisationWeight*centralisationHeuristic.getScore(node.getGameState(), playerToWin); //my Score
@@ -92,7 +89,7 @@ public class SamAlgo {
 		if(wallWeight!=0)
 			HeuristicScore += wallWeight*wallHeuristic.getScore(node.getGameState(), playerToWin);
 		
-		return HeuristicScore - 0.01f*node.deepness;
+		return HeuristicScore - 0.01f*(float)node.deepness;
 	}
 	
 	private float alphaBeta(Node node, int maxDepth, float a, float b, boolean isMax,long endTimeMinusBuffer){
@@ -125,7 +122,7 @@ public class SamAlgo {
 			node.score = a;
 			return a;
 		}else{ //if Min
-			node.children.addAll(node.getAllPossibleChild(playerToWin));
+			node.children.addAll(node.getAllPossibleChild((playerToWin == 1) ? 2 : 1));
 			for(Node child: node.children){
 				b  = Math.min(b, alphaBeta(child,maxDepth,a,b,!isMax,endTimeMinusBuffer));
 				if(b <= a) break; //pruning
