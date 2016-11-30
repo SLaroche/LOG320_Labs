@@ -94,8 +94,8 @@ public class GameTree {
 	    }
 			
 		listEnnemisMove.clear();
-		this.lastRootGameState = newRootGameState;
-		this.root = new Node(newRootGameState,null);
+		this.lastRootGameState = this.root.getGameState();
+		//this.root = new Node(newRootGameState,null);
 	}
 	public void buildHash()
     {

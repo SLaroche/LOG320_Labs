@@ -20,35 +20,37 @@ public class SamAlgo {
 		HeuristicInterface coupageHeuristic = new Coupage();
 		
 		float HeuristicScore = 0;
-		winLoseHeuristic.getScore(node.getGameState(), playerToEval);
-		//if (HeuristicScore >= 1000 || HeuristicScore <= -1000){
-		//	return (float) (HeuristicScore - (0.01*(float)node.deepness));
-		//}
-		float a = 50*concentrationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
+		float win = (float)1000.0 * winLoseHeuristic.getScore(node.getGameState(), playerToEval);
+		HeuristicScore += win;
+		//System.out.print(win+" ");
+		float a = 40*concentrationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
 		HeuristicScore += a;
-		System.out.print(a+" ");
+		//System.out.print(a+" ");
+		float b = quadHeuristic.getScore(node.getGameState(), playerToEval);
+		HeuristicScore += b;
+		//System.out.print(b+" ");
 		
 		if (a  >= 9) {
 			float c = centralisationHeuristic.getScore(node.getGameState(), playerToEval); //my Score
 			HeuristicScore += c;
-			System.out.print(c+" ");
-			float b = quadHeuristic.getScore(node.getGameState(), playerToEval);
-			HeuristicScore += b;
-			System.out.print(b+" ");
+			//System.out.print(c+" ");
 			float d = wallHeuristic.getScore(node.getGameState(), playerToEval); //my Score
-			HeuristicScore += d;
-			System.out.print(d+" ");
+			//HeuristicScore += d;
+			//System.out.print(d+" ");
 			float e = coupageHeuristic.getScore(node.getGameState(), playerToEval); //my Score
 			HeuristicScore += e;
-			System.out.print(e+" ");
+			//System.out.print(e+" ");
 		}
-		System.out.println();
+		//System.out.println();
 
-		return HeuristicScore - 0.01f*node.deepness;
+		//return HeuristicScore - 0.01f*node.deepness;
+		return HeuristicScore;
 	}
 	
 	private float alphaBeta(Node node, int maxDepth, float a, float b, boolean isMax,int playerToEval,long endTimeMinusBuffer){
 		//Time Up
+		if(node.parent==null)node.deepness = 0;
+		else node.deepness = node.parent.deepness+1;
 		if(timeUp){
 			return -1;
 		}
@@ -69,9 +71,19 @@ public class SamAlgo {
 			return winLoseScore*1000;
 		}
 		WinLoseHeuristic = null;
-		
+		if(timeUp){
+			return -1;
+		}
+		if(System.currentTimeMillis() > endTimeMinusBuffer){
+			timeUp = true; 
+		}
 		if(node.children.size() == 0) node.children.addAll(node.getAllPossibleChild(playerToEval));
-			
+		if(timeUp){
+			return -1;
+		}
+		if(System.currentTimeMillis() > endTimeMinusBuffer){
+			timeUp = true; 
+		}
 		//if Max
 		if(isMax){
 			for(Node child: node.children){
